@@ -514,7 +514,8 @@ def initials(name: str) -> str:
 def render_team(team: Team | None, project_id: str) -> str:
     """The project leads and committers of the Eclipse project, for docs/team.md: their pictures (their initials when
     they have none), their names, linked to their profile on accounts.eclipse.org, and their role. The pictures are
-    linked relatively to docs/team.md, served at team/: this include is for that page only."""
+    linked relatively to docs/team.md, which Zensical rewrites for the page it builds (team/): this include is for
+    that page only."""
     out = ["<!-- Written by scripts/generate_projects.py (the team of the PMI): do not edit. -->", ""]
     if not team:
         return "\n".join(out + [f"See the [team of the project]({PMI_WHO.format(id=project_id)}) on the PMI.", ""])
@@ -525,7 +526,7 @@ def render_team(team: Team | None, project_id: str) -> str:
         role = "Project lead" if member.username in leads else "Committer"
         profile = ACCOUNTS_PROFILE.format(username=urllib.parse.quote(member.username))
         # the name follows the picture: the picture itself says nothing more (empty alt)
-        avatar = (f'<img class="csi-person__photo" src="../assets/images/team/{html.escape(member.picture)}" alt="" '
+        avatar = (f'<img class="csi-person__photo" src="assets/images/team/{html.escape(member.picture)}" alt="" '
                   'width="88" height="88" loading="lazy">' if member.picture else
                   f'<span class="csi-person__initials" aria-hidden="true">{html.escape(initials(member.name))}</span>')
         out += [f'<a class="csi-person" href="{html.escape(profile)}">{avatar}'
