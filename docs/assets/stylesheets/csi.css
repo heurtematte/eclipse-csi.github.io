@@ -123,6 +123,18 @@
   letter-spacing: 0.01em;
 }
 
+/* the name in full beside the short one, in Light, as the official artwork sets it under ECLIPSE: added here rather
+   than to site_name, which ends the title of every page; on wide screens only, where the header has room for it */
+@media screen and (min-width: 76.25em) {
+  .md-header__topic:first-child .md-ellipsis::after {
+    content: "Common Security Infrastructure";
+    margin-left: 0.6em;
+    color: var(--csi-muted);
+    font-weight: var(--csi-light);
+    letter-spacing: 0;
+  }
+}
+
 .md-tabs__link {
   font-weight: 500;
 }
