@@ -13,6 +13,26 @@ points to the tool of Eclipse CSI or to the page of the [Security Handbook](http
 that helps.
 { .csi-lead }
 
+<!-- where to start: the three actions that matter first, styled by .csi-start (assets/stylesheets/csi.css) -->
+<section class="csi-start" aria-labelledby="start-here" markdown>
+
+<h2 class="csi-start__title" id="start-here">Start here</h2>
+
+<div class="csi-steps" markdown>
+
+1. **Name your security contacts.** Keep the security team of your project, in the PMI, to 2 to 4 committers who
+   will handle the reports. [:lucide-arrow-right: Step 1](#security-team)
+2. **Publish a `SECURITY.md` with a private reporting channel**: the confidential issues of the vulnerability reports
+   tracker, or the private vulnerability reporting of GitHub. [:lucide-arrow-right: Step 2](#reporting)
+3. **Secure your accounts and branches**, as the Security Handbook explains, so that nobody can push to your
+   repositories in your name. [:lucide-arrow-right: Step 4](#accounts)
+
+</div>
+
+</section>
+
+Then work through the ten steps below, at your own pace.
+
 ## 1. Set up your project security team { #security-team }
 
 Vulnerability reports are assigned automatically to the people listed as the security team of your project in the

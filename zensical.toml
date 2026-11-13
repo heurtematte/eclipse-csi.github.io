@@ -4,7 +4,8 @@
 # repository of the organization appears on the site without a commit.
 [project]
 site_name = "Eclipse CSI"
-site_description = "Technologies and practices that secure the software supply chain of Eclipse Foundation projects."
+# the tagline of the hero of the home page, and the description of the site
+site_description = "Security tools, services and best practices for the software supply chain of Eclipse Foundation projects, open to any open source project."
 # the GitHub Pages of eclipse-csi are served at csi.eclipse.dev (eclipse-csi.github.io redirects there); the sites of
 # the repositories of the organization are served below it (csi.eclipse.dev/otterdog/, …). In a fork, the workflow
 # sets it to the GitHub Pages of the fork (scripts/set_site_url.py): keep it on a single line.
@@ -40,7 +41,9 @@ nav = [
     { "Talks and webinars" = "talks.md" },
     { "Reading list" = "reading.md" },
   ] },
-  { "Guides" = [
+  # a tab opens the first page of its section: it is named after it, the other pages of the section are in its
+  # sidebar
+  { "Secure your project" = [
     { "Secure your project" = "secure-your-project.md" },
     { "Threat model" = "threat-model.md" },
     { "Secure development with AI" = "ai-secure-development.md" },
@@ -48,7 +51,7 @@ nav = [
     { "Cyber Resilience Act" = "cra.md" },
   ] },
   # the entries of the security researchers and of the projects that receive their reports, and the published CVEs
-  { "Vulnerabilities" = [
+  { "Report a vulnerability" = [
     { "Report a vulnerability" = "report-a-vulnerability.md" },
     { "Handle a vulnerability" = "handle-a-vulnerability.md" },
     { "Published CVEs" = "cves.md" },

@@ -74,6 +74,14 @@ DEFAULT_HOMEPAGE = {"title": "Documentation", "icon": "lucide/book-open"}
 REPOSITORY_LINK = {"title": "Repository", "icon": "fontawesome/brands/github"}
 DISCUSSIONS_LINK = {"title": "Discussions", "icon": "lucide/messages-square"}
 MAX_TOPICS = 4
+# whether a project can adopt a tool today (projects.toml: availability): the label of its tag, shown first on its card
+# in the color of its class (csi-tag--<key>), and its meaning, in the legend at the top of the page
+AVAILABILITY = {
+    "available": ("Available", "ready to use today"),
+    "integration": ("Eclipse integration", "uses a service of the Eclipse Foundation, set up for your project"),
+    "soon": ("Coming soon", "in preparation, not yet ready for production"),
+    "internal": ("Internal", "runs the services of Eclipse CSI"),
+}
 MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
 
@@ -103,7 +111,8 @@ class Repository:
     homepage: str | None
     archived: bool
     discussions: bool = False
-    status: str | None = None  # a tag of projects.toml, such as "Coming soon"
+    availability: str | None = None  # a key of AVAILABILITY (projects.toml)
+    adoption: str | None = None  # how a project starts using it, in Markdown (projects.toml)
     stars: int = 0
     forks: int = 0
     pushed: datetime.date | None = None
@@ -277,6 +286,11 @@ def to_repository(data: dict, extras: dict) -> Repository:
     description = (extras.get("description") or data.get("description") or "").strip()
     if description and description[-1] not in ".!?":
         description += "."
+    availability = (extras.get("availability") or "").strip() or None
+    if availability and availability not in AVAILABILITY:
+        warn(f"{data['name']}: unknown availability {availability!r} (projects.toml), expected one of "
+             f"{', '.join(AVAILABILITY)}")
+        availability = None
     return Repository(
         name=data["name"],
         url=data["html_url"],
@@ -286,7 +300,8 @@ def to_repository(data: dict, extras: dict) -> Repository:
         homepage=homepage,
         archived=bool(data.get("archived")),
         discussions=discussions,
-        status=(extras.get("status") or "").strip() or None,
+        availability=availability,
+        adoption=" ".join((extras.get("adoption") or "").split()) or None,
         stars=data.get("stargazers_count") or 0,
         forks=data.get("forks_count") or 0,
         pushed=day(data["pushed_at"]) if data.get("pushed_at") else None,
@@ -344,10 +359,12 @@ def icon(name: str) -> str:
 
 
 def tags(repository: Repository) -> list[str]:
-    """The tags of a card, in raw HTML (not parsed as Markdown): its status first (projects.toml), when it has one."""
+    """The tags of a card, in raw HTML (not parsed as Markdown): its availability first (projects.toml), when it has
+    one."""
     result = []
-    if repository.status:
-        result.append(f'<span class="csi-tag csi-tag--accent">{html.escape(repository.status)}</span>')
+    if repository.availability:
+        label = AVAILABILITY[repository.availability][0]
+        result.append(f'<span class="csi-tag csi-tag--{repository.availability}">{html.escape(label)}</span>')
     if repository.language:
         result.append(f'<span class="csi-tag csi-tag--language">{html.escape(repository.language)}</span>')
     language = (repository.language or "").lower()
@@ -365,6 +382,9 @@ def card(repository: Repository, org: str) -> str:
         escape(repository.description) if repository.description else "*No description.*",
         "",
     ]
+    if repository.adoption:
+        # written in projects.toml, in Markdown: not escaped, so that it can hold links and code
+        lines += [f'<p class="csi-card__adoption" markdown>{repository.adoption}</p>', ""]
     if card_metrics := metrics(repository, org):
         lines += [f'<p class="csi-card__metrics" markdown>{" ".join(card_metrics)}</p>', ""]
     if card_tags := tags(repository):
@@ -436,6 +456,18 @@ def join() -> list[str]:
         "[:lucide-vote: How elections work](contribute.md#committer)</p>", "",
         "</div>", "",
     ]
+
+
+def legend(shown: list[Repository]) -> list[str]:
+    """What the tags of availability mean, those that the cards show, before the first area."""
+    used = {repository.availability for repository in shown}
+    entries = [(key, label, meaning) for key, (label, meaning) in AVAILABILITY.items() if key in used]
+    if not entries:
+        return []
+    lines = ['<ul class="csi-legend" aria-label="Availability of the projects">']
+    lines += [f'<li><span class="csi-tag csi-tag--{key}">{html.escape(label)}</span> {html.escape(meaning)}</li>'
+              for key, label, meaning in entries]
+    return lines + ["</ul>", ""]
 
 
 def kpis(shown: list[Repository], areas: int, months: list[tuple[int, int]], team: Team | None,
@@ -602,6 +634,7 @@ def render(config: dict, repositories: dict[str, Repository], months: list[tuple
         "",
         *kpis(shown, len(areas), months, team, organizations),
         *discussions_callout(spaces),
+        *legend(shown),
     ]
     for area, members in areas:
         out += [f"## {escape(area['title'])} {{ #{area['id']} }}", "", area["description"].strip(),
