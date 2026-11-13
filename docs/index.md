@@ -110,8 +110,12 @@ service, from any CI/CD pipeline: a native command line tool, a Maven plugin and
 
 ### Security advisories
 
-[AdvisoryHub](projects.md#advisoryhub) is where the security advisories of Eclipse projects are authored, reviewed
-and published, then exported to the OSV and CSAF formats.
+<p class="csi-card__tags"><span class="csi-tag csi-tag--accent">Coming soon</span></p>
+
+[AdvisoryHub](projects.md#advisoryhub), soon available, will be where the security advisories of Eclipse projects are
+authored, reviewed and published, then exported to the OSV and CSAF formats. Until then, projects publish their
+advisories as the [Security Handbook](https://csi.eclipse.dev/security-handbook/vulnerabilities/advisories.html)
+explains.
 
 <p class="csi-card__links" markdown>[:lucide-book-open: Documentation](https://csi.eclipse.dev/advisoryhub/dev/) [:lucide-arrow-right: Projects](projects.md#vulnerabilities)</p>
 

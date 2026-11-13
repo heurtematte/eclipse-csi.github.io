@@ -15,7 +15,7 @@ Montserrat typeface and the official artwork, unaltered.
 | Path | Content |
 | --- | --- |
 | `docs/index.md` | The home page, below the hero of `overrides/main.html`. |
-| `docs/secure-your-project.md`, `docs/threat-model.md`, `docs/ai-security-reviews.md`, `docs/cra.md`, `docs/learn.md` | The guides: the checklist of a project, the threat model, the AI-assisted reviews, the Cyber Resilience Act, the trainings. |
+| `docs/secure-your-project.md`, `docs/threat-model.md`, `docs/ai-secure-development.md`, `docs/ai-security-reviews.md`, `docs/cra.md`, `docs/learn.md` | The guides: the checklist of a project, the threat model, secure development with AI, the AI-assisted reviews, the Cyber Resilience Act, the trainings and talks. |
 | `docs/report-a-vulnerability.md`, `docs/handle-a-vulnerability.md` | The entries of the security researchers and of the committers who receive their reports. |
 | `docs/team.md`, `docs/support.md`, `docs/contribute.md` | The team, where to ask for help, and how to contribute. |
 | `docs/projects.md` | The projects page, **generated** and not versioned: edit `projects.toml` instead. |

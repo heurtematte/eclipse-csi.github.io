@@ -59,6 +59,7 @@ repositories = ["helm-charts"]
 #   description: replaces the description set on GitHub (for an empty or terse one)
 #   homepage: { title, icon } of the link to the homepage set on GitHub (default: "Documentation", lucide/book-open)
 #   links: more links, [{ title, url, icon }], after the repository and its homepage
+#   status: a tag shown first on its card, such as "Coming soon" for a project not yet ready for production
 # Icons are the ones bundled with Zensical (lucide/…, fontawesome/…, octicons/…, simple/…, material/…).
 
 [repositories.otterdog]
@@ -66,6 +67,7 @@ links = [
   { title = "Blueprints", url = "https://csi.eclipse.dev/otterdog/reference/blueprints/", icon = "lucide/blocks" },
   { title = "Dashboard", url = "https://otterdog.eclipse.org", icon = "lucide/layout-dashboard" },
   { title = "PyPI", url = "https://pypi.org/project/otterdog/", icon = "fontawesome/brands/python" },
+  { title = "Talk (OCX 2024)", url = "https://www.youtube.com/watch?v=k5tSbZ8YDA0", icon = "fontawesome/brands/youtube" },
 ]
 
 [repositories.workflows]
@@ -73,8 +75,11 @@ description = """
 Reusable GitHub workflows and actions, such as upload-sbom: the authenticated upload of an SBOM to sbom.eclipse.org."""
 
 [repositories.advisoryhub]
+# not yet ready for production
+status = "Coming soon"
 description = """
-Author, review, publish and audit the security advisories of Eclipse Foundation projects, exported to OSV and CSAF."""
+Soon available: author, review, publish and audit the security advisories of Eclipse Foundation projects, exported to \
+OSV and CSAF."""
 
 [repositories.dependency-track]
 homepage = { title = "sbom.eclipse.org", icon = "lucide/globe" }

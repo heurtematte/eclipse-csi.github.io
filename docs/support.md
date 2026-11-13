@@ -107,7 +107,7 @@ which helps you ask more precise questions and understand the answers.
 
 - [Otterdog](https://csi.eclipse.dev/otterdog/): GitHub organizations as code.
 - [Codesign tools](https://csi.eclipse.dev/codesign-tools/): signing release artifacts through SignPath.
-- [AdvisoryHub](https://csi.eclipse.dev/advisoryhub/dev/): security advisories.
+- [AdvisoryHub](https://csi.eclipse.dev/advisoryhub/dev/): security advisories, soon available.
 - [sbom.eclipse.org](https://sbom.eclipse.org): the SBOMs of Eclipse projects and their dependencies.
 - [Security Handbook](https://csi.eclipse.dev/security-handbook/): the best practices for Eclipse projects.
 

@@ -37,6 +37,7 @@ nav = [
   { "Guides" = [
     { "Secure your project" = "secure-your-project.md" },
     { "Threat model" = "threat-model.md" },
+    { "Secure development with AI" = "ai-secure-development.md" },
     { "AI-assisted security reviews" = "ai-security-reviews.md" },
     { "Cyber Resilience Act" = "cra.md" },
     { "Learn" = "learn.md" },

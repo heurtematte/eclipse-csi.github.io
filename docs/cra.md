@@ -27,6 +27,21 @@ actionable for open source. The CRA is its current focus, followed by its
 [special interest group on cyber resilience](https://orcwg.org/special-interest-groups/cyber-resilience/); see its
 [charter](https://www.eclipse.org/collaborations/working-groups/open-regulatory-compliance/charter/).
 
+## OCCTET: an open source compliance toolkit { #occtet }
+
+[OCCTET](https://occtet.eu/) (Open-source Compliance: Comprehensive Techniques and Essential Tools) is an EU-funded
+project, in which the Eclipse Foundation takes part, that helps small and medium-sized enterprises and open source
+projects get ready for the CRA, with free, open source tools and practical guidance:
+
+- a **CRA self-assessment platform**, to measure where you stand;
+- a **toolchain**, the ORT Server, OCCTET Curator and VulnerableCode, that turns source code into SBOMs, VEX documents
+  and audit reports;
+- **checklists, templates and guidance** for SMEs, open source projects and open source stewards;
+- its **deliverables and webinars**, such as
+  [Turn CRA Awareness into Action](https://www.youtube.com/watch?v=54S-kJj1bv4).
+
+<p class="csi-links" markdown>[:lucide-arrow-right: occtet.eu](https://occtet.eu/)</p>
+
 ## What it means for open source { #open-source }
 
 The CRA places its main obligations on manufacturers, the companies that place products on the EU market. They must,
@@ -47,7 +62,7 @@ For an Eclipse project, this means that its users increasingly expect it to:
 | Expectation | Tools and practices |
 | --- | --- |
 | Describe the components | [SBOMs](https://csi.eclipse.dev/security-handbook/sbom/index.html), uploaded to [sbom.eclipse.org](https://sbom.eclipse.org), which watches the dependencies for known vulnerabilities |
-| Handle the vulnerabilities | The [coordinated process](handle-a-vulnerability.md) of the Eclipse Foundation, the [CVEs](cves.md) it publishes as a CNA, and the security advisories of [AdvisoryHub](projects.md#advisoryhub) |
+| Handle the vulnerabilities | The [coordinated process](handle-a-vulnerability.md) of the Eclipse Foundation, the [CVEs](cves.md) it publishes as a CNA, and [security advisories](https://csi.eclipse.dev/security-handbook/vulnerabilities/advisories.html) (soon in [AdvisoryHub](projects.md#advisoryhub)) |
 | Act quickly on an exploited vulnerability | Tell the Eclipse Foundation Security Team [at once](handle-a-vulnerability.md#urgent) |
 | Develop and release securely | The [Security Handbook](https://csi.eclipse.dev/security-handbook/), [Otterdog](projects.md#otterdog), [code signing](projects.md#codesign-tools) and a [threat model](threat-model.md) |
 
@@ -55,8 +70,15 @@ For an Eclipse project, this means that its users increasingly expect it to:
 
 ## Webinars and resources { #resources }
 
+- The playlists of the ORC WG on the YouTube channel of the Eclipse Foundation:
+  [Unpacking the CRA](https://www.youtube.com/playlist?list=PLy7t4z5SYNaTnHCiz8ADmGZ_z6YZGd0wI), and
+  [CRA Mondays](https://www.youtube.com/playlist?list=PLy7t4z5SYNaT-DjqGR0ORSSZGZYW8qmRs), whose sessions include
+  [OSS provenance and code signing](https://www.youtube.com/watch?v=_fGOgByN08c) and
+  [When Disclosure Fails: Europe's Struggle with CVD](https://www.youtube.com/watch?v=G37gXO0KG6I).
+- [Demystifying SBOMs: why the CRA wants your software's DNA](https://www.youtube.com/watch?v=4j37a2gYCw8) (Open
+  Community Webinar).
 - [Unpacking the CRA](https://www.crowdcast.io/c/orc-28042025): how the open source community collaborates in the
   ORC WG to address the CRA (webinar, April 2025).
-- [Exploring an Open Source Toolkit for SMEs to manage Cyber Resilience Act compliance](https://www.digitalsme.eu/events/exploring-an-open-source-toolkit-for-smes-to-manage-cyber-resilience-act-compliance/)
-  (webinar, October 2026).
+- [Exploring an Open Source Toolkit for SMEs to manage Cyber Resilience Act compliance](https://www.digitalsme.eu/events/exploring-an-open-source-toolkit-for-smes-to-manage-cyber-resilience-act-compliance/):
+  the toolkit of [OCCTET](#occtet) (webinar, October 2026).
 - The [events](events.md) of the Eclipse Foundation Security Team, many of which are about the CRA.

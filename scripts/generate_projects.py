@@ -97,6 +97,7 @@ class Repository:
     homepage: str | None
     archived: bool
     discussions: bool = False
+    status: str | None = None  # a tag of projects.toml, such as "Coming soon"
     stars: int = 0
     forks: int = 0
     pushed: datetime.date | None = None
@@ -244,6 +245,7 @@ def to_repository(data: dict, extras: dict) -> Repository:
         homepage=homepage,
         archived=bool(data.get("archived")),
         discussions=discussions,
+        status=(extras.get("status") or "").strip() or None,
         stars=data.get("stargazers_count") or 0,
         forks=data.get("forks_count") or 0,
         pushed=day(data["pushed_at"]) if data.get("pushed_at") else None,
@@ -301,8 +303,10 @@ def icon(name: str) -> str:
 
 
 def tags(repository: Repository) -> list[str]:
-    """The tags of a card, in raw HTML (not parsed as Markdown)."""
+    """The tags of a card, in raw HTML (not parsed as Markdown): its status first (projects.toml), when it has one."""
     result = []
+    if repository.status:
+        result.append(f'<span class="csi-tag csi-tag--accent">{html.escape(repository.status)}</span>')
     if repository.language:
         result.append(f'<span class="csi-tag csi-tag--language">{html.escape(repository.language)}</span>')
     language = (repository.language or "").lower()

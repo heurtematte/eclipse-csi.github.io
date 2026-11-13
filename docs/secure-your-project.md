@@ -18,7 +18,15 @@ that helps.
 Vulnerability reports are assigned automatically to the people listed as the security team of your project in the
 PMI. When no team is set, all the committers receive them: too many people for a confidential report.
 
-- Open the page of your project on the [PMI](https://projects.eclipse.org/) and review its Security Team setting.
+!!! warning "A large project needs a dedicated security team"
+
+    Every vulnerability report notifies **all** the members of the security team of your project, and by default
+    that team is **all its committers**. If your project has many committers, set up a dedicated pool of people for
+    the reports: otherwise each one reaches everyone, notifications pile up, and a confidential report is seen by far
+    more people than it should be.
+
+- The project leads manage this team on the page of the project in the [PMI](https://projects.eclipse.org/): review
+  its Security Team setting there.
 - Keep it to a small group of committers who will triage and handle the reports, **typically 2 to 4 people**. Other
   committers can be brought in after the first triage.
 - Make sure the people listed are active and reachable, and that each of them has signed in once on
@@ -45,12 +53,14 @@ arrives.
 [Otterdog](projects.md#otterdog) keeps the settings of your GitHub organization and repositories in a configuration
 that changes only through reviewed pull requests, with the policies of the Eclipse Foundation applied to all of them.
 
-- Make your project security team a
-  [security manager](https://csi.eclipse.dev/otterdog/userguide/guides/repository-security/#organization-settings-related-to-security)
-  of the organization, so that it sees the security alerts and can create draft security advisories.
 - Merge the pull requests of the [blueprints](https://csi.eclipse.dev/otterdog/reference/blueprints/): they add a
   `SECURITY.md`, [pin GitHub Actions](https://csi.eclipse.dev/otterdog/reference/blueprints/pin-workflow/) to commit
   hashes, or set up the [OpenSSF Scorecard](https://csi.eclipse.dev/otterdog/reference/blueprints/scorecard-integration/).
+- Enable the [private vulnerability reporting](https://csi.eclipse.dev/otterdog/userguide/guides/repository-security/#private-vulnerability-reporting)
+  of GitHub if your project receives its reports there.
+
+The project security team is not part of this configuration: the project leads manage it in the PMI
+([step 1](#security-team)).
 
 ## 4. Secure your accounts, machines and branches { #accounts }
 
@@ -59,6 +69,10 @@ The Security Handbook gathers the practices of the developers of Eclipse project
 - [Securing developer accounts](https://csi.eclipse.dev/security-handbook/developer/account.html);
 - [Securing development machines](https://csi.eclipse.dev/security-handbook/developer/machine.html);
 - [Securing development branches](https://csi.eclipse.dev/security-handbook/developer/branches.html).
+
+The first part of the [security training](learn.md#training-developers) of the Security Team covers them in video:
+[workstation](https://www.youtube.com/watch?v=lvXVvWMKt14), [account](https://www.youtube.com/watch?v=bxFxr7EYjYo)
+and [version control](https://www.youtube.com/watch?v=j4MY9gQ6uvY) security.
 
 ## 5. Harden your workflows and releases { #workflows }
 
@@ -97,7 +111,14 @@ reviewers of your project.
 - **AI-assisted review**: the Eclipse Foundation Security Team reviews Eclipse projects with AI-assisted analysis, and
   your project can ask to be prioritized: see [AI-assisted security reviews](ai-security-reviews.md).
 
-## 9. Prepare for the Cyber Resilience Act { #cra }
+## 9. Develop with AI agents safely { #ai }
+
+Follow the [generative AI guidelines](https://www.eclipse.org/projects/handbook/#genai) of the Eclipse Foundation, run
+your coding agents in a sandbox such as [Eclipse Enclave](https://enclave.eclipse.dev/) or
+[Docker Sandboxes](https://docs.docker.com/ai/sandboxes/), keep your secrets out of their reach, and review their
+changes as those of any contributor: see [Secure development with AI](ai-secure-development.md).
+
+## 10. Prepare for the Cyber Resilience Act { #cra }
 
 Most of these steps are also what the manufacturers that use your project expect of it under the
 [Cyber Resilience Act](cra.md).
