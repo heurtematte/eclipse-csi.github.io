@@ -38,6 +38,7 @@ import re
 import sys
 import tomllib
 import urllib.error
+import urllib.parse
 import urllib.request
 from collections import Counter
 from collections.abc import Iterator
@@ -47,6 +48,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 # the GitHub Discussions of the organization and of its projects, inserted in docs/support.md (pymdownx.snippets)
 DISCUSSIONS_INCLUDE = ROOT / "includes" / "discussions.md"
+# the project leads and committers of the Eclipse project, inserted in docs/team.md
+TEAM_INCLUDE = ROOT / "includes" / "team.md"
+# the GitHub organizations that Otterdog manages, as its dashboard lists them
+OTTERDOG_ORGANIZATIONS = "https://otterdog.eclipse.org/api/organizations"
+ACCOUNTS_PROFILE = "https://accounts.eclipse.org/users/{username}"
 API = "https://api.github.com"
 USER_AGENT = "eclipse-csi-website"
 SCORECARD_API = "https://api.securityscorecards.dev/projects/github.com/{org}/{name}"
@@ -164,11 +170,17 @@ def fetch_activity(org: str, name: str, since: datetime.date) -> Activity:
 
 
 @dataclass
-class Team:
-    """The project team of the Eclipse project, as the PMI lists it."""
+class Member:
+    name: str
+    username: str
 
-    project_leads: int
-    committers: int
+
+@dataclass
+class Team:
+    """The project team of the Eclipse project, as the PMI lists it: the project leads are committers too."""
+
+    project_leads: list[Member]
+    committers: list[Member]
 
 
 def fetch_team(project_id: str) -> Team:
@@ -176,7 +188,22 @@ def fetch_team(project_id: str) -> Team:
     with urllib.request.urlopen(request, timeout=30) as response:
         data = json.load(response)
     data = data[0] if isinstance(data, list) else data
-    return Team(project_leads=len(data["project_leads"]), committers=len(data["committers"]))
+
+    def members(key: str) -> list[Member]:
+        return sorted((Member(" ".join(person["full_name"].split()), person["username"]) for person in data[key]),
+                      key=lambda member: member.name.lower())
+
+    return Team(project_leads=members("project_leads"), committers=members("committers"))
+
+
+def fetch_otterdog_organizations() -> int:
+    """The number of GitHub organizations that Otterdog manages, from the API of its dashboard."""
+    request = urllib.request.Request(OTTERDOG_ORGANIZATIONS, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        organizations = json.load(response)
+    if not isinstance(organizations, list):
+        raise ValueError("the API of the Otterdog dashboard does not answer a list")
+    return len(organizations)
 
 
 def fetch_scorecard(org: str, name: str) -> float | None:
@@ -367,21 +394,25 @@ def join() -> list[str]:
 
 
 def kpis(shown: list[Repository], areas: int, months: list[tuple[int, int]], team: Team | None,
-         who: str) -> list[str]:
-    """The totals of the page, in two rows: the activity of the projects, then their team and how to join it. The
-    contributors and the releases are shown only when the metrics of every project were read, the project leads and
-    committers when the PMI was."""
+         organizations: int | None) -> list[str]:
+    """The totals of the page, in two rows: the activity and the adoption of the projects, then their team and how
+    to join it. The contributors and the releases are shown only when the metrics of every project were read, the
+    project leads and committers when the PMI was, the organizations when the Otterdog dashboard was."""
     complete = bool(shown) and all(repository.activity for repository in shown)
-    lines = ['<p class="csi-kpis__title">Activity</p>', "", '<div class="csi-kpis" markdown>', ""]
+    lines = ['<p class="csi-kpis__title">Activity and adoption</p>', "", '<div class="csi-kpis" markdown>', ""]
     lines += kpi("lucide/boxes", len(shown), "Projects", f"in {count(areas, 'area')}")
     if complete:
         counts = [sum(repository.activity.releases[month] for repository in shown) for month in months]
         lines += kpi("lucide/tag", sum(counts), "Releases", "in the last 12 months", sparkline(counts, months))
+    if organizations:
+        lines += kpi("lucide/git-pull-request-arrow", organizations, "GitHub organizations",
+                     "managed with [Otterdog](#otterdog)")
     lines += kpi("lucide/star", sum(repository.stars for repository in shown), "GitHub stars", "across the projects")
     lines += ["</div>", "", '<p class="csi-kpis__title">Team</p>', "", '<div class="csi-kpis" markdown>', ""]
     if team:
-        lines += kpi("lucide/crown", team.project_leads, "Project leads", "elected among the committers")
-        lines += kpi("lucide/key-round", team.committers, "Committers", f"elected by their peers · [who]({who})")
+        lines += kpi("lucide/crown", len(team.project_leads), "Project leads", "elected among the committers")
+        lines += kpi("lucide/key-round", len(team.committers), "Committers",
+                     "elected by their peers · [who](team.md)")
     if complete:
         contributors = set().union(*(repository.activity.contributors for repository in shown))
         lines += kpi("lucide/users", len(contributors), "Contributors", "on GitHub, bots excluded")
@@ -431,9 +462,32 @@ def render_discussions(org: str, spaces: list[Space]) -> str:
     return "\n".join(out + ["</div>", ""])
 
 
+def initials(name: str) -> str:
+    return "".join(part[0] for part in name.split()[:2]).upper()
+
+
+def render_team(team: Team | None, project_id: str) -> str:
+    """The project leads and committers of the Eclipse project, for docs/team.md: their names, linked to their
+    profile on accounts.eclipse.org, and their role."""
+    out = ["<!-- Written by scripts/generate_projects.py (the team of the PMI): do not edit. -->", ""]
+    if not team:
+        return "\n".join(out + [f"See the [team of the project]({PMI_WHO.format(id=project_id)}) on the PMI.", ""])
+    leads = {member.username for member in team.project_leads}
+    people = team.project_leads + [member for member in team.committers if member.username not in leads]
+    out += ['<div class="csi-people">', ""]
+    for member in people:
+        role = "Project lead" if member.username in leads else "Committer"
+        profile = ACCOUNTS_PROFILE.format(username=urllib.parse.quote(member.username))
+        out += [f'<a class="csi-person" href="{html.escape(profile)}">'
+                f'<span class="csi-person__initials" aria-hidden="true">{html.escape(initials(member.name))}</span>'
+                f'<span class="csi-person__name">{html.escape(member.name)}</span>'
+                f'<span class="csi-person__role">{role}</span></a>']
+    return "\n".join(out + ["", "</div>", ""])
+
+
 def render(config: dict, repositories: dict[str, Repository], months: list[tuple[int, int]],
-           team: Team | None) -> tuple[str, str]:
-    """The projects page, and the cards of the discussions for the support page."""
+           team: Team | None, organizations: int | None) -> tuple[str, str, str]:
+    """The projects page, the cards of the discussions for the support page, and the team for the team page."""
     org = config["org"]
     # an archived repository is no longer maintained: it is left out of the page, wherever projects.toml lists it
     archived = {name for name, repository in repositories.items() if repository.archived}
@@ -492,7 +546,10 @@ def render(config: dict, repositories: dict[str, Repository], months: list[tuple
         "security, code signing.",
         "{ .csi-lead }",
         "",
-        *kpis(shown, len(areas), months, team, PMI_WHO.format(id=config["pmi"])),
+        f'<p class="csi-updated">Updated on {short_date(datetime.datetime.now(datetime.UTC).date())}, from the '
+        "GitHub API, the OpenSSF Scorecard, the Otterdog dashboard and the PMI.</p>",
+        "",
+        *kpis(shown, len(areas), months, team, organizations),
         *discussions_callout(spaces),
     ]
     for area, members in areas:
@@ -507,7 +564,7 @@ def render(config: dict, repositories: dict[str, Repository], months: list[tuple
             purpose = escape(repository.description).replace("|", r"\|") or "–"
             out.append(f"| [{escape(name)}]({repository.url}) | {purpose} |")
         out.append("")
-    return "\n".join(out), render_discussions(org, spaces)
+    return "\n".join(out), render_discussions(org, spaces), render_team(team, config["pmi"])
 
 
 def main() -> int:
@@ -518,8 +575,8 @@ def main() -> int:
 
     config = tomllib.loads(args.config.read_text(encoding="utf-8"))
     extras = config.get("repositories", {})
-    # the files of a previous run are kept only together: docs/support.md inserts the discussions
-    previous = args.output.exists() and DISCUSSIONS_INCLUDE.exists()
+    # the files of a previous run are kept only together: docs/support.md and docs/team.md insert the includes
+    previous = args.output.exists() and DISCUSSIONS_INCLUDE.exists() and TEAM_INCLUDE.exists()
     # OSError: the API cannot be reached or answers an error; ValueError: what it answers cannot be read
     try:
         found = fetch_repositories(config["org"])
@@ -558,16 +615,22 @@ def main() -> int:
     except (OSError, ValueError, KeyError) as error:
         team = None
         unread.append(f"the project leads and committers of the PMI ({error})")
+    try:
+        organizations = fetch_otterdog_organizations()
+    except (OSError, ValueError) as error:
+        organizations = None
+        unread.append(f"the organizations of the Otterdog dashboard ({error})")
     if unread and previous:
         warn(f"cannot read {'; '.join(unread)}: the page of the previous run is kept (set GITHUB_TOKEN to raise the "
              "rate limit of the GitHub API)")
         return 0
     for what in unread:
         warn(f"cannot read {what}: the page is written without it")
-    page, discussions = render(config, repositories, months, team)
+    page, discussions, members = render(config, repositories, months, team, organizations)
     args.output.write_text(page, encoding="utf-8")
     DISCUSSIONS_INCLUDE.parent.mkdir(parents=True, exist_ok=True)
     DISCUSSIONS_INCLUDE.write_text(discussions, encoding="utf-8")
+    TEAM_INCLUDE.write_text(members, encoding="utf-8")
     print(f"{args.output.relative_to(ROOT) if args.output.is_relative_to(ROOT) else args.output}: "
           f"{len(repositories)} public repositories of {config['org']}")
     return 0

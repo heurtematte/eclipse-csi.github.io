@@ -15,17 +15,19 @@ Montserrat typeface and the official artwork, unaltered.
 | Path | Content |
 | --- | --- |
 | `docs/index.md` | The home page, below the hero of `overrides/main.html`. |
-| `docs/support.md`, `docs/contribute.md` | Where to ask for help, and how to contribute. |
-| `docs/report-a-vulnerability.md` | The entry of security researchers: how to report, what to include, what happens next. |
-| `docs/handle-a-vulnerability.md` | The entry of the committers of Eclipse projects: how to be ready, then handle a report. |
+| `docs/secure-your-project.md`, `docs/threat-model.md`, `docs/ai-security-reviews.md`, `docs/cra.md`, `docs/learn.md` | The guides: the checklist of a project, the threat model, the AI-assisted reviews, the Cyber Resilience Act, the trainings. |
+| `docs/report-a-vulnerability.md`, `docs/handle-a-vulnerability.md` | The entries of the security researchers and of the committers who receive their reports. |
+| `docs/team.md`, `docs/support.md`, `docs/contribute.md` | The team, where to ask for help, and how to contribute. |
 | `docs/projects.md` | The projects page, **generated** and not versioned: edit `projects.toml` instead. |
 | `projects.toml` | How the repositories are arranged on the projects page: areas, extra links, descriptions. |
-| `scripts/generate_projects.py` | Writes `docs/projects.md`, metrics included, from `projects.toml`, the GitHub API, the OpenSSF Scorecard API and the PMI. |
-| `docs/blog.md`, `docs/events.md` | The blog and events pages, **generated** and not versioned: edit `news.toml`. |
-| `includes/` | **Generated** and not versioned: the news of the home page (`news.md`) and the discussions of the support page (`discussions.md`). |
+| `scripts/generate_projects.py` | Writes `docs/projects.md` and the team and discussions includes, from `projects.toml`, the GitHub API, the OpenSSF Scorecard API, the Otterdog dashboard and the PMI. |
+| `docs/blog.md`, `docs/events.md`, `docs/cves.md`, `docs/feed.xml` | The blog, the events, the published CVEs and the Atom feed of the news, **generated** and not versioned: edit `news.toml`. |
+| `includes/` | **Generated** and not versioned: the news of the home page (`news.md`), the team (`team.md`) and the discussions of the support page (`discussions.md`). |
 | `news.toml` | What the news list: the tags of blogs.eclipse.org, the channel of the newsroom, the latest CVEs. |
-| `scripts/generate_news.py` | Writes the blog and events pages and `includes/news.md` from `news.toml`, blogs.eclipse.org, the newsroom and the CVEs of api.eclipse.org. |
-| `docs/assets/stylesheets/csi.css` | The brand: colors, typeface, hero and cards. |
+| `scripts/generate_news.py` | Writes the blog, events and CVEs pages, the feed and `includes/news.md`, from `news.toml`, blogs.eclipse.org, the newsroom, the CVEs of api.eclipse.org and the PMI. |
+| `scripts/set_site_url.py` | Sets `site_url` to the GitHub Pages of a fork, in CI. |
+| `docs/assets/stylesheets/csi.css`, `docs/assets/javascripts/cves.js` | The brand: colors, typeface, hero and cards; the filters of the CVEs page. |
+| `overrides/` | The templates: the hero and the feed link (`main.html`), the footer (`partials/copyright.html`), the page not found (`404.html`). |
 | `zensical.toml` | The configuration of the site. |
 | `.github/workflows/site.yml` | Builds and deploys the site to GitHub Pages. |
 
@@ -67,6 +69,10 @@ The events are those of the [newsroom of the Eclipse Foundation](https://newsroo
 event to this channel to list it. An event is upcoming until its last day, then moves to the past events at the next
 build.
 
+The CVEs are those that the Eclipse Foundation publishes as the CNA of its projects
+([api.eclipse.org/cve](https://api.eclipse.org/cve)): the five latest are in the news of the home page, all of them on
+the page of the published CVEs. A post is marked as a security incident when it has one of the `incident_tags` of
+`news.toml` on blogs.eclipse.org (`security-incident`), or when its title contains one of its `incident_keywords`.
 
 ## Deployment
 
@@ -80,9 +86,17 @@ Actions tab.
 GitHub Pages must be built by a workflow: `gh_pages_build_type: 'workflow'` in the otterdog configuration of the
 organization ([eclipse-csi/.eclipsefdn](https://github.com/eclipse-csi/.eclipsefdn)).
 
+**A fork** deploys the site to its own GitHub Pages, at `https://<owner>.github.io/<repository>/`: the workflow sets
+`site_url` to that address before the build (`scripts/set_site_url.py`), so that its links, sitemap and feed point to
+the fork, while `site_url` stays `https://csi.eclipse.dev/` in the repository and on eclipse-csi. In the fork, set
+Settings → Pages → Source to "GitHub Actions".
+
 ## Copyright and license
 
-Copyright the [Eclipse Foundation](https://www.eclipse.org) and others. The logos are the intellectual property of the
-Eclipse Foundation and are used under the
+Copyright the [Eclipse Foundation](https://www.eclipse.org) and others. The source of this website, its text
+included, is released under the [Eclipse Public License 2.0](LICENSE). The logos of the Eclipse Foundation and of
+Eclipse CSI are its intellectual property and are used under the
 [Eclipse Foundation Trademark Usage Policy](https://www.eclipse.org/legal/logo_guidelines.php). Montserrat is
 licensed under the SIL Open Font License 1.1 (`docs/assets/fonts/OFL.txt`).
+
+Contributions are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).

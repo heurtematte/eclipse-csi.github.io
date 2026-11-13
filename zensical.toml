@@ -6,14 +6,17 @@
 site_name = "Eclipse CSI"
 site_description = "Technologies and practices that secure the software supply chain of Eclipse Foundation projects."
 # the GitHub Pages of eclipse-csi are served at csi.eclipse.dev (eclipse-csi.github.io redirects there); the sites of
-# the repositories of the organization are served below it (csi.eclipse.dev/otterdog/, …)
+# the repositories of the organization are served below it (csi.eclipse.dev/otterdog/, …). In a fork, the workflow
+# sets it to the GitHub Pages of the fork (scripts/set_site_url.py): keep it on a single line.
 site_url = "https://csi.eclipse.dev/"
 site_author = "Eclipse Foundation"
 repo_url = "https://github.com/eclipse-csi"
 repo_name = "eclipse-csi"
 # the links that the Eclipse Foundation requires on the website of a project
 copyright = """
-Copyright &copy; Eclipse Foundation AISBL. Eclipse&reg; is a trademark of the Eclipse Foundation AISBL.<br>
+Copyright &copy; Eclipse Foundation AISBL. Eclipse&reg; is a trademark of the Eclipse Foundation AISBL.
+The content of this site is licensed under the
+<a href="https://github.com/eclipse-csi/eclipse-csi.github.io/blob/main/LICENSE">Eclipse Public License 2.0</a>.<br>
 <a href="https://www.eclipse.org/">Eclipse Foundation</a> &middot;
 <a href="https://www.eclipse.org/legal/privacy/">Privacy Policy</a> &middot;
 <a href="https://www.eclipse.org/legal/terms-of-use/">Terms of Use</a> &middot;
@@ -22,27 +25,43 @@ Copyright &copy; Eclipse Foundation AISBL. Eclipse&reg; is a trademark of the Ec
 """
 
 # Zensical validates links and anchors: `zensical build --strict` fails on a broken one, such as a link of the home
-# page to a project that is no longer on docs/projects.md. Projects, Blog and Events are generated: see the README.
-# The tabs, in three groups: what Eclipse CSI offers (its projects, the Security Handbook, the handling of
-# vulnerabilities), its news (blog, events), then its community (support, contribution).
+# page to a project that is no longer on docs/projects.md. Projects, Blog, Events and Published CVEs are generated:
+# see the README.
+# The tabs: what Eclipse CSI offers (its projects, the Security Handbook, its guides, the handling of vulnerabilities),
+# its news (blog, events), then its community (team, support, contribution). A section shows its pages in a sidebar.
 nav = [
   { "Home" = "index.md" },
   { "Projects" = "projects.md" },
   # the Security Handbook, a site of its own (eclipse-csi/security-handbook), featured in the tabs
   { "Security Handbook" = "https://csi.eclipse.dev/security-handbook/" },
-  # the entries of the security researchers and of the projects that receive their reports
+  { "Guides" = [
+    { "Secure your project" = "secure-your-project.md" },
+    { "Threat model" = "threat-model.md" },
+    { "AI-assisted security reviews" = "ai-security-reviews.md" },
+    { "Cyber Resilience Act" = "cra.md" },
+    { "Learn" = "learn.md" },
+  ] },
+  # the entries of the security researchers and of the projects that receive their reports, and the published CVEs
   { "Vulnerabilities" = [
     { "Report a vulnerability" = "report-a-vulnerability.md" },
     { "Handle a vulnerability" = "handle-a-vulnerability.md" },
+    { "Published CVEs" = "cves.md" },
   ] },
-  { "Blog" = "blog.md" },
-  { "Events" = "events.md" },
-  { "Support" = "support.md" },
-  { "Contribute" = "contribute.md" },
+  { "News" = [
+    { "Blog" = "blog.md" },
+    { "Events" = "events.md" },
+  ] },
+  { "Community" = [
+    { "Team" = "team.md" },
+    { "Support" = "support.md" },
+    { "Contribute" = "contribute.md" },
+  ] },
 ]
 
 # the brand of Eclipse CSI: colors, Montserrat (self-hosted), the hero of the home page and the cards of the projects
 extra_css = ["assets/stylesheets/csi.css"]
+# the filters of the page of the published CVEs (docs/cves.md): the table works without them
+extra_javascript = ["assets/javascripts/cves.js"]
 
 [project.theme]
 # main.html: the hero of the home page and the social card of the site

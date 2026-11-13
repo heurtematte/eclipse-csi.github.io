@@ -6,8 +6,10 @@
 # The RSS feed of a tag holds its 10 latest posts: the older ones are only on blogs.eclipse.org, linked from the page.
 # To list a post, give it one of these tags on blogs.eclipse.org.
 tags = ["security", "sbom"]
-# a post whose title contains one of these words (in any case) is marked as a security incident ("compromise" would
-# also mark the advice that follows the compromise of another project)
+# A post is marked as a security incident when it has one of these tags on blogs.eclipse.org (the reliable way: tag
+# the post), or when its title contains one of these words, in any case ("compromise" would also mark the advice that
+# follows the compromise of another project).
+incident_tags = ["security-incident"]
 incident_keywords = ["incident", "postmortem", "post-mortem", "breach"]
 # the number of posts in the news of the home page
 home = 4

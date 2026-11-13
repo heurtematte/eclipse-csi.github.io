@@ -54,6 +54,14 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check --no-input --require-hashes --only-binary=:all: --no-deps \
             -r requirements.txt
+      # the site of eclipse-csi is served at csi.eclipse.dev (site_url of zensical.toml); a fork serves it on its own
+      # GitHub Pages, whose address its links, sitemap and feed must use. The name of the repository goes through the
+      # environment, never into the script itself.
+      - name: Set the address of the site to the GitHub Pages of the fork
+        if: github.repository != 'eclipse-csi/eclipse-csi.github.io'
+        env:
+          REPOSITORY: ${{ github.repository }}
+        run: python scripts/set_site_url.py "$REPOSITORY"
       - name: List the projects of the organization
         env:
           # only raises the rate limit of the API: the repositories listed are public

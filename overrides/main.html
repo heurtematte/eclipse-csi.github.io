@@ -12,6 +12,8 @@
   <link rel="preload" href="{{ 'assets/fonts/montserrat-latin-wght-normal.woff2' | url }}" as="font"
         type="font/woff2" crossorigin>
   <link rel="apple-touch-icon" href="{{ 'assets/images/apple-touch-icon.png' | url }}">
+  {#- the news of the site, for feed readers (written by scripts/generate_news.py) #}
+  <link rel="alternate" type="application/atom+xml" title="Eclipse CSI: news" href="{{ 'feed.xml' | url }}">
   <meta name="theme-color" content="#00588f">
   {#- the image of a link to the site shared in a chat or a post: a social card of the official artwork #}
   {%- if config.site_url %}
@@ -72,8 +74,8 @@
             {%- for entry in [
               {"audience": "Security researchers", "title": "Report a vulnerability", "url": "report-a-vulnerability/",
                "icon": "lucide/shield-alert"},
-              {"audience": "Committers", "title": "Handle a vulnerability", "url": "handle-a-vulnerability/",
-               "icon": "lucide/shield-check"},
+              {"audience": "Committers and project leads", "title": "Secure your project",
+               "url": "secure-your-project/", "icon": "lucide/shield-check"},
               {"audience": "Contributors", "title": "Contribute to Eclipse CSI", "url": "contribute/",
                "icon": "lucide/git-pull-request-arrow"},
               {"audience": "Users", "title": "Get support", "url": "support/", "icon": "lucide/life-buoy"},

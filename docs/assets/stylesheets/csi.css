@@ -54,6 +54,8 @@
   --csi-muted: var(--csi-grey);
   --csi-tint: rgba(0, 88, 143, 0.08);
   --csi-tag-bg: rgba(108, 108, 108, 0.12);
+  /* the text of a grey tag: darker than the secondary grey, which falls just below 4.5:1 on the tag (WCAG AA) */
+  --csi-tag-fg: #595959;
   --csi-card-shadow: 0 0.4rem 1.2rem rgba(0, 88, 143, 0.12);
   --csi-spark: rgba(0, 88, 143, 0.3);
   --csi-spark-current: var(--csi-blue);
@@ -73,6 +75,7 @@
   --csi-muted: #a8a8a8;
   --csi-tint: rgba(108, 180, 228, 0.12);
   --csi-tag-bg: rgba(255, 255, 255, 0.08);
+  --csi-tag-fg: #b8b8b8;
   --csi-card-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.4);
   --csi-spark: rgba(108, 180, 228, 0.35);
   --csi-spark-current: #6cb4e4;
@@ -583,7 +586,7 @@
 
 .md-typeset .csi-tag {
   padding: 0.1rem 0.5rem;
-  color: var(--csi-muted);
+  color: var(--csi-tag-fg);
   font-size: 0.6rem;
   font-weight: 500;
   line-height: 1.6;
@@ -673,6 +676,20 @@
 
 .md-typeset .csi-feature .md-button {
   margin: 0.4rem 0.4rem 0 0;
+}
+
+/* the secondary button, outlined in the main color as in the hero: the grey of the theme lacks contrast on the dark
+   scheme */
+.md-typeset .csi-feature .md-button:not(.md-button--primary) {
+  color: var(--md-typeset-a-color);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 0.1rem currentcolor;
+}
+
+.md-typeset .csi-feature .md-button:not(.md-button--primary):is(:hover, :focus) {
+  color: #fff;
+  background-color: var(--csi-blue);
+  box-shadow: inset 0 0 0 0.1rem var(--csi-blue);
 }
 
 .md-typeset .csi-feature__kicker {
@@ -911,6 +928,196 @@
 .md-typeset .question > .admonition-title::after,
 .md-typeset .question > summary::after {
   color: var(--csi-heading);
+}
+
+/* --- the generated pages: when they were written ----------------------------------------------------------------- */
+
+.md-typeset .csi-updated {
+  margin: -0.4em 0 1.2em;
+  color: var(--csi-muted);
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+/* --- the team (docs/team.md): a card per person, its initials in a circle of the main color ---------------------- */
+
+.md-typeset .csi-people {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.6rem;
+  margin: 1em 0 1.2em;
+}
+
+.md-typeset .csi-person {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.7rem;
+  align-items: center;
+  padding: 0.7rem 0.8rem;
+  color: var(--md-typeset-color);
+  text-decoration: none;
+  border: 0.05rem solid var(--md-default-fg-color--lightest);
+  border-radius: 0.4rem;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.md-typeset .csi-person:is(:hover, :focus) {
+  box-shadow: var(--csi-card-shadow);
+  transform: translateY(-0.1rem);
+}
+
+.md-typeset .csi-person__initials {
+  display: flex;
+  grid-row: span 2;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: var(--csi-extrabold);
+  background-color: var(--csi-blue);
+  border-radius: 50%;
+}
+
+.md-typeset .csi-person__name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.md-typeset .csi-person__role {
+  color: var(--csi-muted);
+  font-size: 0.62rem;
+  font-weight: 500;
+}
+
+/* --- the published CVEs (docs/cves.md): their filters and their table ------------------------------------------- */
+
+.md-typeset .csi-cves__summary {
+  margin: 0 0 1em;
+  font-size: 0.75rem;
+}
+
+.md-typeset .csi-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: flex-end;
+  margin: 0 0 1em;
+  padding: 0.8rem 1rem;
+  background-color: var(--csi-tint);
+  border-radius: 0.4rem;
+}
+
+.md-typeset .csi-filters[hidden] {
+  display: none;
+}
+
+.md-typeset .csi-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: var(--csi-muted);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.md-typeset .csi-filters :is(input, select) {
+  min-width: 9rem;
+  max-width: 16rem;
+  padding: 0.3rem 0.5rem;
+  color: var(--md-typeset-color);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  background-color: var(--md-default-bg-color);
+  border: 0.05rem solid var(--md-default-fg-color--lighter);
+  border-radius: 0.3rem;
+}
+
+.md-typeset .csi-filters__count {
+  margin-left: auto;
+  color: var(--csi-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* the table scrolls horizontally on a narrow screen rather than the page */
+.md-typeset .csi-cves {
+  overflow-x: auto;
+}
+
+.md-typeset .csi-cves table {
+  width: 100%;
+  font-size: 0.7rem;
+  border-collapse: collapse;
+}
+
+.md-typeset .csi-cves th {
+  padding: 0.4rem 0.6rem;
+  color: var(--csi-muted);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+  border-bottom: 0.1rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-cves td {
+  padding: 0.45rem 0.6rem;
+  vertical-align: top;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-cves td:nth-child(1),
+.md-typeset .csi-cves td:nth-child(2),
+.md-typeset .csi-cves td:nth-child(4) {
+  white-space: nowrap;
+}
+
+.md-typeset .csi-cves__unrated {
+  color: var(--csi-muted);
+  font-size: 0.62rem;
+}
+
+/* --- the page not found (overrides/404.html) -------------------------------------------------------------------- */
+
+.md-typeset .csi-notfound {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0.6rem;
+  margin: 1.2em 0 1.6em;
+}
+
+.md-typeset .csi-notfound__entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.8rem 1rem;
+  color: var(--md-typeset-color);
+  text-decoration: none;
+  border: 0.05rem solid var(--md-default-fg-color--lightest);
+  border-top: 0.2rem solid var(--csi-blue);
+  border-radius: 0.4rem;
+}
+
+.md-typeset .csi-notfound__entry strong {
+  color: var(--csi-heading);
+}
+
+.md-typeset .csi-notfound__entry span {
+  color: var(--csi-muted);
+  font-size: 0.7rem;
+}
+
+.md-typeset .csi-notfound__entry:is(:hover, :focus) {
+  box-shadow: var(--csi-card-shadow);
 }
 
 /* --- numbered steps: the path to committer, the handling of a vulnerability ------------------------------------- */

@@ -31,7 +31,7 @@ import tomllib
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from html.parser import HTMLParser
 from itertools import groupby
 from pathlib import Path
@@ -48,7 +48,7 @@ EVENTS_API = "https://newsroom.eclipse.org/api/events"
 CVE_API = "https://api.eclipse.org/cve"
 CVE_RECORD = "https://www.cve.org/CVERecord?id={id}"
 KNOWN_VULNERABILITIES = "https://www.eclipse.org/security/known/"
-PMI_API = "https://projects.eclipse.org/api/projects/{id}.json"
+PMI_PROJECTS = "https://projects.eclipse.org/api/projects?pagesize=100"
 PMI_PROJECT = "https://projects.eclipse.org/projects/{id}"
 USER_AGENT = "eclipse-csi-website"
 DC = "{http://purl.org/dc/elements/1.1/}"
@@ -83,6 +83,7 @@ class Post:
     date: datetime.date
     summary: str
     incident: bool = False
+    tags: list[str] = field(default_factory=list)  # the tags of blogs.eclipse.org, as the feed lists them
 
 
 @dataclass
@@ -93,6 +94,8 @@ class Cve:
     project: str  # its name, or its id when the PMI does not give it
     project_url: str
     score: float | None
+    project_id: str = ""
+    summary: str = ""
 
 
 @dataclass
@@ -216,6 +219,7 @@ def to_post(item: ET.Element) -> Post | None:
         author=" ".join((item.findtext(f"{DC}creator") or "").split()),
         date=email.utils.parsedate_to_datetime(published).date(),
         summary=shorten(text_of(description, "field--name-body") or text_of(description)),
+        tags=[" ".join(category.text.split()).lower() for category in item.findall("category") if category.text],
     )
 
 
@@ -286,27 +290,46 @@ def cve_order(item: dict) -> tuple:
     return item["date_published"], number
 
 
-def project_name(project_id: str) -> str:
-    data = json.loads(fetch(PMI_API.format(id=urllib.parse.quote(project_id))))
-    data = data[0] if isinstance(data, list) else data
-    return " ".join((data.get("name") or project_id).split())
+def project_names() -> dict[str, str]:
+    """The names of the Eclipse projects, by id, from the PMI: a few pages of a hundred projects."""
+    names: dict[str, str] = {}
+    url: str | None = PMI_PROJECTS
+    for _ in range(30):
+        if not url:
+            break
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        with urllib.request.urlopen(request, timeout=30) as response:
+            page = json.load(response)
+            url = next_link(response.headers.get("Link"))
+        for project in page:
+            if project.get("project_id") and project.get("name"):
+                names[project["project_id"]] = " ".join(project["name"].split())
+    return names
 
 
-def fetch_cves(count: int) -> list[Cve]:
-    """The latest public CVEs of Eclipse projects. The name of their project comes from the PMI: if it cannot be read,
-    the id of the project is shown instead."""
+def next_link(header: str | None) -> str | None:
+    """The url of the next page from the Link header of a paginated answer."""
+    for part in (header or "").split(","):
+        if 'rel="next"' in part and "<" in part:
+            return part[part.index("<") + 1:part.index(">")]
+    return None
+
+
+def fetch_cves() -> list[Cve]:
+    """The public CVEs of Eclipse projects, the latest first. The name of their project comes from the PMI: when it
+    cannot be read, or does not list the project (an archived one), the id of the project is shown instead."""
     items = [item for item in json.loads(fetch(CVE_API))
              if item.get("status") == "PUBLIC" and item.get("id") and item.get("date_published")]
-    names: dict[str, str] = {}
+    try:
+        names = project_names()
+    except (OSError, ValueError, SyntaxError) as error:
+        warn(f"the names of the projects cannot be read from the PMI ({error}): their ids are shown")
+        names = {}
     cves = []
-    for item in sorted(items, key=cve_order, reverse=True)[:count]:
+    for item in sorted(items, key=cve_order, reverse=True):
         project = (item.get("project") or "").strip()
-        if project and project not in names:
-            try:
-                names[project] = project_name(project)
-            except (OSError, ValueError, SyntaxError, KeyError):
-                names[project] = project
         score = item.get("cvss")
+        summary = item.get("summary") if isinstance(item.get("summary"), dict) else {}
         cves.append(Cve(
             id=item["id"],
             url=CVE_RECORD.format(id=urllib.parse.quote(item["id"])),
@@ -314,6 +337,8 @@ def fetch_cves(count: int) -> list[Cve]:
             project=names.get(project, project),
             project_url=PMI_PROJECT.format(id=urllib.parse.quote(project)) if project else "",
             score=float(score) if isinstance(score, (int, float)) and not isinstance(score, bool) else None,
+            project_id=project,
+            summary=" ".join(text_of(summary.get("content") or "").split()),
         ))
     return cves
 
@@ -408,13 +433,13 @@ def past_event(event: Event) -> str:
 
 
 def front_matter(title: str, description: str, source: str) -> list[str]:
+    """The front matter of a generated page: its section of the navigation stays in view, its table of contents not."""
     return [
         "---",
         f"title: {title}",
         # a JSON string is a valid YAML scalar, whatever it contains
         f"description: {json.dumps(description)}",
         "hide:",
-        "  - navigation",
         "  - toc",
         "---",
         "",
@@ -423,12 +448,17 @@ def front_matter(title: str, description: str, source: str) -> list[str]:
     ]
 
 
+def updated(today: datetime.date, source: str) -> list[str]:
+    """The line that tells when a generated page was written, and from what."""
+    return [f'<p class="csi-updated">Updated on {long_date(today)}, from {html.escape(source)}.</p>', ""]
+
+
 def tag_names(tags: list[Tag]) -> str:
     names = [tag.title for tag in tags]
     return names[0] if len(names) == 1 else ", ".join(names[:-1]) + " or " + names[-1]
 
 
-def render_blog(tags: list[Tag], posts: list[Post]) -> str:
+def render_blog(tags: list[Tag], posts: list[Post], today: datetime.date) -> str:
     out = front_matter(
         "Blog",
         f"Security news and advice from the Eclipse Foundation blog: the posts tagged {tag_names(tags)}, by the "
@@ -443,6 +473,7 @@ def render_blog(tags: list[Tag], posts: list[Post]) -> str:
         f"tagged {escape(tag_names(tags))}.",
         "{ .csi-lead }",
         "",
+        *updated(today, "blogs.eclipse.org"),
         links([("lucide/rss", f"RSS feed: {tag.title}", tag.feed) for tag in tags], "csi-links"),
         "",
         cards(list(map(post_card, posts))) if posts else "No post yet.\n",
@@ -504,7 +535,7 @@ def render_news(cves: list[Cve], posts: list[Post], events: list[Event], today: 
         "<!-- Written by scripts/generate_news.py (the news of the home page): do not edit. -->", "",
         '<div class="csi-news" markdown>', "",
         *news_column("lucide/shield-alert", "Latest CVEs", list(map(cve_entry, cves[: counts["cves"]])),
-                     "No CVE yet.", ("All the known vulnerabilities", KNOWN_VULNERABILITIES)),
+                     "No CVE yet.", ("All the published CVEs", "cves.md")),
         *news_column("lucide/newspaper", "Latest posts", list(map(post_entry, posts[: counts["posts"]])),
                      "No post yet.", ("All the posts", "blog.md")),
         *news_column("lucide/calendar", "Events", [event_entry(event, today) for event in shown_events],
@@ -514,6 +545,7 @@ def render_news(cves: list[Cve], posts: list[Post], events: list[Event], today: 
 
 
 def render_events(events: list[Event], today: datetime.date) -> str:
+    """The events page: the upcoming events as cards, the past ones in a list per year."""
     upcoming = [event for event in events if event.end >= today]
     past = sorted((event for event in events if event.end < today), key=lambda e: (e.start, e.end), reverse=True)
     out = front_matter(
@@ -528,6 +560,13 @@ def render_events(events: list[Event], today: datetime.date) -> str:
         "or takes part, as announced by the [Eclipse Foundation](https://www.eclipse.org/events/).",
         "{ .csi-lead }",
         "",
+        *updated(today, "the newsroom of the Eclipse Foundation"),
+        '!!! tip "Security trainings"',
+        "",
+        "    The Eclipse Foundation Security Team regularly gives free trainings for the developers of Eclipse "
+        "projects, on vulnerability management, coordinated disclosure, dependencies and SBOMs. The slides and "
+        "recordings of the past editions are on the [Learn](learn.md#trainings) page.",
+        "",
         "## Upcoming events { #upcoming }",
         "",
         cards(list(map(event_card, upcoming))) if upcoming else "No upcoming event is announced yet.\n",
@@ -538,6 +577,111 @@ def render_events(events: list[Event], today: datetime.date) -> str:
             out += [f"### {year} {{ #past-{year} }}", "", '<div class="csi-past" markdown>', "",
                     *map(past_event, group), "", "</div>", ""]
     return "\n".join(out)
+
+
+def render_cves(cves: list[Cve], today: datetime.date) -> str:
+    """The page of all the published CVEs: a table that works without JavaScript, filtered by assets/javascripts/
+    cves.js (its search, severity, year and project fields are hidden until the script shows them)."""
+    out = front_matter(
+        "Published CVEs",
+        "The CVEs that the Eclipse Foundation published as the CVE Numbering Authority of its projects.",
+        "api.eclipse.org",
+    )
+    years = sorted({cve.date.year for cve in cves}, reverse=True)
+    projects = sorted({(cve.project, cve.project_id) for cve in cves if cve.project_id}, key=lambda p: p[0].lower())
+    this_year = sum(cve.date.year == today.year for cve in cves)
+    critical = sum(severity(cve.score) == "Critical" for cve in cves)
+    out += [
+        "# Published CVEs",
+        "",
+        "The Eclipse Foundation is the [CVE Numbering Authority](https://www.cve.org/PartnerInformation/"
+        "ListofPartners/partner/eclipse) (CNA) of its projects: its Security Team assigns the CVE IDs of their "
+        "vulnerabilities and publishes the CVE records listed here. Each one links to its record on cve.org.",
+        "{ .csi-lead }",
+        "",
+        *updated(today, "the API of the Eclipse Foundation (api.eclipse.org/cve)"),
+        f'<p class="csi-cves__summary"><strong>{len(cves)}</strong> CVEs published, <strong>{this_year}</strong> '
+        f"in {today.year}, <strong>{critical}</strong> of critical severity. The severity comes from the CVSS base "
+        "score, as CVSS rates it.</p>",
+        "",
+        '<form class="csi-filters" id="csi-cve-filters" hidden>',
+        '<label>Search <input type="search" name="text" placeholder="CVE ID, project, words"></label>',
+        '<label>Severity <select name="severity"><option value="">All</option>'
+        + "".join(f'<option value="{name.lower()}">{name}</option>' for _, name in SEVERITIES)
+        + '<option value="none">Not rated</option></select></label>',
+        '<label>Year <select name="year"><option value="">All</option>'
+        + "".join(f'<option value="{year}">{year}</option>' for year in years) + "</select></label>",
+        '<label>Project <select name="project"><option value="">All</option>'
+        + "".join(f'<option value="{html.escape(pid)}">{html.escape(name)}</option>' for name, pid in projects)
+        + "</select></label>",
+        '<output class="csi-filters__count" name="count"></output>',
+        "</form>",
+        "",
+        '<div class="csi-cves">',
+        # a class: the theme styles the tables without one (display: inline-block), which this one must not take
+        '<table class="csi-cves__table" id="csi-cves">',
+        "<thead><tr><th>CVE</th><th>Severity</th><th>Project</th><th>Published</th><th>Summary</th></tr></thead>",
+        "<tbody>",
+    ]
+    for cve in cves:
+        level = severity(cve.score)
+        badge = (f'<span class="csi-sev csi-sev--{level.lower()}">{level} {cve.score:.1f}</span>' if level
+                 else '<span class="csi-cves__unrated">Not rated</span>')
+        project = (f'<a href="{html.escape(cve.project_url)}">{html.escape(cve.project)}</a>' if cve.project_url
+                   else html.escape(cve.project))
+        text = " ".join([cve.id, cve.project, cve.project_id, cve.summary]).lower()
+        out.append(
+            f'<tr data-severity="{(level or "none").lower()}" data-year="{cve.date.year}" '
+            f'data-project="{html.escape(cve.project_id)}" data-text="{html.escape(text)}">'
+            f'<td><a href="{html.escape(cve.url)}">{cve.id}</a></td><td>{badge}</td><td>{project}</td>'
+            f'<td><time datetime="{cve.date.isoformat()}">{long_date(cve.date)}</time></td>'
+            f"<td>{html.escape(shorten(cve.summary, 160))}</td></tr>"
+        )
+    out += ["</tbody>", "</table>", "</div>", "",
+            f"The [known vulnerabilities]({KNOWN_VULNERABILITIES}) page of the Eclipse Foundation lists them too.", ""]
+    return "\n".join(out)
+
+
+def render_feed(site_url: str, cves: list[Cve], posts: list[Post], today: datetime.date) -> str:
+    """The Atom feed of the news (feed.xml): the latest CVEs and the posts, the latest first. The events are left out:
+    they have no date of publication, only a date in the future, which would reorder the feed every day."""
+    atom = "http://www.w3.org/2005/Atom"
+    ET.register_namespace("", atom)
+
+    def element(parent: ET.Element, tag: str, text: str | None = None, **attributes: str) -> ET.Element:
+        node = ET.SubElement(parent, f"{{{atom}}}{tag}", attributes)
+        node.text = text
+        return node
+
+    entries = []
+    for cve in cves[:20]:
+        level = severity(cve.score)
+        title = f"{cve.id}: {cve.project}" + (f" ({level} {cve.score:.1f})" if level else "")
+        entries.append((cve.date, cve.url, title, shorten(cve.summary, 300), "CVE"))
+    for post in posts:
+        entries.append((post.date, post.url, post.title, post.summary, "Post"))
+    entries.sort(key=lambda entry: entry[0], reverse=True)
+
+    feed = ET.Element(f"{{{atom}}}feed")
+    element(feed, "title", "Eclipse CSI: news")
+    element(feed, "subtitle", "The latest CVEs of Eclipse projects, and the posts of the Eclipse Foundation blog on "
+                              "security.")
+    element(feed, "id", site_url + "feed.xml")
+    element(feed, "link", rel="self", href=site_url + "feed.xml")
+    element(feed, "link", rel="alternate", href=site_url)
+    element(feed, "updated", f"{(entries[0][0] if entries else today).isoformat()}T00:00:00Z")
+    author = element(feed, "author")
+    element(author, "name", "Eclipse Foundation Security Team")
+    for date, url, title, summary, kind in entries:
+        entry = element(feed, "entry")
+        element(entry, "title", title)
+        element(entry, "id", url)
+        element(entry, "link", href=url)
+        element(entry, "updated", f"{date.isoformat()}T00:00:00Z")
+        element(entry, "category", term=kind)
+        if summary:
+            element(entry, "summary", summary)
+    return '<?xml version="1.0" encoding="utf-8"?>\n' + ET.tostring(feed, encoding="unicode") + "\n"
 
 
 def write(path: Path, content: str) -> None:
@@ -555,6 +699,10 @@ def main() -> int:
     config = tomllib.loads(args.config.read_text(encoding="utf-8"))
     blog, events = config["blog"], config["events"]
     keywords = [keyword.lower() for keyword in blog.get("incident_keywords", [])]
+    incident_tags = {tag.lower() for tag in blog.get("incident_tags", [])}
+    # the address of the site, for the absolute links of the feed: the GitHub Pages of a fork (scripts/set_site_url.py)
+    site_url = tomllib.loads((ROOT / "zensical.toml").read_text(encoding="utf-8"))["project"]["site_url"]
+    site_url = site_url if site_url.endswith("/") else site_url + "/"
 
     # OSError: the source cannot be reached or answers an error; ValueError, SyntaxError: what it answers cannot be read
     kept = True
@@ -567,8 +715,10 @@ def main() -> int:
         kept &= keep([DOCS / "blog.md"], f"blogs.eclipse.org cannot be read ({error})")
     else:
         for post in posts:
-            post.incident = any(keyword in post.title.lower() for keyword in keywords)
-        write(DOCS / "blog.md", render_blog(tags, posts))
+            # a tag of blogs.eclipse.org says it best; the keywords of the title make up for a post without it
+            post.incident = (any(tag in incident_tags for tag in post.tags)
+                             or any(keyword in post.title.lower() for keyword in keywords))
+        write(DOCS / "blog.md", render_blog(tags, posts, args.today))
         print(f"docs/blog.md: {len(posts)} posts tagged {', '.join(blog['tags'])}")
 
     try:
@@ -582,17 +732,23 @@ def main() -> int:
         print(f"docs/events.md: {upcoming} upcoming and {len(found) - upcoming} past events of {events['channel']}")
 
     try:
-        cves = fetch_cves(config["cves"]["home"])
+        cves = fetch_cves()
     except (OSError, ValueError, SyntaxError, KeyError) as error:
         unread.append(f"the CVEs of api.eclipse.org ({error})")
+        kept &= keep([DOCS / "cves.md"], f"the CVEs of api.eclipse.org cannot be read ({error})")
+    else:
+        write(DOCS / "cves.md", render_cves(cves, args.today))
+        print(f"docs/cves.md: {len(cves)} published CVEs")
 
-    # the news of the home page are written only from the three sources
+    # the news of the home page and their feed are written only from the three sources
     if posts is not None and found is not None and cves is not None:
         counts = {"cves": config["cves"]["home"], "posts": blog["home"], "events": events["home"]}
         write(INCLUDES / "news.md", render_news(cves, posts, found, args.today, counts))
-        print(f"includes/news.md: {len(cves)} CVEs, {min(len(posts), blog['home'])} posts and the events")
+        write(DOCS / "feed.xml", render_feed(site_url, cves, posts, args.today))
+        print(f"includes/news.md and docs/feed.xml: the latest CVEs, posts and events")
     else:
-        kept &= keep([INCLUDES / "news.md"], f"the news of the home page cannot be written: {'; '.join(unread)}")
+        kept &= keep([INCLUDES / "news.md", DOCS / "feed.xml"],
+                     f"the news of the home page cannot be written: {'; '.join(unread)}")
     return 0 if kept else 1
 
 

@@ -3,9 +3,14 @@ site/
 .cache/
 .venv/
 __pycache__/
+# the settings of an editor
+.vscode/
+.idea/
 # the generated pages: written at every build (make build, make serve, CI) from projects.toml, news.toml and their
 # sources, never versioned, so that no copy lags behind the site
 docs/projects.md
 docs/blog.md
 docs/events.md
+docs/cves.md
+docs/feed.xml
 includes/

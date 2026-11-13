@@ -3,8 +3,6 @@ title: Contribute
 description: >-
   How to contribute to Eclipse CSI: code, documentation, testing and feedback from Eclipse projects, and how to
   become a committer.
-hide:
-  - navigation
 ---
 
 # Contribute

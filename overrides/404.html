@@ -1,0 +1,26 @@
+{#-
+  Override of 404.html of zensical-ui: a page not found, with the entries of the site rather than a bare title. The
+  links go through the url filter: the 404 page is served at any depth.
+-#}
+{% extends "main.html" %}
+{% block content %}
+  <h1>Page not found</h1>
+  <p class="csi-lead">This page does not exist, or it has moved. One of these may be what you are looking for:</p>
+  <div class="csi-notfound">
+    {%- for entry in [
+      {"title": "Home", "text": "Eclipse CSI and its news", "url": ""},
+      {"title": "Projects", "text": "The tools of Eclipse CSI", "url": "projects/"},
+      {"title": "Secure your project", "text": "The checklist of an Eclipse project", "url": "secure-your-project/"},
+      {"title": "Report a vulnerability", "text": "Confidentially, never in public", "url": "report-a-vulnerability/"},
+      {"title": "Published CVEs", "text": "The CVEs of Eclipse projects", "url": "cves/"},
+      {"title": "Support", "text": "Where to ask a question", "url": "support/"},
+    ] %}
+      <a class="csi-notfound__entry" href="{{ entry.url | url }}">
+        <strong>{{ entry.title }}</strong>
+        <span>{{ entry.text }}</span>
+      </a>
+    {%- endfor %}
+  </div>
+  <p>You can also search the site, or read the <a href="https://csi.eclipse.dev/security-handbook/">Security
+    Handbook</a>.</p>
+{% endblock %}

@@ -10,12 +10,11 @@ hide:
 
 # Eclipse Common Security Infrastructure
 
-<!-- the hero above the page (overrides/main.html) shows the logo, this title is hidden by the stylesheet -->
+<!-- the hero above the page (overrides/main.html) shows the logo, its tagline and the entries of each audience; this
+     title is hidden by the stylesheet -->
 
-The Eclipse Common Security Infrastructure (CSI) project develops the cyber security and supply chain management
-tools and best practices shared by Eclipse Foundation projects, and by any open source project that wants them. It
-makes the security infrastructure available to projects visible, defines the policies that keep their development
-secure, and gives them the tools to apply these policies and to check continuously that they do.
+Eclipse CSI develops the security tools, services and best practices shared by Eclipse Foundation projects, and by
+any open source project that wants them.
 { .csi-lead }
 
 <!-- the Security Handbook, featured: styled by .csi-feature (assets/stylesheets/csi.css) -->
@@ -56,6 +55,8 @@ the Eclipse Foundation Security Team.
 { .csi-area-lead }
 
 --8<-- "news.md"
+
+<p class="csi-links" markdown>[:lucide-rss: Subscribe to the news (Atom feed)](feed.xml)</p>
 
 ## What Eclipse CSI provides { #services }
 
@@ -126,7 +127,7 @@ The Eclipse Foundation is a
 [CVE Numbering Authority](https://www.cve.org/PartnerInformation/ListofPartners/partner/eclipse) (CNA) for all its
 projects and services: its Security Team assigns the CVE IDs of their vulnerabilities and publishes the CVE records.
 
-<p class="csi-card__links" markdown>[:lucide-arrow-right: Request a CVE ID](handle-a-vulnerability.md#process) [:lucide-list: Known vulnerabilities](https://www.eclipse.org/security/known/)</p>
+<p class="csi-card__links" markdown>[:lucide-arrow-right: Request a CVE ID](handle-a-vulnerability.md#process) [:lucide-list: Published CVEs](cves.md)</p>
 
 </article>
 
@@ -137,83 +138,10 @@ projects and services: its Security Team assigns the CVE IDs of their vulnerabil
 ### Security reviews
 
 The [Rapid Security Review Runner](projects.md#rsrr) automates the checks of the Rapid Security Reviews of Eclipse
-projects, such as their Dependabot alerts, security advisories and private vulnerability reporting.
+projects, and the Security Team reviews every Eclipse project with
+[AI-assisted analysis](ai-security-reviews.md), validated by people.
 
-<p class="csi-card__links" markdown>[:fontawesome-brands-github: Repository](https://github.com/eclipse-csi/rsrr) [:lucide-arrow-right: Projects](projects.md#vulnerabilities)</p>
-
-</article>
-
-</div>
-
-## Report a vulnerability { #report }
-
-!!! warning "Found a vulnerability in an Eclipse project?"
-
-    Please do not report it in a public issue, pull request or discussion. Report it confidentially, through the
-    channel given by the `SECURITY.md` of the project:
-
-    - open a [confidential issue](https://gitlab.eclipse.org/security/vulnerability-reports/-/work_items/new?issue%5Bconfidential%5D=true)
-      in the vulnerability reports tracker of the Eclipse Foundation;
-    - or, if the project uses them, open a private security advisory on its GitHub repository (Security tab, "Report a
-      vulnerability").
-
-    The Eclipse Foundation Security Team then brings in the project, as set out in the
-    [Eclipse Foundation Security Policy](https://www.eclipse.org/security/policy/).
-    [What to include in your report, and what happens next](report-a-vulnerability.md).
-
-    Committer of an Eclipse project that received a report? See [Handle a vulnerability](handle-a-vulnerability.md).
-
-## Get involved { #get-involved }
-
-<div class="csi-cards csi-cards--compact" markdown>
-
-<article class="csi-card" markdown>
-
-:fontawesome-brands-github:{ .csi-card__icon }
-
-### Contribute
-
-Every project of Eclipse CSI is developed in the open: code, documentation, testing and feedback are welcome.
-
-<p class="csi-card__links" markdown>[:lucide-arrow-right: How to contribute](contribute.md)</p>
-
-</article>
-
-<article class="csi-card" markdown>
-
-:lucide-life-buoy:{ .csi-card__icon }
-
-### Support
-
-A question, a bug or an idea: GitHub issues and discussions, and the csi-dev mailing list.
-
-<p class="csi-card__links" markdown>[:lucide-arrow-right: Where to ask](support.md)</p>
-
-</article>
-
-<article class="csi-card" markdown>
-
-:lucide-landmark:{ .csi-card__icon }
-
-### Governance
-
-Eclipse CSI is a project of Eclipse Technology: its committers, releases and plans are on the Eclipse project
-management infrastructure.
-
-<p class="csi-card__links" markdown>[:lucide-arrow-right: projects.eclipse.org](https://projects.eclipse.org/projects/technology.csi)</p>
-
-</article>
-
-<article class="csi-card" markdown>
-
-:lucide-shield-check:{ .csi-card__icon }
-
-### Security at Eclipse
-
-The Eclipse Foundation Security Team coordinates the disclosure of vulnerabilities and helps projects secure their
-development.
-
-<p class="csi-card__links" markdown>[:lucide-arrow-right: eclipse.org/security](https://www.eclipse.org/security/)</p>
+<p class="csi-card__links" markdown>[:fontawesome-brands-github: Repository](https://github.com/eclipse-csi/rsrr) [:lucide-arrow-right: AI-assisted reviews](ai-security-reviews.md)</p>
 
 </article>
 
