@@ -1,0 +1,25 @@
+{#-
+  Override of partials/copyright.html of zensical-ui: the logo of the Eclipse Foundation above the copyright, linked to
+  eclipse.org. It is its official artwork (eclipse.org/org/artwork), unaltered, as its trademark usage policy requires:
+  the color logo on the light scheme, the reversed color one on the dark scheme (docs/assets/stylesheets/csi.css).
+-#}
+<div class="md-copyright">
+  <a class="csi-footer-ef" href="https://www.eclipse.org/">
+    <img class="csi-footer-ef__logo csi-footer-ef__logo--color"
+         src="{{ 'assets/images/eclipse-foundation-logo.svg' | url }}" alt="Eclipse Foundation" width="283" height="91">
+    <img class="csi-footer-ef__logo csi-footer-ef__logo--white"
+         src="{{ 'assets/images/eclipse-foundation-logo-white.svg' | url }}" alt="Eclipse Foundation" width="282"
+         height="91">
+  </a>
+  {% if config.copyright %}
+    <div class="md-copyright__highlight">
+      {{ config.copyright }}
+    </div>
+  {% endif %}
+  {% if not config.extra.generator == false %}
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  {% endif %}
+</div>

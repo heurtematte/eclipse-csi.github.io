@@ -1,0 +1,116 @@
+# Website of Eclipse CSI, built by Zensical: `make serve` previews it, `make build` builds it strictly into site/.
+# The workflow .github/workflows/site.yml rebuilds it, with the list of projects regenerated from the GitHub API
+# (scripts/generate_projects.py), and deploys it to GitHub Pages: on every change of main, and every day so that a new
+# repository of the organization appears on the site without a commit.
+[project]
+site_name = "Eclipse CSI"
+site_description = "Technologies and practices that secure the software supply chain of Eclipse Foundation projects."
+# the GitHub Pages of eclipse-csi are served at csi.eclipse.dev (eclipse-csi.github.io redirects there); the sites of
+# the repositories of the organization are served below it (csi.eclipse.dev/otterdog/, …)
+site_url = "https://csi.eclipse.dev/"
+site_author = "Eclipse Foundation"
+repo_url = "https://github.com/eclipse-csi"
+repo_name = "eclipse-csi"
+# the links that the Eclipse Foundation requires on the website of a project
+copyright = """
+Copyright &copy; Eclipse Foundation AISBL. Eclipse&reg; is a trademark of the Eclipse Foundation AISBL.<br>
+<a href="https://www.eclipse.org/">Eclipse Foundation</a> &middot;
+<a href="https://www.eclipse.org/legal/privacy/">Privacy Policy</a> &middot;
+<a href="https://www.eclipse.org/legal/terms-of-use/">Terms of Use</a> &middot;
+<a href="https://www.eclipse.org/legal/copyright/">Copyright Agent</a> &middot;
+<a href="https://www.eclipse.org/legal/">Legal</a>
+"""
+
+# Zensical validates links and anchors: `zensical build --strict` fails on a broken one, such as a link of the home
+# page to a project that is no longer on docs/projects.md. Projects, Blog and Events are generated: see the README.
+# The tabs, in three groups: what Eclipse CSI offers (its projects, the Security Handbook, the handling of
+# vulnerabilities), its news (blog, events), then its community (support, contribution).
+nav = [
+  { "Home" = "index.md" },
+  { "Projects" = "projects.md" },
+  # the Security Handbook, a site of its own (eclipse-csi/security-handbook), featured in the tabs
+  { "Security Handbook" = "https://csi.eclipse.dev/security-handbook/" },
+  # the entries of the security researchers and of the projects that receive their reports
+  { "Vulnerabilities" = [
+    { "Report a vulnerability" = "report-a-vulnerability.md" },
+    { "Handle a vulnerability" = "handle-a-vulnerability.md" },
+  ] },
+  { "Blog" = "blog.md" },
+  { "Events" = "events.md" },
+  { "Support" = "support.md" },
+  { "Contribute" = "contribute.md" },
+]
+
+# the brand of Eclipse CSI: colors, Montserrat (self-hosted), the hero of the home page and the cards of the projects
+extra_css = ["assets/stylesheets/csi.css"]
+
+[project.theme]
+# main.html: the hero of the home page and the social card of the site
+custom_dir = "overrides"
+language = "en"
+# the official artwork of Eclipse CSI (eclipse-csi/.github, artwork/eclipse-csi), copied unaltered as its brand
+# guidelines require
+logo = "assets/images/csi-emblem.png"
+favicon = "assets/images/favicon-32x32.png"
+# Montserrat is self-hosted by assets/stylesheets/csi.css, rather than loaded from Google Fonts: the brand needs its
+# Light and ExtraBold weights, and no request leaves the site
+font = false
+icon.repo = "fontawesome/brands/github"
+features = [
+  "content.tooltips",
+  "navigation.instant",
+  "navigation.instant.progress",
+  "navigation.tabs",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+
+# the colors of the brand, set by assets/stylesheets/csi.css
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to light mode"
+
+# the links of the footer
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/eclipse-csi"
+name = "Eclipse CSI on GitHub"
+
+[[project.extra.social]]
+icon = "lucide/landmark"
+link = "https://projects.eclipse.org/projects/technology.csi"
+name = "Eclipse CSI on projects.eclipse.org"
+
+[[project.extra.social]]
+icon = "lucide/shield-alert"
+link = "https://www.eclipse.org/security/"
+name = "Eclipse Foundation Security"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+md_in_html = {}
+tables = {}
+toc.permalink = true
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.superfences = {}
+# --8<-- "<file>" in a page inserts includes/<file>: the latest posts and the next events on the home page, written by
+# scripts/generate_news.py; a missing file fails the build
+pymdownx.snippets.base_path = ["includes"]
+pymdownx.snippets.check_paths = true

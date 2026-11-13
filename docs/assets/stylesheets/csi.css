@@ -1,0 +1,1177 @@
+/* The brand of Eclipse CSI, from its guidelines (eclipse-csi/.github, artwork/eclipse-csi/brand-guidelines.md):
+   - colors: main #00588F, secondary #6C6C6C;
+   - typeface: Montserrat, ExtraBold for the main text (titles), Light for the secondary text (body).
+   The shades of the main color below only serve contrast (hover, dark scheme), the logo is never altered. */
+
+/* --- Montserrat, self-hosted: one variable font for all the weights ---------------------------------------------
+   The latin and latin-ext subsets of @fontsource-variable/montserrat 5.2.8, in assets/fonts with their license
+   (OFL.txt, SIL Open Font License 1.1). Self-hosted so that the site makes no request to a font service. */
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/montserrat-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/montserrat-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* --- colors ------------------------------------------------------------------------------------------------------ */
+
+:root {
+  --csi-blue: #00588f;
+  --csi-grey: #6c6c6c;
+  --csi-blue-dark: #003e66;
+  --csi-blue-light: #0a6fae;
+  /* the weights of the brand */
+  --csi-light: 300;
+  --csi-extrabold: 800;
+  --md-text-font: "Montserrat";
+}
+
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--csi-blue);
+  --md-primary-fg-color--light: var(--csi-blue-light);
+  --md-primary-fg-color--dark: var(--csi-blue-dark);
+  --md-primary-bg-color: #fff;
+  --md-accent-fg-color: var(--csi-blue-light);
+  --md-accent-fg-color--transparent: rgba(0, 88, 143, 0.1);
+  --md-typeset-a-color: var(--csi-blue);
+  /* the text of the body, in Light: darker than the default for its contrast */
+  --md-typeset-color: #1f2328;
+  --csi-heading: var(--csi-blue);
+  --csi-muted: var(--csi-grey);
+  --csi-tint: rgba(0, 88, 143, 0.08);
+  --csi-tag-bg: rgba(108, 108, 108, 0.12);
+  --csi-card-shadow: 0 0.4rem 1.2rem rgba(0, 88, 143, 0.12);
+  --csi-spark: rgba(0, 88, 143, 0.3);
+  --csi-spark-current: var(--csi-blue);
+}
+
+/* the dark scheme in the hue of the main color; the main color itself is too dark for text on it */
+[data-md-color-scheme="slate"] {
+  --md-hue: 203;
+  --md-primary-fg-color: var(--csi-blue);
+  --md-primary-fg-color--light: var(--csi-blue-light);
+  --md-primary-fg-color--dark: var(--csi-blue-dark);
+  --md-primary-bg-color: #fff;
+  --md-accent-fg-color: #8ccbf2;
+  --md-accent-fg-color--transparent: rgba(108, 180, 228, 0.12);
+  --md-typeset-a-color: #6cb4e4;
+  --csi-heading: #fff;
+  --csi-muted: #a8a8a8;
+  --csi-tint: rgba(108, 180, 228, 0.12);
+  --csi-tag-bg: rgba(255, 255, 255, 0.08);
+  --csi-card-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.4);
+  --csi-spark: rgba(108, 180, 228, 0.35);
+  --csi-spark-current: #6cb4e4;
+}
+
+/* --- typography: ExtraBold titles, Light text ------------------------------------------------------------------- */
+
+.md-typeset {
+  font-weight: var(--csi-light);
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  color: var(--csi-heading);
+  font-weight: var(--csi-extrabold);
+}
+
+.md-typeset h2 {
+  letter-spacing: -0.02em;
+}
+
+.md-typeset strong,
+.md-typeset b,
+.md-typeset th {
+  font-weight: 700;
+}
+
+.md-typeset a {
+  font-weight: 500;
+}
+
+.md-header__topic:first-child {
+  color: var(--csi-heading);
+  font-weight: var(--csi-extrabold);
+  letter-spacing: 0.01em;
+}
+
+.md-tabs__link {
+  font-weight: 500;
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: var(--md-typeset-a-color);
+  font-weight: 700;
+}
+
+/* the entry of the navigation that leads to another site, the Security Handbook, in the tabs and in the drawer of
+   small screens: the external link icon of lucide after it, in its color. It is selected by its address: the instant
+   navigation makes the links of the site absolute too, and the handbook is served on the same host
+   (csi.eclipse.dev/security-handbook/). The second content gives it a text for screen readers, where it is
+   supported; the first one is the fallback */
+.md-tabs__link[href^="https://csi.eclipse.dev/security-handbook/"]::after,
+.md-nav__link[href^="https://csi.eclipse.dev/security-handbook/"]::after {
+  display: inline-block;
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.3em;
+  vertical-align: -0.05em;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3C/svg%3E") center / contain no-repeat;
+  content: "";
+  content: "" / " (another site)";
+}
+
+.md-footer-meta {
+  font-weight: var(--csi-light);
+}
+
+.md-typeset .md-button {
+  font-weight: 700;
+}
+
+/* the logo of the Eclipse Foundation in the footer (overrides/partials/copyright.html), above the copyright: the color
+   one on the light scheme, the reversed color one on the dark scheme, both unaltered */
+.csi-footer-ef {
+  display: inline-block;
+  margin: 0.4rem 0 0.6rem;
+}
+
+.csi-footer-ef__logo {
+  display: block;
+  width: 7.5rem;
+  height: auto;
+}
+
+.csi-footer-ef__logo--white,
+[data-md-color-scheme="slate"] .csi-footer-ef__logo--color {
+  display: none;
+}
+
+[data-md-color-scheme="slate"] .csi-footer-ef__logo--white {
+  display: block;
+}
+
+.md-typeset .csi-lead {
+  max-width: 42rem;
+  color: var(--csi-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* the logo in the header: the emblem of the official artwork, a bit larger than an icon */
+.md-header__button.md-logo img {
+  height: 1.8rem;
+}
+
+/* on the dark scheme the blue of the emblem lacks contrast: it is drawn on white, like the "White" emblem of the
+   official artwork */
+[data-md-color-scheme="slate"] .md-logo img {
+  background-color: #fff;
+  border-radius: 0.3rem;
+}
+
+/* --- the hero of the home page (overrides/main.html) ------------------------------------------------------------ */
+
+/* the circles of the official showcase visuals (artwork/eclipse-csi/logo-showcase): a blue one and a grey one, cut
+   by a ring of the page color where they overlap, at the right edge, behind the panel */
+.csi-hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.csi-hero::before,
+.csi-hero::after {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.6rem var(--md-default-bg-color);
+}
+
+/* the grey circle below, the blue one above it: its ring cuts the grey one */
+.csi-hero::before {
+  right: 4rem;
+  bottom: -14rem;
+  width: 26rem;
+  height: 26rem;
+  background-color: var(--csi-grey);
+}
+
+.csi-hero::after {
+  top: -9rem;
+  right: -6rem;
+  width: 24rem;
+  height: 24rem;
+  background-color: var(--csi-blue);
+}
+
+/* the text beside the panel */
+.csi-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+  gap: 3rem;
+  align-items: center;
+  padding: 3rem 0.8rem 3.4rem;
+}
+
+.md-typeset .csi-hero__eyebrow {
+  margin: 0 0 1rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.md-typeset .csi-hero__eyebrow a {
+  color: var(--csi-muted);
+  text-decoration: none;
+}
+
+/* a narrow screen breaks the line at the dot, not inside "Open source project" */
+.md-typeset .csi-hero__eyebrow span {
+  white-space: nowrap;
+}
+
+.md-typeset .csi-hero__eyebrow a:is(:hover, :focus) {
+  color: var(--md-typeset-a-color);
+}
+
+.md-typeset .csi-hero__title {
+  max-width: 24rem;
+  margin: 0 0 0.6rem;
+}
+
+.csi-hero__logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* the margin of the artwork around the logo, compensated so that it aligns with the text */
+  margin-left: -4%;
+}
+
+.csi-hero__logo--white,
+[data-md-color-scheme="slate"] .csi-hero__logo--color {
+  display: none;
+}
+
+[data-md-color-scheme="slate"] .csi-hero__logo--white {
+  display: block;
+}
+
+.md-typeset .csi-hero__tagline {
+  max-width: 28rem;
+  margin: 0 0 1.4rem;
+  color: var(--csi-muted);
+  font-size: 1.1rem;
+  font-weight: var(--csi-light);
+  line-height: 1.5;
+}
+
+.md-typeset .csi-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.md-typeset .csi-hero__actions .md-button {
+  margin: 0;
+}
+
+/* the secondary button: outlined in the main color, filled on hover like the primary one */
+.md-typeset .csi-hero__actions .md-button:not(.md-button--primary) {
+  color: var(--md-typeset-a-color);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 0.1rem currentcolor;
+}
+
+.md-typeset .csi-hero__actions .md-button:not(.md-button--primary):is(:hover, :focus) {
+  color: #fff;
+  background-color: var(--csi-blue);
+  box-shadow: inset 0 0 0 0.1rem var(--csi-blue);
+}
+
+/* where to start: a list of entries, one per audience, on the page color over the circles */
+.csi-hero__panel {
+  overflow: hidden;
+  background-color: var(--md-default-bg-color);
+  border: 0.05rem solid var(--md-default-fg-color--lightest);
+  border-radius: 0.4rem;
+  box-shadow: var(--csi-card-shadow);
+}
+
+.md-typeset .csi-hero__panel-title {
+  margin: 0;
+  padding: 0.75rem 1rem 0.65rem;
+  color: var(--csi-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-hero__panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ul li: as specific as the indent of the theme ([dir=ltr] .md-typeset ul li), and loaded after it */
+.md-typeset .csi-hero__panel ul li {
+  margin: 0;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-hero__panel ul li:last-child {
+  border-bottom: 0;
+}
+
+.md-typeset .csi-hero__panel a {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  color: var(--md-typeset-color);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.md-typeset .csi-hero__panel a:is(:hover, :focus) {
+  background-color: var(--csi-tint);
+}
+
+.md-typeset .csi-hero__panel-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--csi-heading);
+  background-color: var(--csi-tint);
+  border-radius: 0.3rem;
+}
+
+.md-typeset .csi-hero__panel-icon svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.md-typeset .csi-hero__panel-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.md-typeset .csi-hero__panel-audience {
+  color: var(--csi-muted);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.md-typeset .csi-hero__panel-link {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* the chevron of an entry: it moves on hover */
+.md-typeset .csi-hero__panel a > svg {
+  flex: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--csi-muted);
+  transition: transform 0.2s, color 0.2s;
+}
+
+.md-typeset .csi-hero__panel a:is(:hover, :focus) > svg {
+  color: var(--md-typeset-a-color);
+  transform: translateX(0.15rem);
+}
+
+/* the hero shows the title of the home page: it is not repeated below it */
+.md-container:has(.csi-hero) .md-content__inner > h1:first-of-type {
+  display: none;
+}
+
+/* the hero is followed by the text of the page: the space of its hidden title is not kept */
+.md-container:has(.csi-hero) .md-content__inner {
+  padding-top: 0.4rem;
+}
+
+/* medium screens: the panel below the text; a blue circle in the corner, the grey one would reach the text */
+@media screen and (max-width: 76.1875em) {
+  .csi-hero::before {
+    display: none;
+  }
+
+  .csi-hero::after {
+    top: -7rem;
+    right: -8rem;
+    width: 18rem;
+    height: 18rem;
+  }
+
+  .csi-hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .csi-hero__panel {
+    max-width: 28rem;
+  }
+}
+
+/* small screens: the circles shrink to the corners, the text is centered, the panel takes the width */
+@media screen and (max-width: 44.9375em) {
+  .csi-hero::before {
+    display: block;
+    right: auto;
+    bottom: -5rem;
+    left: -4rem;
+    width: 9rem;
+    height: 9rem;
+  }
+
+  .csi-hero::after {
+    top: -6rem;
+    right: -4rem;
+    width: 9rem;
+    height: 9rem;
+  }
+
+  .csi-hero__text {
+    text-align: center;
+  }
+
+  .md-typeset .csi-hero__title {
+    max-width: 16rem;
+  }
+
+  .md-typeset .csi-hero__title,
+  .md-typeset .csi-hero__tagline {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .csi-hero__logo {
+    margin-left: 0;
+  }
+
+  .md-typeset .csi-hero__tagline {
+    font-size: 0.95rem;
+  }
+
+  .md-typeset .csi-hero__actions {
+    justify-content: center;
+  }
+
+  .csi-hero__panel {
+    max-width: none;
+  }
+}
+
+/* --- the cards of the home page and of the projects page (docs/projects.md) -------------------------------------- */
+
+.md-typeset .csi-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.8rem;
+  margin: 1em 0 2.4em;
+}
+
+.md-typeset .csi-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.1rem 0.8rem;
+  border: 0.05rem solid var(--md-default-fg-color--lightest);
+  border-top: 0.2rem solid var(--csi-blue);
+  border-radius: 0.4rem;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.md-typeset .csi-card:hover {
+  box-shadow: var(--csi-card-shadow);
+  transform: translateY(-0.1rem);
+}
+
+.md-typeset .csi-card > :first-child {
+  margin-top: 0;
+}
+
+.md-typeset .csi-card h3 {
+  margin: 0 0 0.4em;
+  font-size: 1rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.md-typeset .csi-card h3 a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.md-typeset .csi-card h3 a:hover {
+  color: var(--md-accent-fg-color);
+}
+
+/* no permalink sign in a card: hidden until hovered, it still takes a line when the title nearly fills one; the
+   anchor itself stays (projects.md#otterdog) */
+.md-typeset .csi-card h3 .headerlink {
+  display: none;
+}
+
+/* the description takes the free height: the tags and the links align at the bottom of the cards of a row */
+.md-typeset .csi-card > p:not([class]) {
+  flex-grow: 1;
+  margin: 0 0 0.8em;
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+/* the icon of a card of the home page, in a circle of the main color */
+.md-typeset .csi-card > p:has(> .csi-card__icon) {
+  flex-grow: 0;
+  margin-bottom: 0.6em;
+}
+
+.md-typeset .twemoji.csi-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  color: #fff;
+  background-color: var(--csi-blue);
+  border-radius: 50%;
+}
+
+.md-typeset .twemoji.csi-card__icon svg {
+  width: 1.1rem;
+  max-height: 1.1rem;
+}
+
+.md-typeset .csi-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0 0 0.8em;
+}
+
+.md-typeset .csi-tag {
+  padding: 0.1rem 0.5rem;
+  color: var(--csi-muted);
+  font-size: 0.6rem;
+  font-weight: 500;
+  line-height: 1.6;
+  background-color: var(--csi-tag-bg);
+  border-radius: 1rem;
+}
+
+.md-typeset .csi-tag--language,
+.md-typeset .csi-tag--accent {
+  color: var(--md-typeset-a-color);
+  background-color: var(--csi-tint);
+}
+
+/* the metrics of a project: stars, forks, contributors, latest release, Scorecard, last push */
+.md-typeset .csi-card__metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  margin: 0 0 0.8em;
+  color: var(--csi-muted);
+  font-size: 0.65rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.md-typeset .csi-metric {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.md-typeset .csi-metric .twemoji {
+  color: var(--csi-heading);
+}
+
+.md-typeset .csi-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1rem;
+  margin: 0;
+  padding-top: 0.6rem;
+  font-size: 0.7rem;
+  border-top: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-card__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.md-typeset .csi-card__links a:is(:hover, :focus) {
+  text-decoration: underline;
+}
+
+/* the cards of "Get involved": no description to align, a smaller title */
+.md-typeset .csi-cards--compact .csi-card h3 {
+  font-size: 0.9rem;
+}
+
+/* --- the Security Handbook, featured on the home page: its summary beside its parts ------------------------------- */
+
+.md-typeset .csi-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 1.2rem 2.4rem;
+  align-items: center;
+  margin: 2em 0 2.4em;
+  padding: 1.6rem 1.8rem;
+  background-color: var(--csi-tint);
+  border-left: 0.3rem solid var(--csi-blue);
+  border-radius: 0.4rem;
+}
+
+.md-typeset .csi-feature h2 {
+  margin: 0 0 0.6em;
+}
+
+.md-typeset .csi-feature p:not([class]) {
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.md-typeset .csi-feature .md-button {
+  margin: 0.4rem 0.4rem 0 0;
+}
+
+.md-typeset .csi-feature__kicker {
+  margin: 0 0 0.4em;
+  color: var(--csi-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.md-typeset .csi-feature__topics ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ul li: as specific as the indent of the theme ([dir=ltr] .md-typeset ul li), and loaded after it */
+.md-typeset .csi-feature__topics ul li {
+  margin: 0;
+  padding: 0.6em 0;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-feature__topics ul li:last-child {
+  border-bottom: 0;
+}
+
+.md-typeset .csi-feature__topics .twemoji {
+  margin-right: 0.3rem;
+  color: var(--csi-heading);
+}
+
+@media screen and (max-width: 59.984em) {
+  .md-typeset .csi-feature {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.2rem 1.1rem;
+  }
+}
+
+/* --- the blog and the events (docs/blog.md, docs/events.md and their previews on the home page) ------------------ */
+
+/* the date, the author or the place of a card, below its title */
+.md-typeset .csi-card__meta {
+  margin: 0 0 0.7em;
+  color: var(--csi-muted);
+  font-size: 0.65rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.md-typeset .csi-card__meta .twemoji {
+  color: var(--csi-heading);
+}
+
+/* a row of links below a section: all the posts, the RSS feeds */
+.md-typeset .csi-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  margin: 0 0 2.4em;
+  font-size: 0.75rem;
+}
+
+.md-typeset .csi-cards + .csi-links {
+  margin-top: -1.6em;
+}
+
+.md-typeset .csi-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.md-typeset .csi-links a:is(:hover, :focus) {
+  text-decoration: underline;
+}
+
+/* the past events: a list per year, one line each */
+.md-typeset .csi-past ul {
+  margin: 0 0 1.6em;
+  padding: 0;
+  list-style: none;
+}
+
+/* ul li: as specific as the indent of the theme ([dir=ltr] .md-typeset ul li), and loaded after it */
+.md-typeset .csi-past ul li {
+  margin: 0;
+  padding: 0.5em 0;
+  font-size: 0.75rem;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-past li .csi-tag {
+  margin-left: 0.3rem;
+  white-space: nowrap;
+}
+
+/* --- the news of the home page (includes/news.md): the latest CVEs, posts and events, in three columns ----------- */
+
+.md-typeset .csi-news {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.8rem;
+  margin: 1em 0 2.4em;
+}
+
+.md-typeset .csi-news__column {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1rem 0.7rem;
+  border: 0.05rem solid var(--md-default-fg-color--lightest);
+  border-top: 0.2rem solid var(--csi-blue);
+  border-radius: 0.4rem;
+}
+
+.md-typeset .csi-news__title {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0 0 0.3em;
+  color: var(--csi-heading);
+  font-size: 0.85rem;
+  font-weight: var(--csi-extrabold);
+}
+
+.md-typeset .csi-news__column ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ul li: as specific as the indent of the theme ([dir=ltr] .md-typeset ul li), and loaded after it */
+.md-typeset .csi-news__column ul li {
+  margin: 0;
+  padding: 0.55em 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-news__column ul li:last-child {
+  border-bottom: 0;
+}
+
+.md-typeset .csi-news__column ul li > a {
+  font-weight: 600;
+}
+
+.md-typeset .csi-news__meta {
+  display: block;
+  margin-top: 0.15em;
+  color: var(--csi-muted);
+  font-size: 0.62rem;
+  font-weight: 500;
+}
+
+.md-typeset .csi-news__column .csi-tag {
+  margin-left: 0.2rem;
+  font-size: 0.55rem;
+  white-space: nowrap;
+}
+
+/* the link to all of them, at the bottom of the column, whatever the height of the row */
+.md-typeset .csi-news__more {
+  margin: auto 0 0;
+  padding-top: 0.6rem;
+  font-size: 0.7rem;
+  border-top: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .csi-news__more a {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.md-typeset .csi-news__more a:is(:hover, :focus) {
+  text-decoration: underline;
+}
+
+/* the severity of a CVE: its label and its score in white on a color of its level, never the color alone */
+.md-typeset .csi-sev {
+  display: inline-block;
+  margin-right: 0.3rem;
+  padding: 0 0.4em;
+  color: #fff;
+  font-size: 0.58rem;
+  font-weight: 700;
+  line-height: 1.6;
+  white-space: nowrap;
+  vertical-align: 0.05em;
+  border-radius: 0.2rem;
+}
+
+.md-typeset .csi-sev--critical {
+  background-color: #b3261e;
+}
+
+.md-typeset .csi-sev--high {
+  background-color: #c2410c;
+}
+
+.md-typeset .csi-sev--medium {
+  background-color: #8a5a00;
+}
+
+.md-typeset .csi-sev--low {
+  background-color: #4b5563;
+}
+
+/* a security incident, on a post */
+.md-typeset .csi-tag--incident {
+  color: #fff;
+  background-color: #b3261e;
+}
+
+/* the "question" admonition (the invitation to the GitHub Discussions of the projects page) in the main color, rather
+   than the green of the theme */
+.md-typeset .admonition.question,
+.md-typeset details.question {
+  background-color: var(--csi-tint);
+}
+
+.md-typeset .question > .admonition-title::before,
+.md-typeset .question > summary::before {
+  background-color: var(--csi-heading);
+}
+
+.md-typeset .question > .admonition-title::after,
+.md-typeset .question > summary::after {
+  color: var(--csi-heading);
+}
+
+/* --- numbered steps: the path to committer, the handling of a vulnerability ------------------------------------- */
+
+.md-typeset .csi-steps ol {
+  margin: 1em 0 1.4em;
+  padding: 0;
+  list-style: none;
+  counter-reset: csi-step;
+}
+
+/* ol li: as specific as the indent of the theme ([dir=ltr] .md-typeset ol li), and loaded after it */
+.md-typeset .csi-steps ol li {
+  position: relative;
+  margin: 0;
+  padding: 0 0 1em 2.6rem;
+  counter-increment: csi-step;
+}
+
+/* the number in a circle of the main color, the steps joined by a line */
+.md-typeset .csi-steps ol li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: var(--csi-extrabold);
+  background-color: var(--csi-blue);
+  border-radius: 50%;
+  content: counter(csi-step);
+}
+
+.md-typeset .csi-steps ol li:not(:last-child)::after {
+  position: absolute;
+  top: 1.8rem;
+  bottom: 0.2rem;
+  left: 0.775rem;
+  width: 0.05rem;
+  background-color: var(--md-default-fg-color--lighter);
+  content: "";
+}
+
+/* --- the projects page ------------------------------------------------------------------------------------------- */
+
+.md-typeset .csi-area-lead {
+  max-width: 44rem;
+  margin-top: -0.2em;
+  color: var(--csi-muted);
+}
+
+/* the totals of the projects: a row of stat tiles, each its icon, figure, label and caption, and for the releases
+   their bars month by month */
+.md-typeset .csi-kpis {
+  display: grid;
+  /* rem: 20px in this theme. Five tiles in a row beside the table of contents, two on a phone */
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 0.8rem;
+  margin: 1.6em 0 0.8em;
+}
+
+.md-typeset .csi-kpi {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1rem 0.8rem;
+  background-color: var(--csi-tint);
+  border-radius: 0.4rem;
+}
+
+.md-typeset .csi-kpi p {
+  margin: 0;
+}
+
+/* the icon in the top right corner, in a circle of the main color */
+.md-typeset .csi-kpi__icon {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+}
+
+.md-typeset .csi-kpi__icon .twemoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  color: #fff;
+  background-color: var(--csi-blue);
+  border-radius: 50%;
+}
+
+.md-typeset .csi-kpi__icon .twemoji svg {
+  width: 0.85rem;
+  max-height: 0.85rem;
+}
+
+/* proportional figures: a figure shown alone, not in a column */
+.md-typeset .csi-kpi__value {
+  color: var(--csi-heading);
+  font-size: 1.9rem;
+  font-weight: var(--csi-extrabold);
+  line-height: 1.1;
+}
+
+.md-typeset .csi-kpi__label {
+  margin-top: 0.15rem;
+  color: var(--md-typeset-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.md-typeset .csi-kpi__caption {
+  color: var(--csi-muted);
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+.md-typeset .csi-kpi__caption a {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* the title of a row of tiles: activity, team */
+.md-typeset .csi-kpis__title {
+  margin: 1.4em 0 0;
+  color: var(--csi-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.md-typeset .csi-kpis__title + .csi-kpis {
+  margin-top: 0.5em;
+}
+
+/* dense: on a phone, a tile fills the place left by a wide one */
+.md-typeset .csi-kpis {
+  grid-auto-flow: dense;
+}
+
+/* the invitation to join the team: twice as wide, in the main color */
+.md-typeset .csi-join {
+  display: flex;
+  grid-column: span 2;
+  flex-direction: column;
+  padding: 0.9rem 1rem 0.8rem;
+  color: #fff;
+  background-color: var(--csi-blue);
+  border-radius: 0.4rem;
+}
+
+.md-typeset .csi-join p {
+  margin: 0;
+}
+
+.md-typeset .csi-join__title {
+  font-size: 0.85rem;
+  font-weight: var(--csi-extrabold);
+}
+
+.md-typeset .csi-join__title .twemoji {
+  margin-right: 0.2rem;
+}
+
+.md-typeset .csi-join__text {
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  line-height: 1.55;
+}
+
+.md-typeset .csi-join__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  margin-top: auto;
+  padding-top: 0.6rem;
+  font-size: 0.7rem;
+}
+
+.md-typeset .csi-join__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.md-typeset .csi-join__links a:is(:hover, :focus) {
+  text-decoration: underline;
+}
+
+/* the tile of the releases: twice as wide, its bars beside its figure, below the icon */
+.md-typeset .csi-kpi--wide {
+  grid-column: span 2;
+  flex-direction: row;
+  gap: 1.4rem;
+}
+
+/* the figure at the top, as in the other tiles; the bars at the bottom */
+.md-typeset .csi-kpi__trend {
+  flex: 1;
+  align-self: flex-end;
+  min-width: 0;
+}
+
+/* a single column (below two tiles of 8rem): the tile spans it, its bars below its figure */
+@media screen and (max-width: 23em) {
+  .md-typeset .csi-join {
+    grid-column: auto;
+  }
+
+  .md-typeset .csi-kpi--wide {
+    grid-column: auto;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .md-typeset .csi-kpi--wide .csi-kpi__trend {
+    align-self: stretch;
+  }
+}
+
+.md-typeset .csi-spark {
+  display: flex;
+  gap: 2px;
+  height: 1.6rem;
+}
+
+/* a month: the whole height is the target of its tooltip, the bar starts from the bottom */
+.md-typeset .csi-spark__month {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+}
+
+.md-typeset .csi-spark__bar {
+  width: 100%;
+  background-color: var(--csi-spark);
+  border-radius: 2px 2px 0 0;
+}
+
+.md-typeset .csi-spark__bar--current {
+  background-color: var(--csi-spark-current);
+}
+
+.md-typeset .csi-spark__month:hover .csi-spark__bar {
+  background-color: var(--csi-spark-current);
+}
+
+.md-typeset .csi-kpi__axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.2rem;
+  color: var(--csi-muted);
+  font-size: 0.55rem;
+  font-weight: 500;
+}

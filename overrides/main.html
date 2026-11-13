@@ -1,0 +1,97 @@
+{#-
+  Theme override (theme.custom_dir in zensical.toml): main.html of zensical-ui only extends base.html, this one also
+  fills two of its blocks, styled by docs/assets/stylesheets/csi.css:
+  - extrahead: the social card of the site, the icon of the home screen and the preload of the brand typeface;
+  - tabs: below the tabs, the hero of the home page: the official logo (the color one on the light scheme, the white
+    one on the dark scheme), its tagline and actions, and a panel that leads each audience to its page (security
+    researchers, committers, contributors, users), over the circles of the showcase visuals.
+-#}
+{% extends "base.html" %}
+
+{% block extrahead %}
+  <link rel="preload" href="{{ 'assets/fonts/montserrat-latin-wght-normal.woff2' | url }}" as="font"
+        type="font/woff2" crossorigin>
+  <link rel="apple-touch-icon" href="{{ 'assets/images/apple-touch-icon.png' | url }}">
+  <meta name="theme-color" content="#00588f">
+  {#- the image of a link to the site shared in a chat or a post: a social card of the official artwork #}
+  {%- if config.site_url %}
+    {#- the templates are strict: a value missing from a page (the 404 page has neither meta nor url) is tested first #}
+    {%- set og_title = config.site_name %}
+    {%- set og_description = config.site_description %}
+    {%- if page.meta and page.meta.title %}
+      {%- set og_title = page.meta.title %}
+    {%- elif page.title %}
+      {%- set og_title = page.title %}
+    {%- endif %}
+    {%- if page.meta and page.meta.description %}
+      {%- set og_description = page.meta.description %}
+    {%- endif %}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ config.site_name }}">
+    <meta property="og:title" content="{{ og_title }}">
+    <meta property="og:description" content="{{ og_description }}">
+    {%- if page.canonical_url %}
+      <meta property="og:url" content="{{ page.canonical_url }}">
+    {%- endif %}
+    <meta property="og:image" content="{{ config.site_url }}assets/images/csi-social.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="629">
+    <meta property="og:image:alt" content="Eclipse Common Security Infrastructure">
+    <meta name="twitter:card" content="summary_large_image">
+  {%- endif %}
+{% endblock %}
+
+{% block tabs %}
+  {{ super() }}
+  {#- the home page is the one at the root of the site #}
+  {% if page.url in ["", "./"] %}
+    <section class="csi-hero">
+      <div class="csi-hero__inner md-grid md-typeset">
+        <div class="csi-hero__text">
+          <p class="csi-hero__eyebrow">
+            <a href="https://projects.eclipse.org/projects/technology.csi">Eclipse Foundation · <span>Open source project</span></a>
+          </p>
+          {#- the name as text for screen readers, the logo that shows it is decorative #}
+          <h1 class="csi-hero__title">
+            <span class="md-visually-hidden">Eclipse Common Security Infrastructure</span>
+            <img class="csi-hero__logo csi-hero__logo--color" src="{{ 'assets/images/csi-logo.png' | url }}"
+                 alt="" width="2317" height="806">
+            <img class="csi-hero__logo csi-hero__logo--white" src="{{ 'assets/images/csi-logo-white.png' | url }}"
+                 alt="" width="1800" height="660">
+          </h1>
+          <p class="csi-hero__tagline">{{ config.site_description }}</p>
+          <p class="csi-hero__actions">
+            <a class="md-button md-button--primary" href="{{ 'projects/' | url }}">Explore the projects</a>
+            <a class="md-button" href="https://csi.eclipse.dev/security-handbook/">Security Handbook</a>
+          </p>
+        </div>
+        {#- where to start, by audience: the security researchers first #}
+        <nav class="csi-hero__panel" aria-labelledby="csi-hero-panel-title">
+          <p class="csi-hero__panel-title" id="csi-hero-panel-title">Where to start</p>
+          <ul>
+            {%- for entry in [
+              {"audience": "Security researchers", "title": "Report a vulnerability", "url": "report-a-vulnerability/",
+               "icon": "lucide/shield-alert"},
+              {"audience": "Committers", "title": "Handle a vulnerability", "url": "handle-a-vulnerability/",
+               "icon": "lucide/shield-check"},
+              {"audience": "Contributors", "title": "Contribute to Eclipse CSI", "url": "contribute/",
+               "icon": "lucide/git-pull-request-arrow"},
+              {"audience": "Users", "title": "Get support", "url": "support/", "icon": "lucide/life-buoy"},
+            ] %}
+              <li>
+                <a href="{{ entry.url | url }}">
+                  <span class="csi-hero__panel-icon">{% include ".icons/" ~ entry.icon ~ ".svg" %}</span>
+                  <span class="csi-hero__panel-text">
+                    <span class="csi-hero__panel-audience">{{ entry.audience }}</span>
+                    <span class="csi-hero__panel-link">{{ entry.title }}</span>
+                  </span>
+                  {% include ".icons/lucide/chevron-right.svg" %}
+                </a>
+              </li>
+            {%- endfor %}
+          </ul>
+        </nav>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

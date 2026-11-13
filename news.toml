@@ -1,0 +1,26 @@
+# The blog posts, the events and the CVEs of the site, written by scripts/generate_news.py into docs/blog.md and
+# docs/events.md, and into includes/news.md for the news of the home page (docs/index.md).
+
+[blog]
+# The posts of blogs.eclipse.org that have one of these tags (blogs.eclipse.org/blog-tags/<tag>), the latest first.
+# The RSS feed of a tag holds its 10 latest posts: the older ones are only on blogs.eclipse.org, linked from the page.
+# To list a post, give it one of these tags on blogs.eclipse.org.
+tags = ["security", "sbom"]
+# a post whose title contains one of these words (in any case) is marked as a security incident ("compromise" would
+# also mark the advice that follows the compromise of another project)
+incident_keywords = ["incident", "postmortem", "post-mortem", "breach"]
+# the number of posts in the news of the home page
+home = 4
+
+[events]
+# The events of the Eclipse Foundation newsroom (newsroom.eclipse.org) published to this channel ("Publish to" of the
+# event), except those where only member organizations of the Eclipse Foundation take part. To list an event, publish
+# it to this channel in the newsroom.
+channel = "security"
+# the number of events in the news of the home page: the upcoming ones first, then the latest past ones
+home = 4
+
+[cves]
+# The CVEs that the Eclipse Foundation published as the CVE Numbering Authority of its projects (api.eclipse.org/cve),
+# the latest first: the number of them in the news of the home page.
+home = 5

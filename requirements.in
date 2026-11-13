@@ -1,0 +1,2 @@
+# The tools that build the site: `make requirements` locks them, with their hashes, into requirements.txt.
+zensical==0.1.1

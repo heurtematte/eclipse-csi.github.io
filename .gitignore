@@ -1,0 +1,11 @@
+# the built site and the tools that build it
+site/
+.cache/
+.venv/
+__pycache__/
+# the generated pages: written at every build (make build, make serve, CI) from projects.toml, news.toml and their
+# sources, never versioned, so that no copy lags behind the site
+docs/projects.md
+docs/blog.md
+docs/events.md
+includes/

@@ -1,0 +1,91 @@
+# Layout of the projects page (docs/projects.md), written by scripts/generate_projects.py.
+#
+# The list of repositories comes from the GitHub API: every public repository of the organization is shown, with its
+# description, language, topics and homepage as set on GitHub, and its metrics (stars, forks, contributors, latest
+# release, last push, OpenSSF Scorecard score), and the team of the Eclipse project from the PMI. This file only says
+# how to arrange them:
+#
+# - [[areas]]: the sections of the page, in this order, each listing its repositories in the order they are shown.
+#   A public repository that no area lists goes to "Other projects" (the script warns about it): add it to an area.
+# - organization: the repositories of the organization itself, listed in a table at the end of the page.
+# - [repositories.<name>]: optional extras of a repository, see below.
+#
+# An archived repository is never shown, whatever its area (the script warns when an area still lists one).
+
+org = "eclipse-csi"
+# the Eclipse project, whose project leads and committers the PMI lists (projects.eclipse.org/projects/<pmi>)
+pmi = "technology.csi"
+
+organization = [".github", ".eclipsefdn", "eclipse-csi.github.io", "otterdog-website-preview"]
+
+[[areas]]
+id = "github-ci"
+title = "GitHub & CI security"
+description = """
+Manage the GitHub organizations of Eclipse projects as code, with security settings enforced by policy, and share \
+hardened workflows for their pipelines."""
+repositories = ["otterdog", "workflows"]
+
+[[areas]]
+id = "supply-chain"
+title = "Supply chain integrity"
+description = """
+Sign release artifacts, publish software bills of materials (SBOMs) and track the dependencies of Eclipse projects, \
+with workloads authenticated by OpenID Connect rather than long-lived secrets."""
+repositories = ["codesign-tools", "dependency-track", "pia"]
+
+[[areas]]
+id = "vulnerabilities"
+title = "Vulnerability management"
+description = """
+Assess the security posture of Eclipse projects, then author, review and publish their security advisories."""
+repositories = ["advisoryhub", "rsrr"]
+
+[[areas]]
+id = "guidance"
+title = "Guidance"
+description = """
+Best practices for the committers of Eclipse projects, and skills that bring them to AI coding agents."""
+repositories = ["security-handbook", "skills"]
+
+[[areas]]
+id = "infrastructure"
+title = "Infrastructure"
+description = """
+Deployment of the services run by Eclipse CSI."""
+repositories = ["helm-charts"]
+
+# Extras of a repository, all optional:
+#   description: replaces the description set on GitHub (for an empty or terse one)
+#   homepage: { title, icon } of the link to the homepage set on GitHub (default: "Documentation", lucide/book-open)
+#   links: more links, [{ title, url, icon }], after the repository and its homepage
+# Icons are the ones bundled with Zensical (lucide/…, fontawesome/…, octicons/…, simple/…, material/…).
+
+[repositories.otterdog]
+links = [
+  { title = "Blueprints", url = "https://csi.eclipse.dev/otterdog/reference/blueprints/", icon = "lucide/blocks" },
+  { title = "Dashboard", url = "https://otterdog.eclipse.org", icon = "lucide/layout-dashboard" },
+  { title = "PyPI", url = "https://pypi.org/project/otterdog/", icon = "fontawesome/brands/python" },
+]
+
+[repositories.workflows]
+description = """
+Reusable GitHub workflows and actions, such as upload-sbom: the authenticated upload of an SBOM to sbom.eclipse.org."""
+
+[repositories.advisoryhub]
+description = """
+Author, review, publish and audit the security advisories of Eclipse Foundation projects, exported to OSV and CSAF."""
+
+[repositories.dependency-track]
+homepage = { title = "sbom.eclipse.org", icon = "lucide/globe" }
+
+[repositories.skills]
+description = """
+Agent skills for AI coding assistants: generic security audits, conventional commits and architectural decision \
+records."""
+
+[repositories.".github"]
+description = "Organization profile, community health files and the official artwork of Eclipse CSI and Otterdog."
+
+[repositories."eclipse-csi.github.io"]
+description = "Source of this website."
