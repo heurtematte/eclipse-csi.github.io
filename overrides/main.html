@@ -133,7 +133,9 @@
         </div>
         {#- where to start, by audience: the security researchers first #}
         <nav class="csi-hero__panel" aria-labelledby="csi-hero-panel-title">
-          <p class="csi-hero__panel-title" id="csi-hero-panel-title">Where to start</p>
+          <p class="csi-hero__panel-title" id="csi-hero-panel-title">
+            <span aria-hidden="true">{% include ".icons/lucide/signpost.svg" %}</span>Where to start
+          </p>
           <ul>
             {%- for entry in [
               {"audience": "Security researchers", "title": "Report a vulnerability", "url": "report-a-vulnerability/",
