@@ -2,6 +2,7 @@
   Override of partials/copyright.html of zensical-ui: the logo of the Eclipse Foundation above the copyright, linked to
   eclipse.org. It is its official artwork (eclipse.org/org/artwork), unaltered, as its trademark usage policy requires:
   the color logo on the light scheme, the reversed color one on the dark scheme (docs/assets/stylesheets/csi.css).
+  The line "Made with Zensical" of the theme is left out.
 -#}
 <div class="md-copyright">
   <a class="csi-footer-ef" href="https://www.eclipse.org/">
@@ -16,10 +17,5 @@
       {{ config.copyright }}
     </div>
   {% endif %}
-  {% if not config.extra.generator == false %}
-    Made with
-    <a href="https://zensical.org/" target="_blank" rel="noopener">
-      Zensical
-    </a>
-  {% endif %}
+  {#- no "Made with Zensical": the footer only carries the links that the Eclipse Foundation requires #}
 </div>

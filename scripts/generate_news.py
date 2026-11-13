@@ -47,6 +47,7 @@ BLOGS = "https://blogs.eclipse.org"
 EVENTS_API = "https://newsroom.eclipse.org/api/events"
 CVE_API = "https://api.eclipse.org/cve"
 CVE_RECORD = "https://www.cve.org/CVERecord?id={id}"
+NVD_DETAIL = "https://nvd.nist.gov/vuln/detail/{id}"
 KNOWN_VULNERABILITIES = "https://www.eclipse.org/security/known/"
 PMI_PROJECTS = "https://projects.eclipse.org/api/projects?pagesize=100"
 PMI_PROJECT = "https://projects.eclipse.org/projects/{id}"
@@ -565,7 +566,7 @@ def render_events(events: list[Event], today: datetime.date) -> str:
         "",
         "    The Eclipse Foundation Security Team regularly gives free trainings for the developers of Eclipse "
         "projects, on vulnerability management, coordinated disclosure, dependencies and SBOMs. The slides and "
-        "recordings of the past editions are on the [Learn](learn.md#trainings) page.",
+        "recordings of the past editions are on the [Security trainings](learn.md) page.",
         "",
         "## Upcoming events { #upcoming }",
         "",
@@ -596,10 +597,14 @@ def render_cves(cves: list[Cve], today: datetime.date) -> str:
         "",
         "The Eclipse Foundation is the [CVE Numbering Authority](https://www.cve.org/PartnerInformation/"
         "ListofPartners/partner/eclipse) (CNA) of its projects: its Security Team assigns the CVE IDs of their "
-        "vulnerabilities and publishes the CVE records listed here. Each one links to its record on cve.org.",
+        "vulnerabilities and publishes the CVE records listed here. Each one links to its record on cve.org and to its "
+        "entry in the National Vulnerability Database (NVD).",
         "{ .csi-lead }",
         "",
         *updated(today, "the API of the Eclipse Foundation (api.eclipse.org/cve)"),
+        f'<p class="csi-links" markdown>[:lucide-arrow-right: Known vulnerabilities, on eclipse.org]'
+        f"({KNOWN_VULNERABILITIES})</p>",
+        "",
         f'<p class="csi-cves__summary"><strong>{len(cves)}</strong> CVEs published, <strong>{this_year}</strong> '
         f"in {today.year}, <strong>{critical}</strong> of critical severity. The severity comes from the CVSS base "
         "score, as CVSS rates it.</p>",
@@ -633,11 +638,15 @@ def render_cves(cves: list[Cve], today: datetime.date) -> str:
         out.append(
             f'<tr data-severity="{(level or "none").lower()}" data-year="{cve.date.year}" '
             f'data-project="{html.escape(cve.project_id)}" data-text="{html.escape(text)}">'
-            f'<td><a href="{html.escape(cve.url)}">{cve.id}</a></td><td>{badge}</td><td>{project}</td>'
+            f'<td><a href="{html.escape(cve.url)}">{cve.id}</a>'
+            f'<a class="csi-cves__nvd" href="{html.escape(NVD_DETAIL.format(id=urllib.parse.quote(cve.id)))}" '
+            f'title="{cve.id} in the National Vulnerability Database">NVD</a></td><td>{badge}</td><td>{project}</td>'
             f'<td><time datetime="{cve.date.isoformat()}">{long_date(cve.date)}</time></td>'
-            f"<td>{html.escape(shorten(cve.summary, 160))}</td></tr>"
+            f"<td>{html.escape(shorten(cve.summary, 110))}</td></tr>"
         )
     out += ["</tbody>", "</table>", "</div>", "",
+            # the pages of the table, written by assets/javascripts/cves.js; without it, every row is shown
+            '<nav class="csi-pager" id="csi-cve-pager" aria-label="Pages of the CVEs" hidden></nav>', "",
             f"The [known vulnerabilities]({KNOWN_VULNERABILITIES}) page of the Eclipse Foundation lists them too.", ""]
     return "\n".join(out)
 

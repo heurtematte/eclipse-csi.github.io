@@ -22,7 +22,7 @@ The list comes from the [PMI](https://projects.eclipse.org/projects/technology.c
 The Eclipse Foundation Security Team is part of the staff of the Eclipse Foundation. It strengthens the security of
 the Eclipse projects and of the services of the Foundation: it triages the vulnerability reports and brings in the
 projects, operates the [CVE Numbering Authority](cves.md) of the Eclipse Foundation, runs the
-[AI-assisted security reviews](ai-security-reviews.md), gives [trainings](learn.md#trainings), and provides the
+[AI-assisted security reviews](ai-security-reviews.md), gives [trainings](learn.md), and provides the
 projects with tools and guidelines, many of which are developed here.
 
 <p class="csi-links" markdown>[:lucide-arrow-right: Its members, on eclipse.org](https://www.eclipse.org/security/team/)</p>

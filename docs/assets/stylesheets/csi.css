@@ -1097,6 +1097,70 @@
   font-size: 0.62rem;
 }
 
+/* the link of a CVE to the NVD, beside its link to cve.org */
+.md-typeset .csi-cves__nvd {
+  margin-left: 0.4rem;
+  padding: 0 0.35em;
+  color: var(--csi-tag-fg);
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-decoration: none;
+  background-color: var(--csi-tag-bg);
+  border-radius: 0.2rem;
+}
+
+.md-typeset .csi-cves__nvd:is(:hover, :focus) {
+  color: var(--md-typeset-a-color);
+}
+
+/* the pages of the table of the CVEs (assets/javascripts/cves.js) */
+.md-typeset .csi-pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: center;
+  margin: 1.2em 0;
+}
+
+.md-typeset .csi-pager[hidden] {
+  display: none;
+}
+
+.md-typeset .csi-pager button {
+  min-width: 1.8rem;
+  height: 1.8rem;
+  padding: 0 0.5rem;
+  color: var(--md-typeset-a-color);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background-color: transparent;
+  border: 0.05rem solid var(--md-default-fg-color--lightest);
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.md-typeset .csi-pager button:is(:hover, :focus-visible):not(:disabled) {
+  background-color: var(--csi-tint);
+}
+
+.md-typeset .csi-pager button[aria-current="page"] {
+  color: #fff;
+  background-color: var(--csi-blue);
+  border-color: var(--csi-blue);
+}
+
+.md-typeset .csi-pager button:disabled {
+  color: var(--csi-muted);
+  cursor: default;
+  opacity: 0.5;
+}
+
+.md-typeset .csi-pager__gap {
+  align-self: center;
+  color: var(--csi-muted);
+}
+
 /* --- the page not found (overrides/404.html) -------------------------------------------------------------------- */
 
 .md-typeset .csi-notfound {

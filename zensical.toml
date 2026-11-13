@@ -34,8 +34,12 @@ nav = [
   { "Projects" = "projects.md" },
   # the Security Handbook, a site of its own (eclipse-csi/security-handbook), featured in the tabs
   { "Security Handbook" = "https://csi.eclipse.dev/security-handbook/" },
-  # the trainings and talks, in video: a tab of their own
-  { "Learn" = "learn.md" },
+  # the trainings and talks, in video: a tab of their own, a section so that its pages are in the sidebar
+  { "Learn" = [
+    { "Security trainings" = "learn.md" },
+    { "Talks and webinars" = "talks.md" },
+    { "Reading list" = "reading.md" },
+  ] },
   { "Guides" = [
     { "Secure your project" = "secure-your-project.md" },
     { "Threat model" = "threat-model.md" },

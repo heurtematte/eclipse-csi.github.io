@@ -16,14 +16,14 @@ that helps.
 ## 1. Set up your project security team { #security-team }
 
 Vulnerability reports are assigned automatically to the people listed as the security team of your project in the
-PMI. When no team is set, all the committers receive them: too many people for a confidential report.
+PMI. When no team is set, all the committers receive them.
 
 !!! warning "A large project needs a dedicated security team"
 
     Every vulnerability report notifies **all** the members of the security team of your project, and by default
-    that team is **all its committers**. If your project has many committers, set up a dedicated pool of people for
-    the reports: otherwise each one reaches everyone, notifications pile up, and a confidential report is seen by far
-    more people than it should be.
+    that team is **all its committers**. If your project has many committers, do not let every report reach all of
+    them: keep the team to a few people, ideally the committers with a security profile, who will triage and handle
+    the reports.
 
 - The project leads manage this team on the page of the project in the [PMI](https://projects.eclipse.org/): review
   its Security Team setting there.

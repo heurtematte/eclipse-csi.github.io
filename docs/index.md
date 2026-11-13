@@ -97,7 +97,7 @@ Vulnerability management and SBOMs, in five videos with their slides: CVEs, coor
 
 Otterdog, security audits, SBOMs and the Cyber Resilience Act, at OCX and in the webinars of the Eclipse Foundation.
 
-<p class="csi-card__links" markdown>[:lucide-arrow-right: All the talks](learn.md#talks)</p>
+<p class="csi-card__links" markdown>[:lucide-arrow-right: All the talks](talks.md)</p>
 
 </article>
 
