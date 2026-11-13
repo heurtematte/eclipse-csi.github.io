@@ -85,7 +85,7 @@ Soon available: author, review, publish and audit the security advisories of Ecl
 OSV and CSAF."""
 
 [repositories.dependency-track]
-action = { title = "Publish an SBOM", url = "https://csi.eclipse.dev/security-handbook/sbom/index.html", icon = "lucide/package-search" }
+action = { title = "Publish an SBOM", url = "https://csi.eclipse.dev/security-handbook/sbom/howto.html", icon = "lucide/package-search" }
 homepage = { title = "sbom.eclipse.org", icon = "lucide/globe" }
 
 [repositories.skills]

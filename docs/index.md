@@ -31,12 +31,15 @@ developed in the open by Eclipse CSI, and contributions are welcome.
 
 <div class="csi-feature__topics" markdown>
 
-- :lucide-user-lock: **[Developers](https://csi.eclipse.dev/security-handbook/developer/index.html)**: accounts, machines, development environment and
-  branches.
-- :lucide-clipboard-check: **[Projects](https://csi.eclipse.dev/security-handbook/project/index.html)**: the Rapid Security Review.
-- :lucide-shield-alert: **[Vulnerabilities](https://csi.eclipse.dev/security-handbook/vulnerabilities/index.html)**: embargoes and security advisories.
-- :lucide-package-search: **[SBOMs](https://csi.eclipse.dev/security-handbook/sbom/index.html)**: generate and upload them, opt in for vulnerability alerts,
-  tooling.
+<!-- each topic leads to its page: the page of a section of the handbook only lists its pages -->
+- :lucide-user-lock: **Developers**: their [accounts](https://csi.eclipse.dev/security-handbook/developer/account.html),
+  [machines](https://csi.eclipse.dev/security-handbook/developer/machine.html), [development environment](https://csi.eclipse.dev/security-handbook/developer/environment.html) and
+  [branches](https://csi.eclipse.dev/security-handbook/developer/branches.html).
+- :lucide-clipboard-check: **Projects**: the [Rapid Security Review](https://csi.eclipse.dev/security-handbook/project/reviews.html).
+- :lucide-shield-alert: **Vulnerabilities**: [embargoes](https://csi.eclipse.dev/security-handbook/vulnerabilities/embargoes.html) and
+  [security advisories](https://csi.eclipse.dev/security-handbook/vulnerabilities/advisories.html).
+- :lucide-package-search: **SBOMs**: [generate and upload them](https://csi.eclipse.dev/security-handbook/sbom/howto.html),
+  [opt in for vulnerability alerts](https://csi.eclipse.dev/security-handbook/sbom/alerts.html), [tooling](https://csi.eclipse.dev/security-handbook/sbom/tooling.html).
 
 </div>
 
@@ -75,7 +78,7 @@ Projects publish the software bills of materials (SBOMs) of their releases to
 [sbom.eclipse.org](https://sbom.eclipse.org), which monitors their dependencies for known vulnerabilities. Workflows
 authenticate with OpenID Connect through [PIA](projects.md#pia), without any long-lived secret.
 
-<p class="csi-card__links" markdown>[:lucide-book-open: Guide](https://csi.eclipse.dev/security-handbook/sbom/index.html) [:lucide-globe: sbom.eclipse.org](https://sbom.eclipse.org) [:fontawesome-brands-github: upload-sbom](https://github.com/eclipse-csi/workflows/tree/main/upload-sbom) [:lucide-arrow-right: Projects](projects.md#supply-chain)</p>
+<p class="csi-card__links" markdown>[:lucide-book-open: Guide](https://csi.eclipse.dev/security-handbook/sbom/howto.html) [:lucide-globe: sbom.eclipse.org](https://sbom.eclipse.org) [:fontawesome-brands-github: upload-sbom](https://github.com/eclipse-csi/workflows/tree/main/upload-sbom) [:lucide-arrow-right: Projects](projects.md#supply-chain)</p>
 
 </article>
 
@@ -133,7 +136,7 @@ The [Rapid Security Review Runner](projects.md#rsrr) automates the checks of the
 projects, and the Security Team reviews every Eclipse project with
 [AI-assisted analysis](ai-security-reviews.md), validated by people.
 
-<p class="csi-card__links" markdown>[:lucide-book-open: Guide](https://csi.eclipse.dev/security-handbook/project/index.html) [:fontawesome-brands-github: rsrr](https://github.com/eclipse-csi/rsrr) [:lucide-arrow-right: AI-assisted reviews](ai-security-reviews.md)</p>
+<p class="csi-card__links" markdown>[:lucide-book-open: Guide](https://csi.eclipse.dev/security-handbook/project/reviews.html) [:fontawesome-brands-github: rsrr](https://github.com/eclipse-csi/rsrr) [:lucide-arrow-right: AI-assisted reviews](ai-security-reviews.md)</p>
 
 </article>
 
