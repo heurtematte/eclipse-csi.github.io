@@ -23,6 +23,7 @@ Montserrat typeface and the official artwork, unaltered.
 | `scripts/generate_projects.py` | Writes `docs/projects.md` and the team and discussions includes, from `projects.toml`, the GitHub API, the OpenSSF Scorecard API, the Otterdog dashboard and the PMI. |
 | `docs/blog.md`, `docs/events.md`, `docs/cves.md`, `docs/feed.xml` | The blog, the events, the published CVEs and the Atom feed of the news, **generated** and not versioned: edit `news.toml`. |
 | `includes/` | **Generated** and not versioned: the news of the home page (`news.md`), the team (`team.md`) and the discussions of the support page (`discussions.md`). |
+| `docs/assets/images/team/` | **Generated** and not versioned: the profile pictures of the team, downloaded from accounts.eclipse.org at every build and served by the site itself (raster images only, checked by their first bytes). |
 | `news.toml` | What the news list: the tags of blogs.eclipse.org, the channel of the newsroom, the latest CVEs. |
 | `scripts/generate_news.py` | Writes the blog, events and CVEs pages, the feed and `includes/news.md`, from `news.toml`, blogs.eclipse.org, the newsroom, the CVEs of api.eclipse.org and the PMI. |
 | `scripts/set_site_url.py` | Sets `site_url` to the GitHub Pages of a fork, in CI. |

@@ -981,6 +981,17 @@
   border-radius: 50%;
 }
 
+/* the profile picture, in the place of the initials: round, cropped to the circle */
+.md-typeset .csi-person__photo {
+  grid-row: span 2;
+  width: 2.2rem;
+  height: 2.2rem;
+  object-fit: cover;
+  background-color: var(--csi-tint);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.1rem var(--md-default-bg-color), 0 0 0 0.2rem var(--csi-blue);
+}
+
 .md-typeset .csi-person__name {
   font-size: 0.75rem;
   font-weight: 700;

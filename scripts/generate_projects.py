@@ -53,6 +53,12 @@ TEAM_INCLUDE = ROOT / "includes" / "team.md"
 # the GitHub organizations that Otterdog manages, as its dashboard lists them
 OTTERDOG_ORGANIZATIONS = "https://otterdog.eclipse.org/api/organizations"
 ACCOUNTS_PROFILE = "https://accounts.eclipse.org/users/{username}"
+# the profile pictures of the team, downloaded at every build and served by the site itself (not versioned): no request
+# of a visitor leaves the site. Only raster images, checked by their first bytes, never an SVG, which could carry a script
+ACCOUNTS_PICTURE = "https://accounts.eclipse.org/user/{username}/picture"
+TEAM_PICTURES = ROOT / "docs" / "assets" / "images" / "team"
+PICTURE_SIGNATURES = {"jpg": (b"\xff\xd8\xff",), "png": (b"\x89PNG\r\n\x1a\n",), "gif": (b"GIF87a", b"GIF89a")}
+MAX_PICTURE = 1_000_000
 API = "https://api.github.com"
 USER_AGENT = "eclipse-csi-website"
 SCORECARD_API = "https://api.securityscorecards.dev/projects/github.com/{org}/{name}"
@@ -174,6 +180,7 @@ def fetch_activity(org: str, name: str, since: datetime.date) -> Activity:
 class Member:
     name: str
     username: str
+    picture: str | None = None  # the file of its profile picture in TEAM_PICTURES, when it has one
 
 
 @dataclass
@@ -195,6 +202,40 @@ def fetch_team(project_id: str) -> Team:
                       key=lambda member: member.name.lower())
 
     return Team(project_leads=members("project_leads"), committers=members("committers"))
+
+
+def picture_kind(data: bytes) -> str | None:
+    """The extension of a raster image from its first bytes (JPEG, PNG, GIF or WebP), None for anything else."""
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        return "webp"
+    return next((kind for kind, signatures in PICTURE_SIGNATURES.items() if data.startswith(signatures)), None)
+
+
+def fetch_pictures(members: list[Member]) -> None:
+    """Download the profile pictures of the team into TEAM_PICTURES, and remove those of the people who left. A picture
+    that cannot be read, is too large or is not a raster image is left out: its member keeps its initials."""
+    TEAM_PICTURES.mkdir(parents=True, exist_ok=True)
+    kept = set()
+    for member in members:
+        request = urllib.request.Request(ACCOUNTS_PICTURE.format(username=urllib.parse.quote(member.username)),
+                                         headers={"User-Agent": USER_AGENT})
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                data = response.read(MAX_PICTURE + 1)
+        except (OSError, ValueError) as error:
+            warn(f"the profile picture of {member.username} cannot be read ({error}): its initials are shown")
+            continue
+        kind = picture_kind(data)
+        if not kind or len(data) > MAX_PICTURE:
+            warn(f"the profile picture of {member.username} is not a raster image of at most 1 MB: it is left out")
+            continue
+        # the file name comes from the username, reduced to the characters of a safe file name
+        member.picture = re.sub(r"[^A-Za-z0-9_-]", "_", member.username) + "." + kind
+        (TEAM_PICTURES / member.picture).write_bytes(data)
+        kept.add(member.picture)
+    for stale in TEAM_PICTURES.iterdir():
+        if stale.is_file() and stale.name not in kept:
+            stale.unlink()
 
 
 def fetch_otterdog_organizations() -> int:
@@ -471,8 +512,9 @@ def initials(name: str) -> str:
 
 
 def render_team(team: Team | None, project_id: str) -> str:
-    """The project leads and committers of the Eclipse project, for docs/team.md: their names, linked to their
-    profile on accounts.eclipse.org, and their role."""
+    """The project leads and committers of the Eclipse project, for docs/team.md: their pictures (their initials when
+    they have none), their names, linked to their profile on accounts.eclipse.org, and their role. The pictures are
+    linked relatively to docs/team.md, served at team/: this include is for that page only."""
     out = ["<!-- Written by scripts/generate_projects.py (the team of the PMI): do not edit. -->", ""]
     if not team:
         return "\n".join(out + [f"See the [team of the project]({PMI_WHO.format(id=project_id)}) on the PMI.", ""])
@@ -482,8 +524,11 @@ def render_team(team: Team | None, project_id: str) -> str:
     for member in people:
         role = "Project lead" if member.username in leads else "Committer"
         profile = ACCOUNTS_PROFILE.format(username=urllib.parse.quote(member.username))
-        out += [f'<a class="csi-person" href="{html.escape(profile)}">'
-                f'<span class="csi-person__initials" aria-hidden="true">{html.escape(initials(member.name))}</span>'
+        # the name follows the picture: the picture itself says nothing more (empty alt)
+        avatar = (f'<img class="csi-person__photo" src="../assets/images/team/{html.escape(member.picture)}" alt="" '
+                  'width="88" height="88" loading="lazy">' if member.picture else
+                  f'<span class="csi-person__initials" aria-hidden="true">{html.escape(initials(member.name))}</span>')
+        out += [f'<a class="csi-person" href="{html.escape(profile)}">{avatar}'
                 f'<span class="csi-person__name">{html.escape(member.name)}</span>'
                 f'<span class="csi-person__role">{role}</span></a>']
     return "\n".join(out + ["", "</div>", ""])
@@ -630,6 +675,12 @@ def main() -> int:
         return 0
     for what in unread:
         warn(f"cannot read {what}: the page is written without it")
+    if team:
+        # the project leads are committers too: one picture per person
+        people = {member.username: member for member in team.project_leads + team.committers}
+        fetch_pictures(list(people.values()))
+        for member in team.project_leads + team.committers:
+            member.picture = people[member.username].picture
     page, discussions, members = render(config, repositories, months, team, organizations)
     args.output.write_text(page, encoding="utf-8")
     DISCUSSIONS_INCLUDE.parent.mkdir(parents=True, exist_ok=True)
