@@ -16,7 +16,7 @@ Process, with the contributions of everyone who wants to help.
 
 --8<-- "team.md"
 
-The list comes from the [PMI](https://projects.eclipse.org/projects/technology.csi/who), at every build of this site.
+The list comes from the [PMI - technology.csi](https://projects.eclipse.org/projects/technology.csi/who).
 
 ## The Eclipse Foundation Security Team { #security-team }
 
