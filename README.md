@@ -19,7 +19,7 @@ Montserrat typeface and the official artwork, unaltered.
 | `docs/report-a-vulnerability.md`, `docs/handle-a-vulnerability.md` | The entries of the security researchers and of the committers who receive their reports. |
 | `docs/team.md`, `docs/support.md`, `docs/contribute.md` | The team, where to ask for help, and how to contribute. |
 | `docs/projects.md` | The projects page, **generated** and not versioned: edit `projects.toml` instead. |
-| `projects.toml` | How the repositories are arranged on the projects page: areas, extra links, descriptions, and whether a project can adopt each of them today (availability: available, Eclipse integration, coming soon, internal). |
+| `projects.toml` | How the repositories are arranged on the projects page: areas, extra links, descriptions. |
 | `scripts/generate_projects.py` | Writes `docs/projects.md` and the team and discussions includes, from `projects.toml`, the GitHub API, the OpenSSF Scorecard API, the Otterdog dashboard and the PMI. |
 | `docs/blog.md`, `docs/events.md`, `docs/cves.md`, `docs/feed.xml` | The blog, the events, the published CVEs and the Atom feed of the news, **generated** and not versioned: edit `news.toml`. |
 | `includes/` | **Generated** and not versioned: the news of the home page (`news.md`), the team (`team.md`) and the discussions of the support page (`discussions.md`). |
@@ -59,9 +59,6 @@ Every public repository of the organization appears on the projects page at the 
 curated: one that `projects.toml` does not list is shown under "Other projects", and the build warns about it. Add it
 to the `repositories` of an area of `projects.toml` to place it. An archived repository leaves the page by itself:
 the build warns if `projects.toml` still lists it.
-
-Give it an `availability` in `projects.toml`, and an `adoption` sentence when a project has to do something to start
-using it: the card shows them first, and the top of the page explains the tags.
 
 ## Listing a blog post or an event
 

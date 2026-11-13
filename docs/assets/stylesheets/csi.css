@@ -54,9 +54,6 @@
   /* the secondary text: darker than the grey of the brand, for an easier reading of its thin weight */
   --csi-muted: #4a4a4a;
   --csi-tint: rgba(0, 88, 143, 0.08);
-  --csi-tint-strong: rgba(0, 88, 143, 0.3);
-  --csi-available-fg: #116329;
-  --csi-available-bg: rgba(26, 127, 55, 0.12);
   --csi-soon-fg: #7a4700;
   --csi-soon-bg: rgba(191, 135, 0, 0.16);
   --csi-tag-bg: rgba(108, 108, 108, 0.12);
@@ -80,9 +77,6 @@
   --csi-heading: #fff;
   --csi-muted: #c4c4c4;
   --csi-tint: rgba(108, 180, 228, 0.12);
-  --csi-tint-strong: rgba(108, 180, 228, 0.4);
-  --csi-available-fg: #7ee2a0;
-  --csi-available-bg: rgba(46, 160, 67, 0.18);
   --csi-soon-fg: #f0c36b;
   --csi-soon-bg: rgba(210, 153, 34, 0.18);
   --csi-tag-bg: rgba(255, 255, 255, 0.08);
@@ -608,71 +602,16 @@
 }
 
 .md-typeset .csi-tag--language,
-.md-typeset .csi-tag--accent,
-.md-typeset .csi-tag--integration {
+.md-typeset .csi-tag--accent {
   color: var(--md-typeset-a-color);
   background-color: var(--csi-tint);
 }
 
-/* the availability of a project (projects.toml, scripts/generate_projects.py): ready to use in green, coming soon in
-   amber, set up with the Eclipse Foundation in the main color, internal in the grey of the other tags */
-.md-typeset .csi-tag--available {
-  color: var(--csi-available-fg);
-  background-color: var(--csi-available-bg);
-}
-
+/* a project not yet ready for production: "Coming soon" (projects.toml: status; the home page), in amber */
 .md-typeset .csi-tag--soon {
   color: var(--csi-soon-fg);
-  background-color: var(--csi-soon-bg);
-}
-
-.md-typeset .csi-tag--available,
-.md-typeset .csi-tag--integration,
-.md-typeset .csi-tag--soon,
-.md-typeset .csi-tag--internal {
   font-weight: 700;
-}
-
-/* how a project starts using a tool, right below its description: the free space of the card goes after it, rather
-   than to the description */
-.md-typeset .csi-card > p:not([class]):has(+ .csi-card__adoption) {
-  flex-grow: 0;
-}
-
-.md-typeset .csi-card > .csi-card__adoption + * {
-  margin-top: 0.9em;
-}
-
-.md-typeset .csi-card__adoption {
-  margin: -0.2em 0 auto;
-  padding-left: 0.6rem;
-  color: var(--csi-muted);
-  font-size: 0.68rem;
-  font-weight: 400;
-  line-height: 1.5;
-  border-left: 0.15rem solid var(--csi-tint-strong);
-}
-
-/* what the tags of availability mean, at the top of the projects page */
-.md-typeset .csi-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.4rem;
-  margin: 1.6rem 0 0;
-  padding: 0;
-  color: var(--csi-muted);
-  font-size: 0.68rem;
-  font-weight: 400;
-  list-style: none;
-}
-
-/* as specific as the indent of the theme ([dir=ltr] .md-typeset ul li), and loaded after it */
-.md-typeset ul.csi-legend li {
-  margin: 0;
-}
-
-.md-typeset .csi-legend .csi-tag {
-  margin-right: 0.3rem;
+  background-color: var(--csi-soon-bg);
 }
 
 /* the metrics of a project: stars, forks, contributors, latest release, Scorecard, last push */

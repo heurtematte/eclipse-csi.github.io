@@ -59,18 +59,10 @@ repositories = ["helm-charts"]
 #   description: replaces the description set on GitHub (for an empty or terse one)
 #   homepage: { title, icon } of the link to the homepage set on GitHub (default: "Documentation", lucide/book-open)
 #   links: more links, [{ title, url, icon }], after the repository and its homepage
-#   availability: whether a project can adopt it today, a tag shown first on its card and explained at the top of
-#     the page: "available" (ready to use today), "integration" (uses a service of the Eclipse Foundation, set up for
-#     the project), "soon" (in preparation, not yet ready for production) or "internal" (runs the services of
-#     Eclipse CSI)
-#   adoption: how a project starts using it, in one short sentence, in Markdown
+#   status: a tag shown first on its card, such as "Coming soon" for a project not yet ready for production
 # Icons are the ones bundled with Zensical (lucide/…, fontawesome/…, octicons/…, simple/…, material/…).
 
 [repositories.otterdog]
-availability = "available"
-adoption = """
-Already in place for the GitHub organizations of Eclipse projects: propose changes to yours in its `.eclipsefdn` \
-repository."""
 links = [
   { title = "Blueprints", url = "https://csi.eclipse.dev/otterdog/reference/blueprints/", icon = "lucide/blocks" },
   { title = "Dashboard", url = "https://otterdog.eclipse.org", icon = "lucide/layout-dashboard" },
@@ -79,52 +71,23 @@ links = [
 ]
 
 [repositories.workflows]
-availability = "integration"
-adoption = """
-To upload SBOMs, request the upload permission of your repository from the \
-[Eclipse Foundation Security Team](https://www.eclipse.org/security/)."""
 description = """
 Reusable GitHub workflows and actions, such as upload-sbom: the authenticated upload of an SBOM to sbom.eclipse.org."""
 
 [repositories.advisoryhub]
 # not yet ready for production
-availability = "soon"
+status = "Coming soon"
 description = """
 Soon available: author, review, publish and audit the security advisories of Eclipse Foundation projects, exported to \
 OSV and CSAF."""
 
 [repositories.dependency-track]
-availability = "integration"
-adoption = """
-Publish your SBOMs to it with the upload-sbom action of the [workflows](#workflows), once your repository may \
-upload."""
 homepage = { title = "sbom.eclipse.org", icon = "lucide/globe" }
 
 [repositories.skills]
-availability = "available"
 description = """
 Agent skills for AI coding assistants: generic security audits, conventional commits and architectural decision \
 records."""
-
-[repositories.codesign-tools]
-availability = "integration"
-adoption = "Signs through SignPath: it needs a SignPath project, its API token and its signing policy."
-
-[repositories.pia]
-availability = "integration"
-adoption = """
-Used by the upload-sbom action of the [workflows](#workflows): your workflows authenticate without a long-lived \
-secret."""
-
-[repositories.rsrr]
-availability = "available"
-adoption = "A command line tool, installed with uv, that you run on your repositories."
-
-[repositories.security-handbook]
-availability = "available"
-
-[repositories.helm-charts]
-availability = "internal"
 
 [repositories.".github"]
 description = "Organization profile, community health files and the official artwork of Eclipse CSI and Otterdog."
