@@ -31,9 +31,7 @@ projects with tools and guidelines, many of which are developed here.
 !!! warning "Check who contacts you"
 
     The Security Team contacts committers only through the accounts listed on
-    [its page](https://www.eclipse.org/security/team/), which also gives the permissions that its members may hold on
-    your repositories. None of its members will ever ask for your private credentials: if someone claiming to be from
-    the team does, it is not them.
+    [its page](https://www.eclipse.org/security/team/).
 
 ## Join the team { #join }
 
