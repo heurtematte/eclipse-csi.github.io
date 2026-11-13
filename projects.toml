@@ -60,9 +60,11 @@ repositories = ["helm-charts"]
 #   homepage: { title, icon } of the link to the homepage set on GitHub (default: "Documentation", lucide/book-open)
 #   links: more links, [{ title, url, icon }], after the repository and its homepage
 #   status: a tag shown first on its card, such as "Coming soon" for a project not yet ready for production
+#   action: { title, url, icon } of the main button of its card, its first use: a guide, rather than its repository
 # Icons are the ones bundled with Zensical (lucide/…, fontawesome/…, octicons/…, simple/…, material/…).
 
 [repositories.otterdog]
+action = { title = "Set up Otterdog", url = "https://csi.eclipse.dev/otterdog/userguide/", icon = "lucide/rocket" }
 links = [
   { title = "Blueprints", url = "https://csi.eclipse.dev/otterdog/reference/blueprints/", icon = "lucide/blocks" },
   { title = "Dashboard", url = "https://otterdog.eclipse.org", icon = "lucide/layout-dashboard" },
@@ -71,6 +73,7 @@ links = [
 ]
 
 [repositories.workflows]
+action = { title = "Upload an SBOM", url = "https://github.com/eclipse-csi/workflows/tree/main/upload-sbom", icon = "lucide/upload" }
 description = """
 Reusable GitHub workflows and actions, such as upload-sbom: the authenticated upload of an SBOM to sbom.eclipse.org."""
 
@@ -82,12 +85,23 @@ Soon available: author, review, publish and audit the security advisories of Ecl
 OSV and CSAF."""
 
 [repositories.dependency-track]
+action = { title = "Publish an SBOM", url = "https://csi.eclipse.dev/security-handbook/sbom/index.html", icon = "lucide/package-search" }
 homepage = { title = "sbom.eclipse.org", icon = "lucide/globe" }
 
 [repositories.skills]
+action = { title = "Browse the skills", url = "https://github.com/eclipse-csi/skills#readme", icon = "lucide/sparkles" }
 description = """
 Agent skills for AI coding assistants: generic security audits, conventional commits and architectural decision \
 records."""
+
+[repositories.codesign-tools]
+action = { title = "Sign your artifacts", url = "https://csi.eclipse.dev/codesign-tools/", icon = "lucide/file-signature" }
+
+[repositories.rsrr]
+action = { title = "Run a security review", url = "https://github.com/eclipse-csi/rsrr#usage", icon = "lucide/scan-search" }
+
+[repositories.security-handbook]
+action = { title = "Read the handbook", url = "https://csi.eclipse.dev/security-handbook/", icon = "lucide/book-open" }
 
 [repositories.".github"]
 description = "Organization profile, community health files and the official artwork of Eclipse CSI and Otterdog."

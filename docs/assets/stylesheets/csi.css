@@ -614,6 +614,21 @@
   background-color: var(--csi-soon-bg);
 }
 
+/* the first use of a tool (projects.toml: action), the main button of its card, above its other links */
+.md-typeset .csi-card__action {
+  margin: 0 0 0.9em;
+}
+
+.md-typeset .csi-card__action .md-button {
+  margin: 0;
+  padding: 0.45em 1.1em;
+  font-size: 0.7rem;
+}
+
+.md-typeset .csi-card__action .md-button .twemoji {
+  margin-right: 0.15em;
+}
+
 /* the metrics of a project: stars, forks, contributors, latest release, Scorecard, last push */
 .md-typeset .csi-card__metrics {
   display: flex;

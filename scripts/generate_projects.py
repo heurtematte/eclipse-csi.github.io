@@ -104,6 +104,7 @@ class Repository:
     archived: bool
     discussions: bool = False
     status: str | None = None  # a tag of projects.toml, such as "Coming soon"
+    action: dict | None = None  # the first use of the tool, {title, url, icon} (projects.toml)
     stars: int = 0
     forks: int = 0
     pushed: datetime.date | None = None
@@ -287,6 +288,7 @@ def to_repository(data: dict, extras: dict) -> Repository:
         archived=bool(data.get("archived")),
         discussions=discussions,
         status=(extras.get("status") or "").strip() or None,
+        action=extras.get("action"),
         stars=data.get("stargazers_count") or 0,
         forks=data.get("forks_count") or 0,
         pushed=day(data["pushed_at"]) if data.get("pushed_at") else None,
@@ -369,6 +371,12 @@ def card(repository: Repository, org: str) -> str:
         lines += [f'<p class="csi-card__metrics" markdown>{" ".join(card_metrics)}</p>', ""]
     if card_tags := tags(repository):
         lines += ['<p class="csi-card__tags">', *card_tags, "</p>", ""]
+    if repository.action:
+        # the first use of the tool, as the main button of the card, above its other links
+        action = repository.action
+        label = f"{icon(action['icon'])} {escape(action['title'])}" if action.get("icon") else escape(action["title"])
+        lines += [f'<p class="csi-card__action" markdown>[{label}]({action["url"]}){{ .md-button .md-button--primary }}'
+                  "</p>", ""]
     links = " ".join(f"[{icon(link['icon'])} {escape(link['title'])}]({link['url']})" for link in repository.links)
     lines += [f'<p class="csi-card__links" markdown>{links}</p>', "", "</article>", ""]
     return "\n".join(lines)
@@ -600,12 +608,16 @@ def render(config: dict, repositories: dict[str, Repository], months: list[tuple
         f'<p class="csi-updated">Updated on {short_date(datetime.datetime.now(datetime.UTC).date())}, from the '
         "GitHub API, the OpenSSF Scorecard, the Otterdog dashboard and the PMI.</p>",
         "",
-        *kpis(shown, len(areas), months, team, organizations),
-        *discussions_callout(spaces),
     ]
+    # the tools first, by area, right after the introduction: the figures of the activity and of the team come below
     for area, members in areas:
         out += [f"## {escape(area['title'])} {{ #{area['id']} }}", "", area["description"].strip(),
                 "{ .csi-area-lead }", "", cards(members, org)]
+    out += ["## Activity and team { #activity }", "",
+            "The activity of the projects over the last twelve months, and the people who develop them.",
+            "{ .csi-area-lead }", "",
+            *kpis(shown, len(areas), months, team, organizations),
+            *discussions_callout(spaces)]
     if organization:
         out += ["## About this organization { #organization }", "",
                 "The repositories that run the organization itself.", "{ .csi-area-lead }", "",

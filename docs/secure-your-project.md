@@ -20,12 +20,12 @@ that helps.
 
 <div class="csi-steps" markdown>
 
-1. **Name your security contacts.** Keep the security team of your project, in the PMI, to 2 to 4 committers who
-   will handle the reports. [:lucide-arrow-right: Step 1](#security-team)
+1. **Identify who handles vulnerability reports in your project.** For larger teams, designate a small group of
+   committers in the PMI. [:lucide-arrow-right: Step 1](#security-team)
 2. **Publish a `SECURITY.md` with a private reporting channel**: the confidential issues of the vulnerability reports
    tracker, or the private vulnerability reporting of GitHub. [:lucide-arrow-right: Step 2](#reporting)
-3. **Secure your accounts and branches**, as the Security Handbook explains, so that nobody can push to your
-   repositories in your name. [:lucide-arrow-right: Step 4](#accounts)
+3. **Secure your accounts and branches**, as the Security Handbook explains, to reduce the risk of unauthorized
+   changes. [:lucide-arrow-right: Step 4](#accounts)
 
 </div>
 

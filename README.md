@@ -60,6 +60,9 @@ curated: one that `projects.toml` does not list is shown under "Other projects",
 to the `repositories` of an area of `projects.toml` to place it. An archived repository leaves the page by itself:
 the build warns if `projects.toml` still lists it.
 
+Give it an `action` in `projects.toml`, the main button of its card: its first use, such as "Set up Otterdog", which
+leads to a guide rather than to its repository.
+
 ## Listing a blog post or an event
 
 The blog lists the posts of [blogs.eclipse.org](https://blogs.eclipse.org) that have one of the `tags` of

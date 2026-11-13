@@ -54,7 +54,8 @@ of the program and on its capacity.
 
 ## Be ready for the reports { #ready }
 
-- **Set up your project security team**, 2 to 4 active committers, in the PMI: the reports are assigned to it. See
+- **Identify who handles vulnerability reports in your project**: they are assigned to its security team, in the
+  PMI. For larger teams, designate a small group of committers. See
   [Secure your project](secure-your-project.md#security-team).
 - **Know what to do when a report arrives**: see [Handle a vulnerability](handle-a-vulnerability.md).
 - **Publish a [threat model](threat-model.md)**: findings are assessed against it, which tells a real vulnerability
