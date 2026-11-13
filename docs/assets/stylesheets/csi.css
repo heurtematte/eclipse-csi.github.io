@@ -414,11 +414,6 @@
   transform: translateX(0.15rem);
 }
 
-/* the hero shows the title of the home page: it is not repeated below it */
-.md-container:has(.csi-hero) .md-content__inner > h1:first-of-type {
-  display: none;
-}
-
 /* the hero is followed by the text of the page: the space of its hidden title is not kept */
 .md-container:has(.csi-hero) .md-content__inner {
   padding-top: 0.4rem;

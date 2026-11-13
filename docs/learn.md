@@ -1,8 +1,8 @@
 ---
-title: Security trainings
+title: Security trainings for open source developers
 description: >-
-  The free security trainings of the Eclipse Foundation Security Team for the developers of Eclipse projects, in
-  video: the security of developers, vulnerability management and SBOMs.
+  Free security trainings in video from the Eclipse Foundation Security Team: developer security, vulnerability
+  management and SBOMs for open source projects.
 ---
 
 # Security trainings

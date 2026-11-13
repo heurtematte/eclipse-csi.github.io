@@ -1,8 +1,8 @@
 ---
-title: Secure development with AI
+title: Secure development with AI coding assistants
 description: >-
-  How to use AI coding assistants and agents safely in Eclipse projects: the guidelines of the Eclipse Foundation,
-  sandboxes such as Eclipse Enclave and Docker Sandboxes, least privilege, review, and responsible reporting.
+  Use AI coding assistants and agents safely in Eclipse projects: Eclipse Foundation guidelines, sandboxes such as
+  Eclipse Enclave, least privilege and review.
 ---
 
 # Secure development with AI

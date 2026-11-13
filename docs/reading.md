@@ -1,5 +1,5 @@
 ---
-title: Reading list
+title: Security reading list
 description: >-
   A selection of posts of the Eclipse Foundation blog on security, and the guides of this site.
 ---

@@ -1,17 +1,15 @@
 ---
-title: Eclipse Common Security Infrastructure
+title: Eclipse Common Security Infrastructure (CSI)
 description: >-
-  Eclipse CSI develops the tools, services and best practices that secure the software supply chain of Eclipse
-  Foundation projects: GitHub organizations as code, SBOMs, code signing, security advisories and reviews.
+  Eclipse CSI develops the tools, services and practices that secure the software supply chain of Eclipse projects:
+  Otterdog, SBOMs, code signing and more.
 hide:
   - navigation
   - toc
 ---
 
-# Eclipse Common Security Infrastructure
-
-<!-- the hero above the page (overrides/main.html) shows the logo, its tagline and the entries of each audience; this
-     title is hidden by the stylesheet -->
+<!-- the hero above the page (overrides/main.html) shows the logo, its tagline and the entries of each audience, and
+     holds the title of the page: the page has no heading of its own -->
 
 Eclipse CSI develops the security tools, services and best practices shared by Eclipse Foundation projects, and by
 any open source project that wants them.

@@ -461,7 +461,7 @@ def tag_names(tags: list[Tag]) -> str:
 
 def render_blog(tags: list[Tag], posts: list[Post], today: datetime.date) -> str:
     out = front_matter(
-        "Blog",
+        "Security blog",
         f"Security news and advice from the Eclipse Foundation blog: the posts tagged {tag_names(tags)}, by the "
         "Eclipse Foundation Security Team and others.",
         "blogs.eclipse.org",
@@ -550,8 +550,9 @@ def render_events(events: list[Event], today: datetime.date) -> str:
     upcoming = [event for event in events if event.end >= today]
     past = sorted((event for event in events if event.end < today), key=lambda e: (e.start, e.end), reverse=True)
     out = front_matter(
-        "Events",
-        "The conferences, trainings and webinars where the Eclipse Foundation Security Team speaks or takes part.",
+        "Security events",
+        "The conferences, trainings and webinars on open source security where the Eclipse Foundation Security Team "
+        "speaks or takes part.",
         "the Eclipse Foundation newsroom",
     )
     out += [
@@ -584,8 +585,9 @@ def render_cves(cves: list[Cve], today: datetime.date) -> str:
     """The page of all the published CVEs: a table that works without JavaScript, filtered by assets/javascripts/
     cves.js (its search, severity, year and project fields are hidden until the script shows them)."""
     out = front_matter(
-        "Published CVEs",
-        "The CVEs that the Eclipse Foundation published as the CVE Numbering Authority of its projects.",
+        "Published CVEs of Eclipse projects",
+        "The CVEs that the Eclipse Foundation published as the CVE Numbering Authority (CNA) of its projects, to search "
+        "by project, year and severity.",
         "api.eclipse.org",
     )
     years = sorted({cve.date.year for cve in cves}, reverse=True)

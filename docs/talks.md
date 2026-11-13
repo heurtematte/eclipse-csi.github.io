@@ -1,5 +1,5 @@
 ---
-title: Talks and webinars
+title: Security talks and webinars
 description: >-
   Talks and webinars on the security of open source, the software supply chain and the Cyber Resilience Act, from the
   YouTube channel of the Eclipse Foundation.

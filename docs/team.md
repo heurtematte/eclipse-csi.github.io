@@ -1,7 +1,8 @@
 ---
 title: Team
 description: >-
-  The project leads and committers of Eclipse CSI, and the Eclipse Foundation Security Team.
+  The project leads and committers of Eclipse CSI, and the Eclipse Foundation Security Team, which handles the
+  vulnerabilities of Eclipse projects.
 ---
 
 # Team

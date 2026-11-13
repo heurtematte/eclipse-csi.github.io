@@ -2,7 +2,7 @@
 title: AI-assisted security reviews
 description: >-
   How the Eclipse Foundation Security Team reviews Eclipse projects with AI-assisted analysis, as part of Project
-  Glasswing, and how a project can be prioritized.
+  Glasswing, and how a project is prioritized.
 ---
 
 # AI-assisted security reviews

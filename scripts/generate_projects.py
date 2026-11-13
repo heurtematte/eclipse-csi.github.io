@@ -574,11 +574,12 @@ def render(config: dict, repositories: dict[str, Repository], months: list[tuple
     shown = [repository for _, members in areas for repository in members]
     spaces = discussion_spaces(org, repositories, shown)
     projects = len(shown)
-    description = (f"The {projects} projects of Eclipse CSI, the Eclipse Common Security Infrastructure: tools and "
-                   "services that secure the software supply chain of Eclipse Foundation projects.")
+    description = (f"The {projects} projects of Eclipse CSI: open source tools and services that secure the software "
+                   "supply chain of Eclipse Foundation projects.")
     out = [
         "---",
-        "title: Projects",
+        # the title of the page in search results and tabs; the navigation keeps its own label
+        "title: Supply chain security projects",
         # a JSON string is a valid YAML scalar, whatever it contains
         f"description: {json.dumps(description)}",
         "hide:",

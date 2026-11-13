@@ -1,5 +1,5 @@
 ---
-title: Support
+title: Get support
 description: >-
   Where to ask a question about the tools of Eclipse CSI, report a bug or discuss an idea: GitHub issues, GitHub
   Discussions and the csi-dev mailing list.

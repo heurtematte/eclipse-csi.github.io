@@ -1,8 +1,8 @@
 ---
-title: Cyber Resilience Act
+title: Cyber Resilience Act (CRA) and open source
 description: >-
-  The EU Cyber Resilience Act and open source: how the Eclipse Foundation works on it, and how the tools and practices
-  of Eclipse CSI help Eclipse projects meet what is expected of them.
+  The EU Cyber Resilience Act and open source: its key dates, the duties of the Eclipse Foundation as a steward, and
+  what it means for Eclipse projects.
 ---
 
 # Cyber Resilience Act
@@ -18,8 +18,9 @@ them.
     This page gives pointers, not a legal interpretation of the regulation. Its facts come from the pages of the
     European Commission on the [CRA](https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act),
     [open source](https://digital-strategy.ec.europa.eu/en/policies/cra-open-source) and
-    [reporting](https://digital-strategy.ec.europa.eu/en/policies/cra-reporting); for an interpretation, start from the
-    resources of the Open Regulatory Compliance Working Group below.
+    [reporting](https://digital-strategy.ec.europa.eu/en/policies/cra-reporting), and from the
+    [CRA FAQ](https://cra.orcwg.org/) of the Open Regulatory Compliance Working Group; for an interpretation, start
+    from the resources of that working group below.
 
 ## Key dates { #dates }
 
@@ -47,16 +48,21 @@ on 27 July 2026, to help manufacturers, developers and businesses of all sizes m
 ## The responsibilities of a foundation as a steward { #steward }
 
 A foundation such as the Eclipse Foundation, which supports the development of its projects on a sustained basis,
-takes on the role of open-source software steward. Article 24 of the CRA gives it three obligations:
+takes on the role of open-source software steward. Article 24 of the CRA gives it a light-touch regime of three
+obligations, which all apply from 11 December 2027:
 
-1. **A cybersecurity policy** that fosters the secure development of its projects and the handling of their
-   vulnerabilities: for the Eclipse Foundation, its [Security Policy](https://www.eclipse.org/security/policy/), the
-   project security teams, the coordinated process to [handle a vulnerability](handle-a-vulnerability.md), and the
-   [CVEs](cves.md) it assigns as a CNA.
-2. **Cooperation with the market surveillance authorities.**
-3. **Reporting the actively exploited vulnerabilities and the severe incidents** that affect the security of the
-   products, from 11 December 2027, through the Single Reporting Platform, to the CSIRT of its main establishment, on
-   the clocks of the CRA:
+1. **A cybersecurity policy**, documented in a verifiable manner, that fosters the secure development of its projects
+   and the effective handling of their vulnerabilities: documenting, addressing and remediating them, fostering their
+   voluntary reporting, and sharing information on them within the open source community. It covers how the projects
+   themselves are developed, not how others integrate them. For the Eclipse Foundation: its
+   [Security Policy](https://www.eclipse.org/security/policy/), the project security teams, the coordinated process to
+   [handle a vulnerability](handle-a-vulnerability.md), and the [CVEs](cves.md) it assigns as a CNA.
+2. **Cooperation with the market surveillance authorities**, which may ask to see this policy.
+3. **Reporting**, through the Single Reporting Platform of ENISA, to the CSIRT designated as coordinator and to ENISA:
+   the actively exploited vulnerabilities of a project, to the extent that the steward is involved in its development,
+   and the severe incidents that affect the infrastructure it provides for its development. It then informs the users
+   of the project through the channels it has, such as an advisory, a blog post or a mailing list. The clocks of the
+   CRA apply:
 
     | Step | Deadline |
     | --- | --- |
@@ -64,7 +70,15 @@ takes on the role of open-source software steward. Article 24 of the CRA gives i
     | Notification | Within 72 hours |
     | Final report | No later than 14 days after a corrective measure is available, for an actively exploited vulnerability; within a month of the notification, for a severe incident |
 
-Stewards are not subject to the administrative fines of the CRA (Article 64(10)).
+A steward does not have to provide SBOMs: the CRA asks them of manufacturers. It is not subject to the administrative
+fines of the CRA (Article 64(10)), but a market surveillance authority can require it to take corrective action
+(Article 52(3)).
+
+The ORC WG works through each of these obligations in its
+[white paper on open source software stewards and the CRA](https://orcwg.org/cra/resources/d3-5-white-paper-on-open-source-software-stewards-and-cra/),
+and answers the questions of stewards in its [CRA FAQ](https://cra.orcwg.org/faq/stewards/), such as
+[which obligations apply](https://cra.orcwg.org/faq/stewards/notification-obligations/) depending on the support a
+steward gives to a project.
 
 ## What it means for Eclipse projects { #projects }
 
@@ -73,11 +87,14 @@ Stewards are not subject to the administrative fines of the CRA (Article 64(10))
   [coordinated process](handle-a-vulnerability.md), request your CVEs from the Eclipse Foundation, and release your
   fixes: it is the cybersecurity policy that the foundation documents as a steward.
 - **Tell the Security Team at once** when you suspect that a vulnerability is actively exploited, or when an incident
-  affects your project: the foundation has only 24 hours from becoming aware to send its early warning. See
-  [when to tell the Security Team at once](handle-a-vulnerability.md#urgent).
-- **Expect the questions of manufacturers.** The companies that build your project into the products they sell have
-  the obligations of manufacturers: they will look for your software bill of materials, your vulnerability process,
-  your security advisories and your fixes, and may report to you the vulnerabilities they find.
+  affects your project: from 11 December 2027, the foundation may have only 24 hours from becoming aware to send its
+  early warning. See [when to tell the Security Team at once](handle-a-vulnerability.md#urgent).
+- **Adopt the practices that manufacturers check.** The companies that build your project into the products they sell
+  have the obligations of manufacturers, among them due diligence on the open source they integrate. They look for
+  [the practices](https://cra.orcwg.org/faq/projects/practices-to-adopt/) that the CRA asks of them: a software bill
+  of materials, a coordinated vulnerability disclosure policy in a `SECURITY.md`, security advisories, security
+  updates released without delay and signed, and regular security tests and reviews. They may also report to you the
+  vulnerabilities they find, through the channel that your `SECURITY.md` gives.
 - **Publishing open source is not a commercial activity by itself**: a project does not become a manufacturer
   because companies use it. A company that places it on the market, as a product, does.
 
@@ -89,6 +106,31 @@ Together, they interpret the rules, contribute to standards, and produce free re
 actionable for open source. The CRA is its current focus, followed by its
 [special interest group on cyber resilience](https://orcwg.org/special-interest-groups/cyber-resilience/); see its
 [charter](https://www.eclipse.org/collaborations/working-groups/open-regulatory-compliance/charter/).
+
+Its work is developed in the open, [on GitHub](https://github.com/orcwg), and much of it helps Eclipse projects:
+
+- **The [CRA FAQ](https://cra.orcwg.org/)**: the questions of maintainers, stewards and manufacturers, answered from
+  the text of the CRA and the guidance of the Commission, with a reading of the
+  [official guidance](https://cra.orcwg.org/official-guidance/). It is built from the
+  [CRA Hub](https://github.com/orcwg/cra-hub), which also keeps an inventory of resources, a summary of the harmonised
+  standards requested from the European standards organisations, and the important and critical product categories.
+- **The [white paper on open source software stewards and the CRA](https://orcwg.org/cra/resources/d3-5-white-paper-on-open-source-software-stewards-and-cra/)**:
+  the obligations of stewards, their security policy, their reporting and its enforcement.
+- **The [vulnerability management specification](https://github.com/orcwg/vulnerability-management-spec)**, in
+  development in the Eclipse [Cyber Resilience Practices](https://projects.eclipse.org/projects/technology.crp)
+  project: what a vulnerability handling policy contains, from the reception of a report to the disclosure, and the
+  handling of vulnerable dependencies.
+- **[Security attestations](https://github.com/orcwg/cra-attestations)**: a proposal of voluntary security
+  attestations for open source (Article 25), to help manufacturers with their due diligence without adding a burden
+  on maintainers. Its meetings are open to everyone.
+- **The white paper on the [due diligence of manufacturers](https://github.com/orcwg/cra-due-diligence)**, in
+  progress, and how open source projects can help it by making their security posture transparent.
+- **The [ORC Learning Hub](https://github.com/orcwg/orc-learning-hub)**: its training materials, and the subtitles of
+  its videos, translated by the community.
+
+To take part, join its [mailing list](https://accounts.eclipse.org/mailing-list/open-regulatory-compliance), its
+[meetings](https://github.com/orcwg/orcwg/blob/main/MEETINGS.md) or its Slack: see
+[get involved](https://github.com/orcwg/orcwg#get-involved).
 
 ## OCCTET: an open source compliance toolkit { #occtet }
 

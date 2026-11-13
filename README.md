@@ -27,8 +27,9 @@ Montserrat typeface and the official artwork, unaltered.
 | `news.toml` | What the news list: the tags of blogs.eclipse.org, the channel of the newsroom, the latest CVEs. |
 | `scripts/generate_news.py` | Writes the blog, events and CVEs pages, the feed and `includes/news.md`, from `news.toml`, blogs.eclipse.org, the newsroom, the CVEs of api.eclipse.org and the PMI. |
 | `scripts/set_site_url.py` | Sets `site_url` to the GitHub Pages of a fork, in CI. |
+| `docs/robots.txt` | The robots.txt of csi.eclipse.dev: the sitemaps of the site and of the sites below it. |
 | `docs/assets/stylesheets/csi.css`, `docs/assets/javascripts/cves.js` | The brand: colors, typeface, hero and cards; the filters of the CVEs page. |
-| `overrides/` | The templates: the hero and the feed link (`main.html`), the footer (`partials/copyright.html`), the page not found (`404.html`). |
+| `overrides/` | The templates: the hero, the feed link, the social card and the structured data (`main.html`), the footer (`partials/copyright.html`), the page not found (`404.html`). |
 | `zensical.toml` | The configuration of the site. |
 | `.github/workflows/site.yml` | Builds and deploys the site to GitHub Pages. |
 
@@ -91,6 +92,22 @@ organization ([eclipse-csi/.eclipsefdn](https://github.com/eclipse-csi/.eclipsef
 `site_url` to that address before the build (`scripts/set_site_url.py`), so that its links, sitemap and feed point to
 the fork, while `site_url` stays `https://csi.eclipse.dev/` in the repository and on eclipse-csi. In the fork, set
 Settings → Pages → Source to "GitHub Actions".
+
+**A fork** asks search engines not to index its copy (`<meta name="robots" content="noindex">`, written when
+`site_url` is not `https://csi.eclipse.dev/`), so that it does not compete with the production site.
+
+## Search engines and AI assistants
+
+- **Titles and descriptions**: the `title` of the front matter of a page is its title in search results and in the
+  browser tab, and can be longer than its label in the navigation (`nav` of `zensical.toml`), which stays short. Its
+  `description` is the snippet of search results and of shared links: keep it under 160 characters. The generators set
+  those of the generated pages.
+- **The home page** has a single `h1`, in the hero, and the structured data (schema.org JSON-LD) of the site and of the
+  project, with its logo.
+- **`robots.txt`** lists the sitemap of the site, written by Zensical, and those of the sites served below it.
+- **`llms.txt`** (llmstxt.org), at the root of the site, indexes its main pages for AI assistants, and `llms-full.txt`
+  holds their text; every page also has a Markdown version, `<page>/index.md`. Both are configured in the
+  `[project.plugins.llmstxt]` section of `zensical.toml`: list a new page there.
 
 ## Copyright and license
 

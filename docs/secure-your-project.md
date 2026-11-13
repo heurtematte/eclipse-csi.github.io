@@ -1,8 +1,8 @@
 ---
-title: Secure your project
+title: "Secure your project: a security checklist"
 description: >-
-  A checklist for the committers and project leads of Eclipse projects: the project security team, the reporting
-  channel, GitHub as code, accounts and workflows, SBOMs and signing, the threat model and the reviews.
+  A security checklist for Eclipse projects: the security team, the reporting channel, GitHub as code, accounts,
+  workflows, SBOMs, signing and a threat model.
 ---
 
 # Secure your project

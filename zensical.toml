@@ -125,6 +125,45 @@ icon = "lucide/shield-alert"
 link = "https://www.eclipse.org/security/"
 name = "Eclipse Foundation Security"
 
+# llms.txt (llmstxt.org) at the root of the site: an index of its main pages, in Markdown, for AI assistants and the
+# tools that read a site for them; llms-full.txt holds their whole text. The generated pages are listed too.
+[project.plugins.llmstxt]
+markdown_description = """
+Eclipse CSI, the Eclipse Common Security Infrastructure, is an open source project of the Eclipse Foundation. It
+develops the tools, services and best practices that secure the software supply chain of Eclipse Foundation projects.
+To report a vulnerability in an Eclipse project, never open a public issue: follow "Report a vulnerability".
+"""
+full_output = "llms-full.txt"
+
+[project.plugins.llmstxt.sections]
+"Vulnerabilities" = [
+  { "report-a-vulnerability.md" = "How to report a vulnerability in an Eclipse project confidentially, and what happens next" },
+  { "handle-a-vulnerability.md" = "For committers and project leads: from the report to the publication of the CVE" },
+  { "cves.md" = "The CVEs published by the Eclipse Foundation as the CVE Numbering Authority of its projects" },
+]
+"Guides" = [
+  { "secure-your-project.md" = "A security checklist for Eclipse projects" },
+  { "threat-model.md" = "Why and how an Eclipse project maintains a threat model" },
+  { "ai-secure-development.md" = "Using AI coding assistants and agents safely" },
+  { "ai-security-reviews.md" = "The AI-assisted security reviews of Eclipse projects" },
+  { "cra.md" = "The EU Cyber Resilience Act: key dates, the Eclipse Foundation as a steward, what it means for projects" },
+]
+"Projects" = [
+  { "projects.md" = "The tools and services of Eclipse CSI: Otterdog, code signing, SBOMs, advisories, with their metrics" },
+]
+"Learn" = [
+  { "learn.md" = "The security trainings of the Eclipse Foundation Security Team, in video" },
+  { "talks.md" = "Talks and webinars on open source security and the CRA" },
+  { "reading.md" = "A selection of posts of the Eclipse Foundation blog on security" },
+]
+"Community" = [
+  { "team.md" = "The committers of Eclipse CSI and the Eclipse Foundation Security Team" },
+  { "support.md" = "Where to ask a question or report a bug" },
+  { "contribute.md" = "How to contribute and become a committer" },
+  { "blog.md" = "The latest security posts of the Eclipse Foundation blog" },
+  { "events.md" = "The events where the Eclipse Foundation Security Team speaks" },
+]
+
 [project.markdown_extensions]
 abbr = {}
 admonition = {}

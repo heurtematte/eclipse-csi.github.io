@@ -1,5 +1,5 @@
 ---
-title: Threat model
+title: Threat modeling for open source projects
 description: >-
   Why an Eclipse project should maintain a threat model, what it contains, how to start one, and examples from
   Eclipse CSI.

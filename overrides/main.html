@@ -1,14 +1,39 @@
 {#-
   Theme override (theme.custom_dir in zensical.toml): main.html of zensical-ui only extends base.html, this one also
-  fills two of its blocks, styled by docs/assets/stylesheets/csi.css:
-  - extrahead: the social card of the site, the icon of the home screen and the preload of the brand typeface;
+  fills some of its blocks, styled by docs/assets/stylesheets/csi.css:
+  - htmltitle: the title of the home page, without the name of the site after it, as it already holds it;
+  - extrahead: the social card of the site, its structured data for search engines, the icon of the home screen and
+    the preload of the brand typeface; a fork does not let search engines index its copy of the site;
   - tabs: below the tabs, the hero of the home page: the official logo (the color one on the light scheme, the white
     one on the dark scheme), its tagline and actions, and a panel that leads each audience to its page (security
-    researchers, committers, contributors, users), over the circles of the showcase visuals.
+    researchers, committers, contributors, users), over the circles of the showcase visuals;
+  - content: the home page has no heading of its own, the hero holds its title (the h1).
+  The home page is the one at the root of the site.
 -#}
 {% extends "base.html" %}
 
+{% block htmltitle %}
+  {%- if page.url in ["", "./"] and page.meta and page.meta.title %}
+    <title>{{ page.meta.title }}</title>
+  {%- else %}
+    {{ super() }}
+  {%- endif %}
+{% endblock %}
+
+{% block content %}
+  {%- if page.url in ["", "./"] %}
+    {{ page.content }}
+  {%- else %}
+    {{ super() }}
+  {%- endif %}
+{% endblock %}
+
 {% block extrahead %}
+  {#- the production site is the one at csi.eclipse.dev: a fork publishes its copy at its own address
+      (scripts/set_site_url.py), which search engines are asked not to index, so that it does not compete with it #}
+  {%- if config.site_url and config.site_url != "https://csi.eclipse.dev/" %}
+    <meta name="robots" content="noindex">
+  {%- endif %}
   <link rel="preload" href="{{ 'assets/fonts/montserrat-latin-wght-normal.woff2' | url }}" as="font"
         type="font/woff2" crossorigin>
   <link rel="apple-touch-icon" href="{{ 'assets/images/apple-touch-icon.png' | url }}">
@@ -28,7 +53,7 @@
     {%- if page.meta and page.meta.description %}
       {%- set og_description = page.meta.description %}
     {%- endif %}
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="{{ 'website' if page.url in ['', './'] else 'article' }}">
     <meta property="og:site_name" content="{{ config.site_name }}">
     <meta property="og:title" content="{{ og_title }}">
     <meta property="og:description" content="{{ og_description }}">
@@ -40,6 +65,45 @@
     <meta property="og:image:height" content="629">
     <meta property="og:image:alt" content="Eclipse Common Security Infrastructure">
     <meta name="twitter:card" content="summary_large_image">
+    {#- the structured data of the home page (schema.org): the site, and Eclipse CSI, an open source project of the
+        Eclipse Foundation, with its logo and its other pages; tojson escapes it for a script element #}
+    {%- if page.url in ["", "./"] %}
+      <script type="application/ld+json">
+        {{- {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": config.site_url ~ "#website",
+              "url": config.site_url,
+              "name": config.site_name,
+              "alternateName": "Eclipse Common Security Infrastructure",
+              "description": config.site_description,
+              "inLanguage": "en",
+              "publisher": {"@id": config.site_url ~ "#project"},
+            },
+            {
+              "@type": "Organization",
+              "@id": config.site_url ~ "#project",
+              "name": config.site_name,
+              "alternateName": "Eclipse Common Security Infrastructure",
+              "url": config.site_url,
+              "logo": config.site_url ~ "assets/images/csi-emblem.png",
+              "description": config.site_description,
+              "parentOrganization": {
+                "@type": "Organization",
+                "name": "Eclipse Foundation",
+                "url": "https://www.eclipse.org/",
+              },
+              "sameAs": [
+                "https://projects.eclipse.org/projects/technology.csi",
+                "https://github.com/eclipse-csi",
+              ],
+            },
+          ],
+        } | tojson -}}
+      </script>
+    {%- endif %}
   {%- endif %}
 {% endblock %}
 

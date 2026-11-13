@@ -1,0 +1,10 @@
+# The robots.txt of csi.eclipse.dev, the site of Eclipse CSI (eclipse-csi/eclipse-csi.github.io): the sites of the
+# repositories of the organization are served below it (csi.eclipse.dev/otterdog/, ...), and this file is the only one
+# that search engines read for all of them. A copy of the site in a fork is not at the root of its host, so search
+# engines ignore this file there, and its pages ask not to be indexed.
+User-agent: *
+Allow: /
+
+# the sitemaps of the site and of the sites below it that publish one
+Sitemap: https://csi.eclipse.dev/sitemap.xml
+Sitemap: https://csi.eclipse.dev/otterdog/sitemap.xml
