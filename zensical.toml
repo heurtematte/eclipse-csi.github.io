@@ -34,13 +34,14 @@ nav = [
   { "Projects" = "projects.md" },
   # the Security Handbook, a site of its own (eclipse-csi/security-handbook), featured in the tabs
   { "Security Handbook" = "https://csi.eclipse.dev/security-handbook/" },
+  # the trainings and talks, in video: a tab of their own
+  { "Learn" = "learn.md" },
   { "Guides" = [
     { "Secure your project" = "secure-your-project.md" },
     { "Threat model" = "threat-model.md" },
     { "Secure development with AI" = "ai-secure-development.md" },
     { "AI-assisted security reviews" = "ai-security-reviews.md" },
     { "Cyber Resilience Act" = "cra.md" },
-    { "Learn" = "learn.md" },
   ] },
   # the entries of the security researchers and of the projects that receive their reports, and the published CVEs
   { "Vulnerabilities" = [

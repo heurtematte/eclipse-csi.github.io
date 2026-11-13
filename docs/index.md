@@ -58,6 +58,53 @@ the Eclipse Foundation Security Team.
 
 <p class="csi-links" markdown>[:lucide-rss: Subscribe to the news (Atom feed)](feed.xml)</p>
 
+## Learn { #learn }
+
+The free security trainings of the Eclipse Foundation Security Team, in video, and the talks of its members.
+{ .csi-area-lead }
+
+<div class="csi-cards csi-cards--compact" markdown>
+
+<article class="csi-card" markdown>
+
+:lucide-user-lock:{ .csi-card__icon }
+
+### Security training, part 1
+
+The security of developers, in five videos: workstation, accounts, version control and day-to-day security.
+
+<p class="csi-card__links" markdown>[:fontawesome-brands-youtube: Watch](https://www.youtube.com/watch?v=pAlsonP1gJQ) [:lucide-arrow-right: Sessions](learn.md#training-developers)</p>
+
+</article>
+
+<article class="csi-card" markdown>
+
+:lucide-shield-alert:{ .csi-card__icon }
+
+### Security training, part 2
+
+Vulnerability management and SBOMs, in five videos with their slides: CVEs, coordinated disclosure, dependencies.
+
+<p class="csi-card__links" markdown>[:fontawesome-brands-youtube: Watch](https://www.youtube.com/watch?v=JdeSEzAVy8Q) [:lucide-arrow-right: Sessions](learn.md#training-vulnerabilities)</p>
+
+</article>
+
+<article class="csi-card" markdown>
+
+:lucide-presentation:{ .csi-card__icon }
+
+### Talks and webinars
+
+Otterdog, security audits, SBOMs and the Cyber Resilience Act, at OCX and in the webinars of the Eclipse Foundation.
+
+<p class="csi-card__links" markdown>[:lucide-arrow-right: All the talks](learn.md#talks)</p>
+
+</article>
+
+</div>
+
+<p class="csi-links" markdown>[:fontawesome-brands-youtube: The playlist of the trainings](https://www.youtube.com/playlist?list=PLy7t4z5SYNaT7JN8FIVTGAy1QUnLTdv9R) [:lucide-arrow-right: Learn](learn.md)</p>
+
 ## What Eclipse CSI provides { #services }
 
 <div class="csi-cards" markdown>
