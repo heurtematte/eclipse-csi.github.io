@@ -22,7 +22,7 @@ hide:
 
 The best practices that secure the development of Eclipse projects: the accounts and machines of their developers,
 their repositories and branches, the handling of their vulnerabilities and the publication of their SBOMs. It is
-developed in the open by Eclipse CSI, and contributions are welcome.
+developed in the open by Eclipse CSI.
 
 [:lucide-book-open: Read the handbook](https://csi.eclipse.dev/security-handbook/){ .md-button .md-button--primary }
 [:fontawesome-brands-github: Contribute](https://github.com/eclipse-csi/security-handbook){ .md-button }
@@ -38,8 +38,8 @@ developed in the open by Eclipse CSI, and contributions are welcome.
 - :lucide-clipboard-check: **Projects**: the [Rapid Security Review](https://csi.eclipse.dev/security-handbook/project/reviews.html).
 - :lucide-shield-alert: **Vulnerabilities**: [embargoes](https://csi.eclipse.dev/security-handbook/vulnerabilities/embargoes.html) and
   [security advisories](https://csi.eclipse.dev/security-handbook/vulnerabilities/advisories.html).
-- :lucide-package-search: **SBOMs**: [generate and upload them](https://csi.eclipse.dev/security-handbook/sbom/howto.html),
-  [opt in for vulnerability alerts](https://csi.eclipse.dev/security-handbook/sbom/alerts.html), [tooling](https://csi.eclipse.dev/security-handbook/sbom/tooling.html).
+- :lucide-package-search: **SBOMs**: [generate and upload sbom](https://csi.eclipse.dev/security-handbook/sbom/howto.html),
+  [vulnerability alerts](https://csi.eclipse.dev/security-handbook/sbom/alerts.html), [tooling](https://csi.eclipse.dev/security-handbook/sbom/tooling.html).
 
 </div>
 
@@ -47,8 +47,7 @@ developed in the open by Eclipse CSI, and contributions are welcome.
 
 ## What Eclipse CSI provides { #services }
 
-The tools and services that Eclipse projects use to secure their repositories, their releases and the handling of
-their vulnerabilities. See all of them in [Projects](projects.md).
+The tools and services that Eclipse projects use to secure their repositories, their releases and the handling of their vulnerabilities. See all of them in [Projects](projects.md).
 { .csi-area-lead }
 
 <div class="csi-cards" markdown>
