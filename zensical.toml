@@ -5,7 +5,7 @@
 [project]
 site_name = "Eclipse CSI"
 # the tagline of the hero of the home page, and the description of the site
-site_description = "Security tools, services and best practices for the software supply chain of Eclipse Foundation projects, open to any open source project."
+site_description = "Security tools, services and best practices for the software supply chain of Eclipse Foundation projects."
 # the GitHub Pages of eclipse-csi are served at csi.eclipse.dev (eclipse-csi.github.io redirects there); the sites of
 # the repositories of the organization are served below it (csi.eclipse.dev/otterdog/, …). In a fork, the workflow
 # sets it to the GitHub Pages of the fork (scripts/set_site_url.py): keep it on a single line.
@@ -28,13 +28,12 @@ The content of this site is licensed under the
 # Zensical validates links and anchors: `zensical build --strict` fails on a broken one, such as a link of the home
 # page to a project that is no longer on docs/projects.md. Projects, Blog, Events and Published CVEs are generated:
 # see the README.
-# The tabs: what Eclipse CSI offers (its projects, the Security Handbook, its guides, the handling of vulnerabilities),
-# its news (blog, events), then its community (team, support, contribution). A section shows its pages in a sidebar.
+# The tabs: what Eclipse CSI offers (its projects, its trainings, its guides, the handling of vulnerabilities), its
+# news (blog, events), its community (team, support, contribution), then the Security Handbook. A section shows its
+# pages in a sidebar.
 nav = [
   { "Home" = "index.md" },
   { "Projects" = "projects.md" },
-  # the Security Handbook, a site of its own (eclipse-csi/security-handbook), featured in the tabs
-  { "Security Handbook" = "https://csi.eclipse.dev/security-handbook/" },
   # the trainings and talks, in video: a tab of their own, a section so that its pages are in the sidebar
   { "Learn" = [
     { "Security trainings" = "learn.md" },
@@ -65,6 +64,9 @@ nav = [
     { "Support" = "support.md" },
     { "Contribute" = "contribute.md" },
   ] },
+  # the Security Handbook, a site of its own (eclipse-csi/security-handbook), featured in the tabs: the last one, as
+  # the only one that leaves the site, so that the sections of the site read in a row
+  { "Security Handbook" = "https://csi.eclipse.dev/security-handbook/" },
 ]
 
 # the brand of Eclipse CSI: colors, Montserrat (self-hosted), the hero of the home page and the cards of the projects
