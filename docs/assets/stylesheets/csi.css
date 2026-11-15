@@ -215,37 +215,34 @@
 
 /* --- the hero of the home page (overrides/main.html) ------------------------------------------------------------ */
 
-/* the circles of the official showcase visuals (artwork/eclipse-csi/logo-showcase): a blue one and a grey one, cut
-   by a ring of the page color where they overlap, at the right edge, behind the panel */
+/* a band of the main color across the whole width, from its dark shade to its light one, with a glow behind the
+   panel, crossed by the traces of the emblem: lines that end in a ring, faint under the text. In white on it: the
+   white logo of the official artwork, the text and the buttons */
+:root {
+  --csi-hero-from: var(--csi-blue-dark);
+  --csi-hero-to: var(--csi-blue-light);
+  --csi-hero-glow: rgba(255, 255, 255, 0.16);
+}
+
+/* the dark scheme: a deeper band, which does not light up the page */
+[data-md-color-scheme="slate"] {
+  --csi-hero-from: #04192a;
+  --csi-hero-to: var(--csi-blue-dark);
+  --csi-hero-glow: rgba(108, 180, 228, 0.16);
+}
+
 .csi-hero {
   position: relative;
   overflow: hidden;
-  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
-}
-
-.csi-hero::before,
-.csi-hero::after {
-  position: absolute;
-  content: "";
-  border-radius: 50%;
-  box-shadow: 0 0 0 0.6rem var(--md-default-bg-color);
-}
-
-/* the grey circle below, the blue one above it: its ring cuts the grey one */
-.csi-hero::before {
-  right: 4rem;
-  bottom: -14rem;
-  width: 26rem;
-  height: 26rem;
-  background-color: var(--csi-grey);
-}
-
-.csi-hero::after {
-  top: -9rem;
-  right: -6rem;
-  width: 24rem;
-  height: 24rem;
-  background-color: var(--csi-blue);
+  color: #fff;
+  background-color: var(--csi-hero-from);
+  background-image:
+    url("../images/hero-traces.svg"),
+    radial-gradient(circle at 78% 40%, var(--csi-hero-glow), transparent 40%),
+    linear-gradient(115deg, var(--csi-hero-from) 20%, var(--csi-hero-to));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 /* the text beside the panel */
@@ -295,19 +292,10 @@
   margin-left: -4%;
 }
 
-.csi-hero__logo--white,
-[data-md-color-scheme="slate"] .csi-hero__logo--color {
-  display: none;
-}
-
-[data-md-color-scheme="slate"] .csi-hero__logo--white {
-  display: block;
-}
-
 .md-typeset .csi-hero__tagline {
   max-width: 30rem;
   margin: 0 0 1.4rem;
-  color: var(--md-typeset-color);
+  color: #fff;
   font-size: 1.1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -324,20 +312,38 @@
   margin: 0;
 }
 
-/* the secondary button: outlined in the main color, filled on hover like the primary one */
+/* on the band, the primary button is white with the text in the main color, the secondary one is outlined in white;
+   both are filled in white on hover, the primary one a bit tinted */
+.md-typeset .csi-hero__actions .md-button {
+  color: var(--csi-blue-dark);
+  background-color: #fff;
+  border-color: #fff;
+}
+
 .md-typeset .csi-hero__actions .md-button:not(.md-button--primary) {
-  color: var(--md-typeset-a-color);
+  color: #fff;
   background-color: transparent;
   box-shadow: inset 0 0 0 0.1rem currentcolor;
 }
 
-.md-typeset .csi-hero__actions .md-button:not(.md-button--primary):is(:hover, :focus) {
-  color: #fff;
-  background-color: var(--csi-blue);
-  box-shadow: inset 0 0 0 0.1rem var(--csi-blue);
+.md-typeset .csi-hero__actions .md-button--primary:is(:hover, :focus) {
+  color: var(--csi-blue-dark);
+  background-color: #dcecf7;
+  border-color: #dcecf7;
 }
 
-/* where to start: a card of frosted glass over the circles, which show through it, blurred; one entry per audience,
+.md-typeset .csi-hero__actions .md-button:not(.md-button--primary):is(:hover, :focus) {
+  color: var(--csi-blue-dark);
+  background-color: #fff;
+  box-shadow: inset 0 0 0 0.1rem #fff;
+}
+
+.md-typeset .csi-hero__actions .md-button:focus-visible {
+  outline: 0.1rem solid #fff;
+  outline-offset: 0.15rem;
+}
+
+/* where to start: a card of frosted glass over the band, whose traces show through it, blurred; one entry per audience,
    which lifts on hover. The page color is the fallback of a browser without color-mix(). */
 .csi-hero__panel {
   padding: 0.5rem;
@@ -488,17 +494,13 @@
   margin-top: 0.6rem;
 }
 
-/* medium screens: the panel below the text; a blue circle in the corner, the grey one would reach the text */
+/* medium screens: the panel below the text, the glow behind it */
 @media screen and (max-width: 76.1875em) {
-  .csi-hero::before {
-    display: none;
-  }
-
-  .csi-hero::after {
-    top: -7rem;
-    right: -8rem;
-    width: 18rem;
-    height: 18rem;
+  .csi-hero {
+    background-image:
+      url("../images/hero-traces.svg"),
+      radial-gradient(circle at 30% 75%, var(--csi-hero-glow), transparent 45%),
+      linear-gradient(160deg, var(--csi-hero-from) 30%, var(--csi-hero-to));
   }
 
   .csi-hero__inner {
@@ -511,24 +513,8 @@
   }
 }
 
-/* small screens: the circles shrink to the corners, the text is centered, the panel takes the width */
+/* small screens: the text is centered, the panel takes the width */
 @media screen and (max-width: 44.9375em) {
-  .csi-hero::before {
-    display: block;
-    right: auto;
-    bottom: -5rem;
-    left: -4rem;
-    width: 9rem;
-    height: 9rem;
-  }
-
-  .csi-hero::after {
-    top: -6rem;
-    right: -4rem;
-    width: 9rem;
-    height: 9rem;
-  }
-
   .csi-hero__text {
     text-align: center;
   }

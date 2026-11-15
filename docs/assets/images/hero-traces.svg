@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 420" preserveAspectRatio="xMidYMid slice">
+  <!-- the traces of the emblem of Eclipse CSI: lines bent at 45 degrees that end in a ring, drawn in white across the
+       band of the hero (assets/stylesheets/csi.css); faint on the left, under the text, stronger on the right -->
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <!-- the left: along the top and the bottom edges, around the text -->
+    <g stroke-width="3" stroke-opacity="0.1">
+      <path d="M-10 30H250l30 30H420"/>
+      <circle cx="430" cy="60" r="10" stroke-width="5"/>
+      <path d="M-10 290H110l40 40H200"/>
+      <circle cx="210" cy="330" r="8" stroke-width="4"/>
+      <path d="M-10 404H600l30-30H760"/>
+      <circle cx="770" cy="374" r="10" stroke-width="5"/>
+    </g>
+    <g stroke-width="3" stroke-opacity="0.14">
+      <path d="M800-10V22l40 40H960"/>
+      <circle cx="970" cy="62" r="10" stroke-width="5"/>
+      <path d="M880 430V398l36-36H1010"/>
+      <circle cx="1020" cy="362" r="10" stroke-width="5"/>
+    </g>
+    <g stroke-width="3" stroke-opacity="0.24">
+      <path d="M1610 58H1390l-40 40H1190"/>
+      <circle cx="1180" cy="98" r="10" stroke-width="5"/>
+      <path d="M1610 160H1460l-40 40H1310"/>
+      <circle cx="1300" cy="200" r="10" stroke-width="5"/>
+      <path d="M1610 262H1510l-40 40H1250l-40 40H1090"/>
+      <circle cx="1080" cy="342" r="10" stroke-width="5"/>
+      <path d="M1610 372H1370"/>
+      <circle cx="1360" cy="372" r="10" stroke-width="5"/>
+      <path d="M1250-10V26l-40 40H1110"/>
+      <circle cx="1100" cy="66" r="8" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

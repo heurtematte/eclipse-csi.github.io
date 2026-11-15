@@ -114,12 +114,11 @@
     <section class="csi-hero">
       <div class="csi-hero__inner md-grid md-typeset">
         <div class="csi-hero__text">
-          {#- the name as text for screen readers, the logo that shows it is decorative #}
+          {#- the name as text for screen readers, the logo that shows it is decorative: the white one, on the band of
+              the main color in both schemes #}
           <h1 class="csi-hero__title">
             <span class="md-visually-hidden">Eclipse Common Security Infrastructure</span>
-            <img class="csi-hero__logo csi-hero__logo--color" src="{{ 'assets/images/csi-logo.png' | url }}"
-                 alt="" width="2317" height="806">
-            <img class="csi-hero__logo csi-hero__logo--white" src="{{ 'assets/images/csi-logo-white.png' | url }}"
+            <img class="csi-hero__logo" src="{{ 'assets/images/csi-logo-white.png' | url }}"
                  alt="" width="1800" height="660">
           </h1>
           <p class="csi-hero__tagline">{{ config.site_description }}</p>
@@ -131,7 +130,7 @@
         {#- where to start, by audience: the security researchers first #}
         <nav class="csi-hero__panel" aria-labelledby="csi-hero-panel-title">
           <p class="csi-hero__panel-title" id="csi-hero-panel-title">
-            <span aria-hidden="true">{% include ".icons/lucide/signpost.svg" %}</span>Where to start
+            <span aria-hidden="true">{% include ".icons/lucide/compass.svg" %}</span>Where to start
           </p>
           <ul>
             {%- for entry in [
