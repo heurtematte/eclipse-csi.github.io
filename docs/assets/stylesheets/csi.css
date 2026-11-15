@@ -606,9 +606,32 @@
 }
 
 /* the icon of a card of the home page, in a circle of the main color */
-.md-typeset .csi-card > p:has(> .csi-card__icon) {
+.md-typeset .csi-card > p:has(> :is(.csi-card__icon, .csi-card__logo)) {
   flex-grow: 0;
   margin-bottom: 0.6em;
+}
+
+/* the logo of a tool, in the place of the icon, when it has one, as high as the circle of an icon: the official
+   artwork, copied unaltered. The symbol of Dependency-Track (DependencyTrack/branding), which sbom.eclipse.org runs, is
+   magenta, readable on both schemes */
+.md-typeset .csi-card__logo {
+  display: block;
+  width: auto;
+  height: 2.2rem;
+}
+
+/* the emblem of Otterdog (eclipse-csi/.github, artwork/eclipse-otterdog) has a margin around it: the image is larger,
+   and shifted so that the emblem aligns with the text. On the dark scheme its blue lacks contrast: it is drawn on
+   white, like the "White" emblem of the artwork */
+.md-typeset .csi-card__logo[src$="otterdog-emblem.png"] {
+  height: 2.8rem;
+  margin: -0.3rem 0 -0.3rem -0.3rem;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .csi-card__logo[src$="otterdog-emblem.png"] {
+  margin-left: 0;
+  background-color: #fff;
+  border-radius: 50%;
 }
 
 .md-typeset .twemoji.csi-card__icon {

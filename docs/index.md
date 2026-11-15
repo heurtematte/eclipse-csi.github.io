@@ -54,7 +54,7 @@ The tools and services that Eclipse projects use to secure their repositories, t
 
 <article class="csi-card" markdown>
 
-:lucide-git-pull-request-arrow:{ .csi-card__icon }
+![](assets/images/otterdog-emblem.png){ .csi-card__logo }
 
 ### Manage GitHub repositories
 
@@ -69,7 +69,7 @@ them, with pull requests that add a `SECURITY.md`, pin GitHub Actions to commit 
 
 <article class="csi-card" markdown>
 
-:lucide-package-search:{ .csi-card__icon }
+![](assets/images/dependency-track-symbol.svg){ .csi-card__logo }
 
 ### Publish and monitor SBOMs
 

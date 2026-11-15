@@ -61,9 +61,11 @@ repositories = ["helm-charts"]
 #   links: more links, [{ title, url, icon }], after the repository and its homepage
 #   status: a tag shown first on its card, such as "Coming soon" for a project not yet ready for production
 #   action: { title, url, icon } of the main button of its card, its first use: a guide, rather than its repository
+#   logo: the emblem of its official artwork, shown first on its card, a path under docs/ (assets/images/…)
 # Icons are the ones bundled with Zensical (lucide/…, fontawesome/…, octicons/…, simple/…, material/…).
 
 [repositories.otterdog]
+logo = "assets/images/otterdog-emblem.png"
 action = { title = "Set up Otterdog", url = "https://csi.eclipse.dev/otterdog/userguide/", icon = "lucide/rocket" }
 links = [
   { title = "Blueprints", url = "https://csi.eclipse.dev/otterdog/reference/blueprints/", icon = "lucide/blocks" },
@@ -85,6 +87,7 @@ Soon available: author, review, publish and audit the security advisories of Ecl
 OSV and CSAF."""
 
 [repositories.dependency-track]
+logo = "assets/images/dependency-track-symbol.svg"
 action = { title = "Publish an SBOM", url = "https://csi.eclipse.dev/security-handbook/sbom/howto.html", icon = "lucide/package-search" }
 homepage = { title = "sbom.eclipse.org", icon = "lucide/globe" }
 

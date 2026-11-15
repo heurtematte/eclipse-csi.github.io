@@ -105,6 +105,7 @@ class Repository:
     discussions: bool = False
     status: str | None = None  # a tag of projects.toml, such as "Coming soon"
     action: dict | None = None  # the first use of the tool, {title, url, icon} (projects.toml)
+    logo: str | None = None  # the emblem of its official artwork, a path under docs/ (projects.toml)
     stars: int = 0
     forks: int = 0
     pushed: datetime.date | None = None
@@ -289,6 +290,7 @@ def to_repository(data: dict, extras: dict) -> Repository:
         discussions=discussions,
         status=(extras.get("status") or "").strip() or None,
         action=extras.get("action"),
+        logo=(extras.get("logo") or "").strip() or None,
         stars=data.get("stargazers_count") or 0,
         forks=data.get("forks_count") or 0,
         pushed=day(data["pushed_at"]) if data.get("pushed_at") else None,
@@ -359,9 +361,11 @@ def tags(repository: Repository) -> list[str]:
 
 
 def card(repository: Repository, org: str) -> str:
-    lines = [
-        '<article class="csi-card" markdown>',
-        "",
+    lines = ['<article class="csi-card" markdown>', ""]
+    if repository.logo:
+        # the emblem of the tool, decorative: its name follows
+        lines += [f"![]({repository.logo}){{ .csi-card__logo }}", ""]
+    lines += [
         f"### [{escape(repository.name)}]({repository.url}) {{ #{anchor(repository.name)} }}",
         "",
         escape(repository.description) if repository.description else "*No description.*",
